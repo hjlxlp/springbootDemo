@@ -1,6 +1,6 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.dao.CityDao;
+import com.example.demo.mapper.CityMapper;
 import com.example.demo.entity.City;
 import com.example.demo.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import java.util.List;
 public class CityServiceImpl implements CityService {
 
     @Autowired
-    private CityDao cityDao;
+    private CityMapper cityMapper;
 
 
     /**
@@ -26,7 +26,7 @@ public class CityServiceImpl implements CityService {
      */
     @Override
     public City findCityById(Integer id) {
-        return cityDao.findById(id);
+        return cityMapper.findById(id);
     }
 
     /**
@@ -36,6 +36,6 @@ public class CityServiceImpl implements CityService {
      */
     @Override
     public List<City> findAllCity() {
-        return cityDao.findAllCity();
+        return cityMapper.findAllCity();
     }
 }

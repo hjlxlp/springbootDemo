@@ -1,7 +1,6 @@
-package com.example.demo.dao;
+package com.example.demo.mapper;
 
 import com.example.demo.entity.City;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -10,7 +9,7 @@ import java.util.List;
  * 城市 DAO 接口类
  *
  */
-public interface CityDao {
+public interface CityMapper {
 
     /**
      * 根据城市名称，查询城市信息
