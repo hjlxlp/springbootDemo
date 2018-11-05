@@ -1,7 +1,7 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.mapper.CityMapper;
 import com.example.demo.entity.City;
+import com.example.demo.mapper.CityMapper;
 import com.example.demo.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,6 @@ public class CityServiceImpl implements CityService {
 
     @Autowired
     private CityMapper cityMapper;
-
 
     /**
      * 根据城市名称，查询城市信息
@@ -38,4 +37,5 @@ public class CityServiceImpl implements CityService {
     public List<City> findAllCity() {
         return cityMapper.findAllCity();
     }
+
 }
