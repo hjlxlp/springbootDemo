@@ -31,7 +31,7 @@ public class Swagger2 {
                 .title("Spring Boot中使用Swagger2构建RESTful APIs")
                 .description("更多Spring Boot相关文章请关注：http://blog.didispace.com/")
                 .termsOfServiceUrl("http://blog.didispace.com/")
-                .contact(new Contact("hjl", "", "2247450823@11.com"))
+                .contact(new Contact("hjl", "", "2247450823@qq.com"))
                 .version("1.0")
                 .build();
     }
