@@ -1,13 +1,13 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.City;
+import com.example.demo.entity.TestValidation;
 import com.example.demo.service.CityService;
 import com.example.demo.service.CityTestService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 
 @RequestMapping("city")
@@ -18,6 +18,13 @@ public class CityController {
     private CityService cityService;
     @Autowired
     private CityTestService cityTestService;
+
+    @PostMapping("testValidation")
+    public City testValidation(@Valid @RequestBody TestValidation testValidation) {
+        City city = new City();
+        city.setCityName("测试");
+        return city;
+    }
 
     @GetMapping("findById")
     public City findById(@RequestParam(value = "id", required = true) Integer id) {
