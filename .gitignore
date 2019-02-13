@@ -1,0 +1,8 @@
+**/*.iml
+**/.idea
+/.idea
+**/target/
+**/.settings/
+/.settings
+logs
+*/logback-spring.xml
