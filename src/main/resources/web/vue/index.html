@@ -1,0 +1,51 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+
+    <div id="app">
+        {{ message }}
+    </div>
+
+    <div id="example">
+        <p>初始 message 是："{{ message }}"</p>
+        <p>计算后的翻转 message 是："{{ reversedMessage }}"</p>
+    </div>
+
+    <div id="watch-example">
+        <p>
+            问一个答案是 yes/no 的问题：
+            <input v-model="question">
+        </p>
+        <p>{{ answer }}</p>
+    </div>
+
+    <div id="v-for-object">
+        <div v-for="(value, key) in object">
+            {{ key }}: {{ value }}
+        </div>
+    </div>
+
+    <div id="example-1">
+        <button @click="count">增加 1</button>
+        <p>上面的按钮被点击了 {{ counter }} 次。</p>
+    </div>
+
+    <div id="input">
+        <p style="white-space: pre-line;">{{ message }}</p>
+        <textarea placeholder="添加多行">{{ message }}</textarea>
+        <textarea v-model="message" placeholder="添加多行"></textarea>
+        <input v-model.number="age" type="number">
+    </div>
+
+    <div id="components-demo">
+        <button-counter></button-counter>
+        <blog-post title="我的 Vue 旅程"></blog-post>
+    </div>
+
+<script src="index.js"></script>
+</body>
+</html>
