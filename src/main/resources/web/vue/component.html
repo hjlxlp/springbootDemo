@@ -1,0 +1,45 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+
+<div id="components-demo">
+    <button-counter></button-counter>
+    <blog-post title="我的 Vue 旅程"></blog-post>
+    <blog-post title="用 Vue 写博客"></blog-post>
+    <blog-post title="Vue 如此有趣"></blog-post>
+    <blog-post
+            v-for="post in posts"
+            v-bind:key="post.id"
+            v-bind:title="post.title">
+    </blog-post>
+
+    <blog-post-two
+            v-for="(post,index) in posts"
+            v-bind:key="post.index"
+            v-bind:post="post">
+    </blog-post-two>
+
+    <div :style="{ fontSize: postFontSize + 'em' }">
+        <blog-post-three
+                v-for="(post,index) in posts"
+                v-bind:key="post.index"
+                v-bind:post="post"
+                v-on:enlarge-text="onEnlargeText($event)">
+        </blog-post-three>
+    </div>
+
+    <custom-input
+            v-bind:value="searchText"
+            v-on:input="searchText = $event">
+    </custom-input>
+
+
+</div>
+
+<script src="component.js"></script>
+</body>
+</html>
