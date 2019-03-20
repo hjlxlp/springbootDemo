@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @WebAppConfiguration    //一级注释，用于声明一个ApplicationContext集成测试加载
-public class UserApplicationTests {
+public class UserApplicationTest {
 
     private MockMvc mvc;
 
