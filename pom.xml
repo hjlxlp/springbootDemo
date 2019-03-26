@@ -25,6 +25,12 @@
 	</properties>
 
 	<dependencies>
+		<!-- json 依赖 -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.17</version>
+		</dependency>
 
 		<!-- excel 依赖 -->
 		<dependency>

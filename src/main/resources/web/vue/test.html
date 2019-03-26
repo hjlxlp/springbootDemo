@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script>
+        var a = 10;
+        (function () {
+            console.log(a);
+            a = 5;
+            console.log(window.a);
+            var a = 20;
+            console.log(a);
+        })()
+    </script>
+</head>
+<body>
+
+</body>
+</html>
