@@ -2,6 +2,7 @@ package com.example.demo;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.entity.ChineseName;
+import com.example.demo.entity.City;
 import com.example.demo.entity.TestVo;
 import org.junit.Test;
 
@@ -120,6 +121,17 @@ public class MyTest {
         // <<二进制往左移
         int res = 4 << 2;
         System.out.println(res);
+    }
+
+    @Test
+    public void test_04() {
+        City city = new City();
+        city.setCityName("长沙");
+        city.setId((long) 1);
+        String js = JSONObject.toJSONString(city);
+        JSONObject j = JSONObject.parseObject(js);
+        city = j.toJavaObject(City.class);
+        System.out.println(city.getCityName());
     }
 
 }

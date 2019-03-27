@@ -7,7 +7,6 @@ import java.util.List;
 
 /**
  * 城市 DAO 接口类
- *
  */
 public interface CityMapper {
 
@@ -25,5 +24,13 @@ public interface CityMapper {
      * @return
      */
     List<City> findAllCity();
+
+    /**
+     * 测试
+     *
+     * @param city
+     * @return
+     */
+    List<City> findByGroup(@Param("vo") City city);
 
 }
