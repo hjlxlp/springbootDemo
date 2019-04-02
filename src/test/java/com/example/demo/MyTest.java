@@ -6,10 +6,7 @@ import org.junit.Test;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -378,6 +375,29 @@ public class MyTest {
         JSONObject j = JSONObject.parseObject(js);
         city = j.toJavaObject(City.class);
         System.out.println(city.getCityName());
+        /*City city = new City();
+        city.setCityName(null);
+        String js = JSONObject.toJSONString(city);
+        JSONObject j = JSONObject.parseObject(js);
+        City c = j.toJavaObject(City.class);
+        System.out.println(JSONObject.toJSONString(c));
+        c.setCityName("null");
+        System.out.println(JSONObject.toJSONString(c));*/
+    }
+
+    @Test
+    public void test_05() {
+        List<City> list = new ArrayList<>();
+        City city1 = new City();
+        City city = new City();
+        list.add(city);
+        list.add(city1);
+        List<String> brandNames = list.stream().map(City::getCityName).distinct().filter(a -> a != null).filter(Objects::nonNull).collect(Collectors.toList());
+        System.out.println(brandNames);
+        Optional.ofNullable(brandNames).ifPresent(b -> list.get(0).setCityName(String.join("/", b)));
+        Optional.ofNullable(brandNames).ifPresent(b -> list.get(1).setCityName(String.join("/", b)));
+        //list.get(0).setCityName(String.join("/", brandNames));
+        System.out.println(JSONObject.toJSONString(list));
     }
 
 }

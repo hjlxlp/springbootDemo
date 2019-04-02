@@ -13,9 +13,39 @@
             var a = 20;
             console.log(a);
         })()
+
+        function isNumber(obj) {
+            return obj === +obj
+        }
+
+        function thousandSeparator(num) {
+            if (!isNumber(num)) return
+            var numString = num.toString()
+            if (numString.indexOf(".") > 0) {
+                return numString.replace(/(\B)(?=(\d{3})+\.)/g, function ($0, $1) {
+                    return ",";
+                })
+            }
+            return numString.replace(/(\B)(?=(\d{3})+$)/g, function ($0, $1) {
+                return ",";
+            })
+        }
+
+        console.log(thousandSeparator(133333.33303))
+        console.log(thousandSeparator(1333331111))
     </script>
 </head>
 <body>
+<div class="test">
 
+</div>
 </body>
 </html>
+<style>
+    .test {
+        width: 200px;
+        height: 200px;
+        border-radius: 100px;
+        background: conic-gradient(red 0 30%, green 30% 60%, blue 60% 100%);
+    }
+</style>
