@@ -389,15 +389,22 @@ public class MyTest {
     public void test_05() {
         List<City> list = new ArrayList<>();
         City city1 = new City();
+        city1.setCityName("null");
         City city = new City();
         list.add(city);
         list.add(city1);
-        List<String> brandNames = list.stream().map(City::getCityName).distinct().filter(a -> a != null).filter(Objects::nonNull).collect(Collectors.toList());
-        System.out.println(brandNames);
-        Optional.ofNullable(brandNames).ifPresent(b -> list.get(0).setCityName(String.join("/", b)));
-        Optional.ofNullable(brandNames).ifPresent(b -> list.get(1).setCityName(String.join("/", b)));
+        List<String> brandNames = list.stream().map(City::getCityName).filter(a -> a != null).filter(Objects::nonNull).distinct().collect(Collectors.toList());
+        //System.out.println(brandNames.get(0) == null);
+        //System.out.println(brandNames.get(1) == null);
+        String s = null;
+        System.out.println(s==null);
+        List<String> ls = new ArrayList<>();
+        list.get(0).setCityName(String.join("/", s==null?null:s));
+        //Optional.ofNullable(brandNames).ifPresent(b -> list.get(0).setCityName(String.join("/", s)));
+        //Optional.ofNullable(brandNames).ifPresent(b -> list.get(1).setCityName(String.join("/", s)));
         //list.get(0).setCityName(String.join("/", brandNames));
         System.out.println(JSONObject.toJSONString(list));
+        List<String> l = new ArrayList<>();
     }
 
 }
