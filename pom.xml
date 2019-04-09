@@ -25,6 +25,14 @@
 	</properties>
 
 	<dependencies>
+
+		<!-- dozer 依赖 -->
+		<dependency>
+			<groupId>com.github.dozermapper</groupId>
+			<artifactId>dozer-core</artifactId>
+			<version>6.2.0</version>
+		</dependency>
+
 		<!-- json 依赖 -->
 		<dependency>
 			<groupId>com.alibaba</groupId>

@@ -2,10 +2,13 @@ package com.example.demo;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.entity.*;
+import com.example.demo.util.BaseResultModel;
+import com.example.demo.util.BeanMapperUtil;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -14,6 +17,24 @@ import java.util.stream.Collectors;
  * @date 2019/3/14 14:51
  */
 public class MyTest {
+
+    @Test
+    public void test07() {
+        TestVoOne testVoOne = new TestVoOne();
+        testVoOne.setCreateTime(LocalDateTime.now());
+        TestVoTwo testVoTwo = BeanMapperUtil.objConvert(testVoOne, TestVoTwo.class);
+        System.out.println(testVoTwo);
+    }
+
+    @Test
+    public void test06() {
+        BaseResultModel<TestVo> resultModel = new BaseResultModel<>();
+        resultModel.setError(10010, "参数为空");
+        BaseResultModel<City> model = new BaseResultModel<>();
+        model.setError(resultModel.getCode(), resultModel.getErrorMsg());
+        System.out.println(model.getErrorMsg());
+    }
+
 
     @Test
     public void test05() {
@@ -261,7 +282,7 @@ public class MyTest {
 
     @Test
     public void test01() {
-        List<Object> list = new ArrayList<>();
+        List<TestVo> list = new ArrayList<>();
         TestVo vo1 = new TestVo();
         vo1.setOrderCode("1");
         vo1.setOrderName("1");
@@ -274,7 +295,9 @@ public class MyTest {
         vo3.setOrderId(3);
         vo3.setOrderType("3");
         list.add(vo3);
-        StringBuffer message = isNull(list);
+        List<Object> objectList = new ArrayList<>();
+        objectList.addAll(list);
+        StringBuffer message = isNull(objectList);
         System.out.println(message);
 
     }
@@ -397,9 +420,9 @@ public class MyTest {
         //System.out.println(brandNames.get(0) == null);
         //System.out.println(brandNames.get(1) == null);
         String s = null;
-        System.out.println(s==null);
+        System.out.println(s == null);
         List<String> ls = new ArrayList<>();
-        list.get(0).setCityName(String.join("/", s==null?null:s));
+        list.get(0).setCityName(String.join("/", s == null ? null : s));
         //Optional.ofNullable(brandNames).ifPresent(b -> list.get(0).setCityName(String.join("/", s)));
         //Optional.ofNullable(brandNames).ifPresent(b -> list.get(1).setCityName(String.join("/", s)));
         //list.get(0).setCityName(String.join("/", brandNames));
