@@ -21,6 +21,7 @@ public class MyTest {
     @Test
     public void test07() {
         TestVoOne testVoOne = new TestVoOne();
+        testVoOne.setOrderId(1);
         testVoOne.setCreateTime(LocalDateTime.now());
         TestVoTwo testVoTwo = BeanMapperUtil.objConvert(testVoOne, TestVoTwo.class);
         System.out.println(testVoTwo);

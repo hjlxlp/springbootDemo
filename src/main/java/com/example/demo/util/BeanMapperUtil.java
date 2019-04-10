@@ -1,10 +1,10 @@
 package com.example.demo.util;
 
 
+import com.github.dozermapper.core.DozerBeanMapper;
+import com.github.dozermapper.core.DozerBeanMapperBuilder;
+import com.github.dozermapper.core.loader.api.BeanMappingBuilder;
 import org.apache.commons.lang3.time.DateFormatUtils;
-import org.dozer.DozerBeanMapper;
-import org.dozer.DozerBeanMapperBuilder;
-import org.dozer.loader.api.BeanMappingBuilder;
 
 import java.lang.reflect.Field;
 import java.util.*;
