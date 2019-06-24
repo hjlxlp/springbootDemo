@@ -2,7 +2,7 @@ package com.example.demo.entity;
 
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * @author hjl
@@ -11,10 +11,10 @@ import java.time.LocalDateTime;
 @Data
 public class TestVoTwo {
 
-    private Integer orderId;
+    private Long orderId;
 
     private String orderName;
 
-    private LocalDateTime createTime;
+    private Date createTime;
 
 }
