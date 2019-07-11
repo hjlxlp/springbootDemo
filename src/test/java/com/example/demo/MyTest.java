@@ -4,11 +4,15 @@ import com.alibaba.fastjson.JSONObject;
 import com.example.demo.entity.*;
 import com.example.demo.util.BaseResultModel;
 import com.example.demo.util.BeanMapperUtil;
+import com.example.demo.vo.DocumentType;
+import com.example.demo.vo.ExpWarehousingDetailsOpenReqDto;
+import org.apache.commons.collections.CollectionUtils;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -17,6 +21,117 @@ import java.util.stream.Collectors;
  * @date 2019/3/14 14:51
  */
 public class MyTest {
+
+    public String test(DocumentType type) {
+        return type.toString();
+    }
+
+    @Test
+    public void test_10() {
+        System.out.println(test(DocumentType.FH));
+        System.out.println(DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now()));
+        System.out.println(String.format("%0" + 3 + "d", 12));
+
+        String serialNumber = "";
+        //根据企业id获取企业缩写
+        String abbreviationStr = "COM";
+        //单据类型
+        String documentTypeStr = "DD";
+        //日期
+        String dateStr = DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now());
+        //序号
+        serialNumber = abbreviationStr + documentTypeStr + dateStr;
+        Integer num = 1;
+        String numStr = String.format("%0" + 3 + "d", num);
+        serialNumber = serialNumber + numStr;
+        System.out.println(serialNumber);
+    }
+
+    @Test
+    public void test_09() {
+        String str = "[\n" +
+                "{\n" +
+                "\"descriptionLineTwo\": \"\",\n" +
+                "\"receiveQuantity\": \"6000\",\n" +
+                "\"descriptionHead\": \"\",\n" +
+                "\"receiveUserName\": \"陈雯婷\",\n" +
+                "\"outerPurchaseProductName\": \"培美小盒（巴基斯坦版）\",\n" +
+                "\"outerOrderCode\": \"05-CGRK-201906-0167\",\n" +
+                "\"purchaseDepartmentName\": \"上海凯茂生物医药有限公司\",\n" +
+                "\"warehouse\": \"05.002;凯茂-包材库\",\n" +
+                "\"outerSupplierCompanyName\": \"上海浦东自立彩印厂有限公司\",\n" +
+                "\"unit\": \"数量组（只）\",\n" +
+                "\"outerPurchaseProductCode\": \"04.13.447\",\n" +
+                "\"purchaseDepartmentCode\": \"050000\",\n" +
+                "\"receiveTime\": \"2019-07-02 00:00:00\",\n" +
+                "\"orderLineNumber\": \"1\",\n" +
+                "\"outerSupplierCompanyCode\": \"31.0342\",\n" +
+                "\"descriptionLineOne\": \"\"\n" +
+                "},\n" +
+                "{\n" +
+                "\"descriptionLineTwo\": \"\",\n" +
+                "\"receiveQuantity\": \"5000\",\n" +
+                "\"descriptionHead\": \"\",\n" +
+                "\"receiveUserName\": \"陈雯婷\",\n" +
+                "\"outerPurchaseProductName\": \"培美说明书（巴基斯坦版）\",\n" +
+                "\"outerOrderCode\": \"05-CGRK-201906-0167\",\n" +
+                "\"purchaseDepartmentName\": \"上海凯茂生物医药有限公司\",\n" +
+                "\"warehouse\": \"05.002;凯茂-包材库\",\n" +
+                "\"outerSupplierCompanyName\": \"上海浦东自立彩印厂有限公司\",\n" +
+                "\"unit\": \"数量组（张）\",\n" +
+                "\"outerPurchaseProductCode\": \"04.12.234\",\n" +
+                "\"purchaseDepartmentCode\": \"050000\",\n" +
+                "\"receiveTime\": \"2019-07-02 00:00:00\",\n" +
+                "\"orderLineNumber\": \"2\",\n" +
+                "\"outerSupplierCompanyCode\": \"31.0342\",\n" +
+                "\"descriptionLineOne\": \"\"\n" +
+                "}\n" +
+                "]";
+        List<ExpWarehousingDetailsOpenReqDto> reqDtoList = JSONObject.parseArray(str, ExpWarehousingDetailsOpenReqDto.class);
+        System.out.println(reqDtoList);
+        List<Object> list = new ArrayList<>();
+        reqDtoList.forEach(a -> {
+            list.add(a);
+        });
+        StringBuffer sb = isNull(list);
+        System.out.println(sb);
+    }
+
+    private StringBuffer isNull(List<Object> list) {
+        StringBuffer message = new StringBuffer();
+        if (CollectionUtils.isEmpty(list)) {
+            message.append("list数据为空");
+            return message;
+        }
+        for (int i = 0; i < list.size(); i++) {
+            Object obj = list.get(i);
+            try {
+                Field[] fields = obj.getClass().getDeclaredFields();
+                for (Field field : fields) {
+                    field.setAccessible(true);
+                    ChineseName chineseName = field.getAnnotation(ChineseName.class);
+                    if (chineseName != null) {
+                        Object value = field.get(obj);
+                        if (value == null || value == "") {
+                            message.append("第" + (i + 1) + "行的" + chineseName.value() + "不能为空。");
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return message;
+    }
+
+    @Test
+    public void test_08() {
+        String str = "110110";
+        String[] num = new String[str.length()];
+        for (int i = 0; i < str.length(); i++) {
+            num[i] = str.substring(i, 1);
+        }
+    }
 
     @Test
     public void test07() {
@@ -296,35 +411,14 @@ public class MyTest {
         vo3.setOrderId(3);
         vo3.setOrderType("3");
         list.add(vo3);
+
         List<Object> objectList = new ArrayList<>();
         objectList.addAll(list);
-        StringBuffer message = isNull(objectList);
-        System.out.println(message);
+        //StringBuffer message = isNull(objectList);
+        //System.out.println(message);
 
     }
 
-    private StringBuffer isNull(List<Object> list) {
-        StringBuffer message = new StringBuffer();
-        for (int i = 0; i < list.size(); i++) {
-            Object obj = list.get(i);
-            try {
-                Field[] fields = obj.getClass().getDeclaredFields();
-                for (Field field : fields) {
-                    field.setAccessible(true);
-                    ChineseName chineseName = field.getAnnotation(ChineseName.class);
-                    if (chineseName != null) {
-                        Object value = field.get(obj);
-                        if (value == null) {
-                            message.append("第" + (i + 1) + "行的" + chineseName.value() + "不能为空。\n");
-                        }
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return message;
-    }
 
     @Test
     public void test_02() {

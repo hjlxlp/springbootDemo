@@ -4,6 +4,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -22,6 +24,7 @@ import java.util.List;
  * @author hjl
  * @date 2018/12/18 15:40
  */
+@EnableCaching
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @WebAppConfiguration    //一级注释，用于声明一个ApplicationContext集成测试加载
@@ -54,5 +57,13 @@ public class DemoTest {
             outputStream.write(buf,0,length);
         }*/
     }
+
+    @Test
+    public void test03(){
+        RedisTemplate redisTemplate = new RedisTemplate();
+        Boolean b = redisTemplate.hasKey("jian");
+        System.out.println(b);
+    }
+
 
 }

@@ -26,6 +26,13 @@
 
 	<dependencies>
 
+		<!-- redis 依赖 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-redis</artifactId>
+			<version>1.3.2.RELEASE</version>
+		</dependency>
+
 		<!-- dozer 依赖 -->
 		<dependency>
 			<groupId>com.github.dozermapper</groupId>

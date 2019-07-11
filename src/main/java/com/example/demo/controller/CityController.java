@@ -5,6 +5,7 @@ import com.example.demo.entity.TestValidation;
 import com.example.demo.service.CityService;
 import com.example.demo.service.CityTestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -26,6 +27,7 @@ public class CityController {
         return city;
     }
 
+    @Cacheable(key = "#id", value = "city")
     @GetMapping("findById")
     public City findById(@RequestParam(value = "id", required = true) Integer id) {
         return cityService.findCityById(id);

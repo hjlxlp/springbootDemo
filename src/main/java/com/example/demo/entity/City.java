@@ -2,12 +2,14 @@ package com.example.demo.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * 城市实体类
  *
  */
 @Data
-public class City {
+public class City implements Serializable{
 
     /**
      * 城市编号
