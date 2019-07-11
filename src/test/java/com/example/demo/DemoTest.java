@@ -61,8 +61,13 @@ public class DemoTest {
     @Test
     public void test03(){
         RedisTemplate redisTemplate = new RedisTemplate();
+        /*redisTemplate.opsForValue().set("jian","hhd");
         Boolean b = redisTemplate.hasKey("jian");
-        System.out.println(b);
+        System.out.println(b);*/
+
+        System.out.println(redisTemplate.opsForValue().get("test"));
+        //redisTemplate.opsForValue().increment("test",1);
+        //System.out.println(redisTemplate.opsForValue().get("test"));
     }
 
 

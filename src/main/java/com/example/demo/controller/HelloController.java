@@ -14,6 +14,8 @@ public class HelloController {
 
     @Autowired
     private RedisTemplate redisTemplate;
+    /*@Autowired
+    private JedisClient jedisClient;*/
 
     @GetMapping("index")
     public String index() {
@@ -30,12 +32,22 @@ public class HelloController {
     @GetMapping("get/{key}")
     @ApiOperation(value = "根据key获取缓存")
     public String get(@PathVariable("key") String key) {
-        //User user = new User(1, "hjl", 20);
-        //redisTemplate.opsForValue().set(key, user);
+        /*User user = new User(1, "hjl", 20);
+        redisTemplate.opsForValue().set(key, user);*/
         return "key=" + key
                 + ",value=" + redisTemplate.opsForValue().get(key)
                 + ",b=" + redisTemplate.hasKey(key);
     }
 
+    /*@RequestMapping("/setV")
+    public String setV(String key, String value) throws Exception {
+        jedisClient.set(key, value);
+        return "success";
+    }
+
+    @RequestMapping("/getV")
+    public String getV(String key) throws Exception {
+        return jedisClient.get(key);
+    }*/
 
 }
