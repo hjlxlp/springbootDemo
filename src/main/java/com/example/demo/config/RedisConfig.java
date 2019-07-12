@@ -19,7 +19,6 @@ import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
-import redis.clients.jedis.Protocol;
 
 import java.time.Duration;
 
@@ -121,8 +120,8 @@ public class RedisConfig {
 
     @Bean
     public JedisPool jedisPool() {
-        JedisPool jedisPool = new JedisPool(this.jedisPoolConfig(), host, port, Protocol.DEFAULT_TIMEOUT, password);
-        //JedisPool jedisPool = new JedisPool(this.jedisPoolConfig(), host, port);
+        //JedisPool jedisPool = new JedisPool(this.jedisPoolConfig(), host, port, Protocol.DEFAULT_TIMEOUT, password);
+        JedisPool jedisPool = new JedisPool(this.jedisPoolConfig(), host, port);
         return jedisPool;
     }
 
