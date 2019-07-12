@@ -41,8 +41,8 @@ public class MyTest {
         String dateStr = DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now());
         //序号
         serialNumber = abbreviationStr + documentTypeStr + dateStr;
-        Integer num = 1;
-        String numStr = String.format("%0" + 3 + "d", num);
+        String num = "12";
+        String numStr = String.format("%0" + 3 + "d", Integer.parseInt(num));
         serialNumber = serialNumber + numStr;
         System.out.println(serialNumber);
     }

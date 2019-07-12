@@ -25,8 +25,6 @@ public class RedisStringJava {
         jedis.incrBy("test", 1);
         System.out.println(jedis.get("test"));*/
 
-
-
     }
 
 }

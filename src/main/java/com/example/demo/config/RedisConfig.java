@@ -3,6 +3,7 @@ package com.example.demo.config;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -72,7 +73,7 @@ public class RedisConfig {
         return cacheManager;
     }
 
-    /*@Bean
+    @Bean
     public RedisConnectionFactory redisConnectionFactory(JedisPoolConfig jedisPool,
                                                          RedisStandaloneConfiguration jedisConfig) {
         JedisConnectionFactory connectionFactory = new JedisConnectionFactory(jedisConfig);
@@ -89,13 +90,13 @@ public class RedisConfig {
     @Value("${spring.redis.database:0}")
     private Integer database;
 
-    @Value("${spring.redis.jedis.pool.max-active:8}")
+    @Value("${spring.redis.jedis.pool.max-active:100}")
     private Integer maxActive;
-    @Value("${spring.redis.jedis.pool.max-idle:8}")
+    @Value("${spring.redis.jedis.pool.max-idle:10}")
     private Integer maxIdle;
-    @Value("${spring.redis.jedis.pool.max-wait:-1}")
+    @Value("${spring.redis.jedis.pool.max-wait:3000}")
     private Long maxWait;
-    @Value("${spring.redis.jedis.pool.min-idle:0}")
+    @Value("${spring.redis.jedis.pool.min-idle:1}")
     private Integer minIdle;
 
     @Bean
@@ -120,7 +121,9 @@ public class RedisConfig {
 
     @Bean
     public JedisPool jedisPool() {
-        return new JedisPool(this.jedisPoolConfig(), host, port, Protocol.DEFAULT_TIMEOUT, password);
-    }*/
+        JedisPool jedisPool = new JedisPool(this.jedisPoolConfig(), host, port, Protocol.DEFAULT_TIMEOUT, password);
+        //JedisPool jedisPool = new JedisPool(this.jedisPoolConfig(), host, port);
+        return jedisPool;
+    }
 
 }

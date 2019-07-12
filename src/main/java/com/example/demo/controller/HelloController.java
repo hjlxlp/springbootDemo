@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.util.JedisClient;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import redis.clients.jedis.Jedis;
 
 @RequestMapping("hello")
 @RestController
@@ -14,8 +16,8 @@ public class HelloController {
 
     @Autowired
     private RedisTemplate redisTemplate;
-    /*@Autowired
-    private JedisClient jedisClient;*/
+    @Autowired
+    private JedisClient jedisClient;
 
     @GetMapping("index")
     public String index() {
@@ -39,15 +41,25 @@ public class HelloController {
                 + ",b=" + redisTemplate.hasKey(key);
     }
 
-    /*@RequestMapping("/setV")
+    @GetMapping("/setV")
     public String setV(String key, String value) throws Exception {
         jedisClient.set(key, value);
         return "success";
     }
 
-    @RequestMapping("/getV")
+    @GetMapping("/getV")
     public String getV(String key) throws Exception {
         return jedisClient.get(key);
-    }*/
+    }
+
+    @GetMapping("/test")
+    public String test(String key) throws Exception {
+        Jedis jedis = jedisClient.getJedis();
+        System.out.println(jedis.get(key));
+        jedis.incr(key);
+        System.out.println(jedis.get(key));
+        jedisClient.returnResource(jedis);
+        return jedis.get(key);
+    }
 
 }

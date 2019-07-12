@@ -2,7 +2,10 @@ package com.example.demo.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 
 /**
@@ -14,8 +17,29 @@ public class JedisClient {
 
     private Logger logger = LoggerFactory.getLogger(JedisClient.class);
 
-    /*@Autowired
+    @Autowired
     private JedisPool jedisPool;
+
+    public Jedis getJedis() {
+        Jedis jedis = null;
+        try {
+            jedis = jedisPool.getResource();
+            return jedis;
+        } catch (Exception e) {
+            logger.info("jedis创建失败！");
+        }
+        return jedis;
+    }
+
+    public void returnResource(Jedis jedis) {
+        if (jedis != null) {
+            try {
+                jedis.close();
+            } catch (Exception e) {
+                logger.info("jedis关闭失败！");
+            }
+        }
+    }
 
     public void set(String key, String value) {
         Jedis jedis = null;
@@ -43,6 +67,6 @@ public class JedisClient {
             jedis.close();
         }
         return value;
-    }*/
+    }
 
 }
