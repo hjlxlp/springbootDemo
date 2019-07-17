@@ -13,6 +13,7 @@ import redis.clients.jedis.Jedis;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.concurrent.TimeUnit;
 
 @RequestMapping("hello")
 @RestController
@@ -73,7 +74,14 @@ public class HelloController {
      * @return
      */
     private String getNumber(String key) {
-        Jedis jedis = jedisClient.getJedis();
+        if (redisTemplate.opsForValue().get(key) == null) {
+            redisTemplate.opsForValue().set(key, 1);
+            redisTemplate.expire(key, 30, TimeUnit.SECONDS);
+        } else {
+            redisTemplate.opsForValue().increment(key, 1);
+        }
+        return redisTemplate.opsForValue().get(key).toString();
+        /*Jedis jedis = jedisClient.getJedis();
         if (jedis.get(key) == null) {
             jedis.set(key, "1");
             jedis.expire(key, 30);
@@ -81,7 +89,7 @@ public class HelloController {
             jedis.incr(key);
         }
         jedisClient.returnResource(jedis);
-        return jedis.get(key);
+        return jedis.get(key);*/
     }
 
     /**

@@ -76,6 +76,38 @@
     - 前面代码中有System.exit(int)已经退出程序
     - 线程死亡
     - 关闭cpu
+21. servlet负责接收用户请求httpServletRequest，在doGet()和doPost()中做处理，并返回httpServletResponse，
+    servlet可以设置初始化参数，供内部使用，一个servlet只有一个实例，一个servlet可以由多个url访问，所以servlet不是线程安全
+    servlet5个方法：init()，service()，destroy()，getServletInfo()，getServletConfig()，
+    生命周期：web容器加载servlet并实例化，servlet生命周期开始，容器运行init()方法进行servlet的初始化，
+    请求到达时调用service()方法，service()根据需求调用doGet()或者doPost()，当服务关闭会调用destroy()销毁，
+    init和destroy只会执行一次，service客户端每次请求都会执行一次。servlet有时候会用到需要初始化和销毁的资源，
+    所以会把初始化资源放在init，销毁资源放在destroy，这样就不需要每次请求都调用。
+22. - 转发Forward是服务器行为，重定向Redirect是客户端行为
+    - 转发通过RequestDispatcher对象的forward(HttpServletRequest request,HttpServletResponse response)方法实现，
+    RequestDispatcher可以通过request.getRequestDispatcher()方法获得
+    - 重定向是通过服务器返回的状态码实现，客户端浏览器请求服务器的时候，服务器会返回一个状态码。
+    服务器通过HttpServletResponse的setStatus(int status)方法设置状态码，如果服务器返回301或者302，
+    则浏览器会到新的网址请求资源
+    - 转发是服务器请求资源，服务器直接访问url，读到响应内容返回给浏览器，浏览器不知道内容从哪来，所以地址栏还是原来的。
+    重定向是服务端根据逻辑，发送一个状态码，告诉浏览器去请求新地址，所以地址栏是新地址
+    - 转发可以共享request的数据，重定向不可以
+    - 转发一般用于用户登录，根据角色发送到对应的模块，重定向一般用于用户注销时返回主页和跳转其他页面
+    - 转发效率比重定向高
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
