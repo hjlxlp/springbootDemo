@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>渣渣乐计算器</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script>
+        $(function () {
+            var app = new Vue({
+                el: '#app',
+                data: {
+                    message: 'Hello 渣渣婷!',
+                    items: [
+                        {
+                            month: 8,
+                            other: 0,
+                            money: 50
+                        }
+                    ]
+                },
+                methods: {
+                    setItems: function () {
+                        var pre = this.items[this.items.length - 1];
+                        var temp = {
+                            month: 0,
+                            other: 0,
+                            money: 0
+                        };
+                        temp.month = pre.month == 12 ? 1 : pre.month + 1;
+                        temp.money = temp.month == 8 || temp.month == 11 || temp.month == 2 || temp.month == 5 ? pre.money + 8 : pre.money + 17
+                        this.items.push(temp)
+                    },
+                    changeItems: function () {
+
+                    }
+                }
+            });
+        })
+    </script>
+</head>
+<body>
+<div id="app">
+    <p>{{message}}</p>
+    <button @click="setItems">下一个</button>
+    <table border="1px">
+        <tr>
+            <td>月份</td>
+            <td>额外支出</td>
+            <td>结果</td>
+        </tr>
+        <tr v-for="item in items">
+            <td>{{item.month}}</td>
+            <td><input @change="changeItems" v-model="item.other"></td>
+            <td>{{item.money}}</td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>
