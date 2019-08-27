@@ -6,12 +6,16 @@ import com.example.demo.util.BaseResultModel;
 import com.example.demo.util.BeanMapperUtil;
 import com.example.demo.vo.DocumentType;
 import com.example.demo.vo.ExpWarehousingDetailsOpenReqDto;
+import com.example.demo.vo.Husband;
+import com.example.demo.vo.Wife;
 import org.apache.commons.collections.CollectionUtils;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -21,6 +25,77 @@ import java.util.stream.Collectors;
  * @date 2019/3/14 14:51
  */
 public class MyTest {
+
+    @Test
+    public void test() {
+
+    }
+
+
+    @Test
+    public void test_13() {
+        List<Wife> wifes = new ArrayList<>();
+        List<Husband> husbands = new ArrayList<>();
+        for (int i = 0; i < 10000; i++) {
+            wifes.add(new Wife(i, i + "的妻子", "000" + i, null));
+        }
+        for (int i = 0; i < 10000; i++) {
+            husbands.add(new Husband(i, "我是" + i, "000" + i, null));
+        }
+
+        LocalTime time1 = LocalTime.now();
+        for (int i = 0; i < wifes.size(); i++) {
+            for (int j = 0; j < husbands.size(); j++) {
+                if (wifes.get(i).getCode().equals(husbands.get(i).getCode())) {
+                    //wifes.get(i).setHusbandId(husbands.get(i).getId());
+                    husbands.get(i).setWifeId(wifes.get(i).getId());
+                }
+            }
+        }
+        System.out.println("time1:" + Duration.between(time1, LocalTime.now()).toMillis());
+
+        LocalTime time2 = LocalTime.now();
+        wifes.forEach(a -> {
+            husbands.forEach(b -> {
+                if (a.getCode().equals(b.getCode())) {
+                    //a.setHusbandId(b.getId());
+                    b.setWifeId(a.getId());
+                }
+            });
+        });
+        System.out.println("time2:" + Duration.between(time2, LocalTime.now()).toMillis());
+
+        LocalTime time3 = LocalTime.now();
+        Map<String, Wife> wifeMap = wifes.stream().collect(Collectors.toMap(a -> a.getCode(), a -> a));
+        husbands.stream().forEach(a -> {
+            a.setWifeId(wifeMap.get(a.getCode()).getId());
+        });
+        System.out.println("time3:" + Duration.between(time3, LocalTime.now()).toMillis());
+
+    }
+
+    @Test
+    public void test_12() {
+        int n = 16;
+        n |= n >>> 1;
+        n |= n >>> 2;
+        n |= n >>> 4;
+        n |= n >>> 8;
+        n |= n >>> 16;
+        System.out.println(n);
+    }
+
+    @Test
+    public void test_11() {
+        User u1;
+        User u2;
+        u1 = new User();
+        u1.setId(1);
+        u1.setName("1");
+        u2 = u1;
+        u2.setName("2");
+        System.out.println();
+    }
 
     public String test(DocumentType type) {
         return type.toString();
