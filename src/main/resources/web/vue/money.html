@@ -6,6 +6,28 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script>
+        function KPIlis(value, row, index) {
+            return '<a id="update' + index + '" href=" " mce_href="#" onclick="UpdateKPI(\'' + row.autoid + '\',\'' + row.cur_flag + '\')">' + row.KPI + '</ a> '
+        }
+
+        function test1() {
+            //alert(1)
+            /*var totals = $("#totals").text() == '-' ? 0 : $("#totals").text();
+            var total = 0;
+            total= $("#total").text() == '-' ? 0 : $("#total").text();
+            if (total == null || total == 0) {
+                for (var i = 0; i < dataimp.length; i++) {
+                    total += dataimp[i].Assessor1 * dataimp[i].Weight / 100
+                }
+            }
+            var results = Number(totals) + Number(total);*/
+        }
+
+        function test2() {
+            //$("#update" + 1).attr("onclick", null)
+            $("#update" + 1).removeAttr("onclick")
+        }
+
         $(function () {
             var app = new Vue({
                 el: '#app',
@@ -41,6 +63,16 @@
 </head>
 <body>
 <div id="app">
+    <div>
+        <a id="update1" onclick="test1()">测试</a>
+        <a id="update2" onclick="test2()">测试</a>
+    </div>
+    <!--<div id="music163player">
+        <iframe allowNetworking="all" frameborder="no" border="0" marginwidth="0" marginheight="0" width=300 height=50
+                src="http://t.cn/AiRp1K80?mp3"></iframe>
+        <iframe allowNetworking="all" frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86
+                src="https://music.163.com/outchain/player?type=2&id=167873&auto=1&height=66"></iframe>
+    </div>-->
     <p>{{message}}</p>
     <button @click="setItems">下一个</button>
     <table border="1px">
