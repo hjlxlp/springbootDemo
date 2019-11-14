@@ -1,6 +1,7 @@
 package com.example.demo.study.java8;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -87,6 +88,33 @@ public class Main {
         //forEach已经消耗掉了上面的流
         //outputStream.forEach(System.out::println);
 
+        int max = 1000000;
+        List<String> values = new ArrayList<>(max);
+        for (int i = 0; i < max; i++) {
+            UUID uuid = UUID.randomUUID();
+            values.add(uuid.toString());
+        }
+        //串行排序
+        long t0 = System.nanoTime();
+        //串行
+        //long count = values.stream().sorted().count();
+        //并行
+        long count = values.parallelStream().sorted().count();
+        System.out.println(count);
+        long t1 = System.nanoTime();
+        long millis = TimeUnit.NANOSECONDS.toMillis(t1 - t0);
+        System.out.println(String.format("sequential sort took: %d ms", millis));
+
+        Map<Integer, String> map = new HashMap<>();
+        for (int i = 0; i < 10; i++) {
+            map.putIfAbsent(i, "val" + i);
+        }
+        System.out.println(map.putIfAbsent(1, "val" + 10));
+        map.merge(2, "new", (val, newVal) -> val.substring(0, 0).concat(newVal));
+        map.forEach((id, val) -> System.out.println(id + ":" + val));
+
     }
+
+
 
 }
