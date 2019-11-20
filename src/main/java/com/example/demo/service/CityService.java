@@ -25,4 +25,8 @@ public interface CityService {
      */
     List<City> findAllCity();
 
+    void Transactional();
+
+    void Transactional2();
+
 }

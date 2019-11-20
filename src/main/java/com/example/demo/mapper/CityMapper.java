@@ -33,4 +33,8 @@ public interface CityMapper {
      */
     List<City> findByGroup(@Param("vo") City city);
 
+    Integer insertCity(City city);
+
+    Integer deleteCityById(@Param("id") Integer id);
+
 }

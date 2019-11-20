@@ -38,4 +38,15 @@ public class CityController {
         return cityTestService.findCityByIdTest(id);
     }
 
+    @GetMapping("transactional")
+    public void transactional() {
+        cityService.Transactional();
+    }
+
+    @GetMapping("transactional2")
+    public void transactional2() {
+        cityService.Transactional2();
+    }
+
+
 }
