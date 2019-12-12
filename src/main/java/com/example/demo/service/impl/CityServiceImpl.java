@@ -4,13 +4,15 @@ import com.example.demo.entity.City;
 import com.example.demo.mapper.CityMapper;
 import com.example.demo.service.CityService;
 import com.example.demo.util.SpringUtil;
-import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import java.lang.reflect.Method;
+import java.time.Duration;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +24,41 @@ public class CityServiceImpl implements CityService {
 
     @Autowired
     private CityMapper cityMapper;
+
+    @Override
+    public void insertList() {
+        City city;
+        for (int i = 0; i < 1; i++) {
+            city = new City();
+            city.setId(new Long(i));
+            city.setCityName(i + "n");
+            cityMapper.insertCity(city);
+        }
+    }
+
+    @Override
+    public long deleteOne() {
+        LocalTime begin = LocalTime.now();
+        for (int i = 1; i <= 1; i++) {
+            cityMapper.deleteCityById(i);
+        }
+        return Duration.between(begin, LocalTime.now()).toMillis();
+    }
+
+    @Override
+    public long deleteTwo() {
+        LocalTime begin = LocalTime.now();
+        try {
+            for (int i = 1; i <= 1; i++) {
+                Method deleteMethod = cityMapper.getClass().getDeclaredMethod("deleteCityById", Integer.class);
+                deleteMethod.setAccessible(true);
+                deleteMethod.invoke(cityMapper, i);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Duration.between(begin, LocalTime.now()).toMillis();
+    }
 
     /**
      * 根据城市名称，查询城市信息
@@ -66,7 +103,7 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public void Transactional() {
+    public void transactional() {
         delete1();
         delete2();
         cityMapper.deleteCityById(3);
@@ -75,7 +112,7 @@ public class CityServiceImpl implements CityService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void Transactional2() {
+    public void transactional2() {
         /*CityServiceImpl proxy = (CityServiceImpl) AopContext.currentProxy();
         proxy.delete1();
         proxy.delete2();*/
@@ -83,6 +120,21 @@ public class CityServiceImpl implements CityService {
         getService().delete2();
         cityMapper.deleteCityById(3);
         cityMapper.insertCity(new City((long) 4, (long) 2, "2", "2"));
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void printStackTrace() {
+        cityMapper.deleteCityById(1);
+        try {
+            cityMapper.deleteCityById(2);
+            System.out.println(new ArrayList<>().get(1));
+        } catch (Exception e) {
+            cityMapper.deleteCityById(3);
+            e.printStackTrace();
+            cityMapper.deleteCityById(4);
+        }
+        cityMapper.deleteCityById(5);
     }
 
     /**

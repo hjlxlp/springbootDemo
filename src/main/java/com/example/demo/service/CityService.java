@@ -10,6 +10,12 @@ import java.util.List;
  */
 public interface CityService {
 
+    void insertList();
+
+    long deleteOne();
+
+    long deleteTwo();
+
     /**
      * 根据城市名称，查询城市信息
      *
@@ -25,8 +31,10 @@ public interface CityService {
      */
     List<City> findAllCity();
 
-    void Transactional();
+    void transactional();
 
-    void Transactional2();
+    void transactional2();
+
+    void printStackTrace();
 
 }

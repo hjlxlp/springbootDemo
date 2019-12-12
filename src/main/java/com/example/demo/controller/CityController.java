@@ -40,13 +40,17 @@ public class CityController {
 
     @GetMapping("transactional")
     public void transactional() {
-        cityService.Transactional();
+        cityService.transactional();
     }
 
     @GetMapping("transactional2")
     public void transactional2() {
-        cityService.Transactional2();
+        cityService.transactional2();
     }
 
+    @GetMapping("printStackTrace")
+    public void printStackTrace() {
+        cityService.printStackTrace();
+    }
 
 }

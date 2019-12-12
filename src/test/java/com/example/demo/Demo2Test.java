@@ -3,6 +3,7 @@ package com.example.demo;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.entity.City;
 import com.example.demo.mapper.CityMapper;
+import com.example.demo.service.CityService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,8 @@ public class Demo2Test {
 
     @Autowired
     private CityMapper cityMapper;
+    @Autowired
+    private CityService cityService;
 
     @Test
     public void test_01() {
@@ -33,6 +36,16 @@ public class Demo2Test {
         city.setCityName("1");
         List<City> list = cityMapper.findByGroup(city);
         System.out.println(JSONObject.toJSON(list));
+    }
+
+    @Test
+    public void test_03() {
+        /*cityService.insertList();
+        long ms1 = cityService.deleteOne();
+        System.out.println(ms1);*/
+        cityService.insertList();
+        long ms2 = cityService.deleteTwo();
+        System.out.println(ms2);
     }
 
 
