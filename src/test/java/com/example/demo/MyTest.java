@@ -28,7 +28,8 @@ public class MyTest {
 
     @Test
     public void test() {
-
+        Integer o = 100;
+        System.out.println(o.equals(100));
     }
 
 
