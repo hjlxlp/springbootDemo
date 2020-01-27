@@ -1,10 +1,13 @@
 package com.example.demo.entity;
 
+import com.example.demo.util.JsonSerializerUtils;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * 城市实体类
@@ -14,6 +17,9 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Data
 public class City implements Serializable{
+
+    @JsonSerialize(using = JsonSerializerUtils.class)
+    private BigDecimal total;
 
     /**
      * 城市编号

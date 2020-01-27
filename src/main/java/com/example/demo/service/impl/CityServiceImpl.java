@@ -107,7 +107,7 @@ public class CityServiceImpl implements CityService {
         delete1();
         delete2();
         cityMapper.deleteCityById(3);
-        cityMapper.insertCity(new City((long) 4, (long) 2, "2", "2"));
+        //cityMapper.insertCity(new City((long) 4, (long) 2, "2", "2"));
     }
 
     @Override
@@ -119,7 +119,7 @@ public class CityServiceImpl implements CityService {
         getService().delete1();
         getService().delete2();
         cityMapper.deleteCityById(3);
-        cityMapper.insertCity(new City((long) 4, (long) 2, "2", "2"));
+        //cityMapper.insertCity(new City((long) 4, (long) 2, "2", "2"));
     }
 
     @Override

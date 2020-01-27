@@ -4,21 +4,32 @@ import com.example.demo.entity.City;
 import com.example.demo.entity.TestValidation;
 import com.example.demo.service.CityService;
 import com.example.demo.service.CityTestService;
+import com.example.demo.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 
 
 @RequestMapping("city")
 @RestController
+@Controller
 public class CityController {
 
     @Autowired
     private CityService cityService;
     @Autowired
     private CityTestService cityTestService;
+
+    @PostMapping("testTotal")
+    public City testTotal(@RequestParam("total") BigDecimal total) {
+        City city = new City();
+        city.setTotal(StringUtil.getTwoZeroBigDecimal(total));
+        return city;
+    }
 
     @PostMapping("testValidation")
     public City testValidation(@Valid @RequestBody TestValidation testValidation) {
