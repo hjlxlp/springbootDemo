@@ -1,9 +1,12 @@
 package com.example.demo;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.entity.City;
 import com.example.demo.mapper.CityMapper;
 import com.example.demo.service.CityService;
+import com.example.demo.service.StuService;
+import com.example.demo.util.BaseResultModel;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,8 @@ public class Demo2Test {
     private CityMapper cityMapper;
     @Autowired
     private CityService cityService;
+    @Autowired
+    private StuService stuService;
 
     @Test
     public void test_01() {
@@ -35,6 +40,7 @@ public class Demo2Test {
         City city = new City();
         city.setCityName("1");
         List<City> list = cityMapper.findByGroup(city);
+        list.add(city);
         System.out.println(JSONObject.toJSON(list));
     }
 
@@ -47,6 +53,13 @@ public class Demo2Test {
         long ms2 = cityService.deleteTwo();
         System.out.println(ms2);
     }
+
+    @Test
+    public void test_04() {
+        BaseResultModel<String> resultModel = stuService.testInsert();
+        System.out.println(JSON.toJSONString(resultModel));
+    }
+
 
 
 }

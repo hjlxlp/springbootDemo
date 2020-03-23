@@ -29,6 +29,7 @@
         select
         <include refid="Base_Column_List"/>
         from city
+        where id = 0
         <if test='vo.cityName != null and vo.cityName != "" and vo.cityName == "1"'>
             group by province_id
         </if>

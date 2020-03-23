@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.StuMapper">
+    <resultMap id="StuMap" type="com.example.demo.entity.Student">
+        <id property="id" column="id" />
+        <result column="stu_name" property="stuName"/>
+        <result column="stu_Score" property="stuScore"/>
+        <result column="course_name" property="courseName"/>
+    </resultMap>
+
+    <select id="findStu" resultMap="StuMap">
+        select students.id,students.stu_name,stu_score.`stu_Score`,course.course_name
+        from students,stu_score,course
+        where students.id=stu_score.stu_id and stu_score.course_id=course.id
+       <if test="keyword != null and keyword != ''">
+           and students.stu_name like concat('%',#{keyword},'%')
+           or course.course_name like concat('%',#{keyword},'%')
+       </if>
+       <if test="scoreBegin != null and scoreBegin != '' and scoreEnd != null and scoreEnd != ''">
+           and stu_score.`stu_Score` between ${scoreBegin} and ${scoreEnd}
+       </if>
+    </select>
+
+</mapper>

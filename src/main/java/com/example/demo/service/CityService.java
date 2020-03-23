@@ -37,4 +37,6 @@ public interface CityService {
 
     void printStackTrace();
 
+    void testInsert();
+
 }

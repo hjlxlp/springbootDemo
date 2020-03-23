@@ -144,4 +144,12 @@ public class CityServiceImpl implements CityService {
         return SpringUtil.getBean(this.getClass());
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class,propagation = Propagation.REQUIRES_NEW)
+    public void testInsert() {
+        City c = new City();
+        c.setCityName("c1");
+        cityMapper.insertCity(c);
+    }
+
 }
