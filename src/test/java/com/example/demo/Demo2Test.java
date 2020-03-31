@@ -7,12 +7,15 @@ import com.example.demo.mapper.CityMapper;
 import com.example.demo.service.CityService;
 import com.example.demo.service.StuService;
 import com.example.demo.util.BaseResultModel;
+import com.example.demo.util.BeanMapperUtil;
+import okhttp3.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -59,7 +62,6 @@ public class Demo2Test {
         BaseResultModel<String> resultModel = stuService.testInsert();
         System.out.println(JSON.toJSONString(resultModel));
     }
-
 
 
 }

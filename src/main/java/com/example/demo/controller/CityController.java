@@ -14,7 +14,7 @@ import javax.validation.Valid;
 import java.math.BigDecimal;
 
 
-@RequestMapping("city")
+@RequestMapping("/city")
 @RestController
 @Controller
 public class CityController {
@@ -62,6 +62,12 @@ public class CityController {
     @GetMapping("printStackTrace")
     public void printStackTrace() {
         cityService.printStackTrace();
+    }
+
+
+    @PostMapping("insert")
+    public void insert(@RequestBody City city) {
+        cityService.insert(city);
     }
 
 }

@@ -36,7 +36,7 @@
     </select>
 
     <insert id="insertCity" parameterType="com.example.demo.entity.City">
-        insert city set province_id = #{provinceId},city_name = #{cityName},description = #{description}
+        insert city set province_id = #{provinceId},city_name = #{cityName},description = #{description},create_time = #{createTime}
     </insert>
 
     <delete id="deleteCityById">

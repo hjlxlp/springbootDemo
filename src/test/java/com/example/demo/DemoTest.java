@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
@@ -59,7 +61,7 @@ public class DemoTest {
     }
 
     @Test
-    public void test03(){
+    public void test03() {
         RedisTemplate redisTemplate = new RedisTemplate();
         /*redisTemplate.opsForValue().set("jian","hhd");
         Boolean b = redisTemplate.hasKey("jian");
@@ -70,5 +72,9 @@ public class DemoTest {
         //System.out.println(redisTemplate.opsForValue().get("test"));
     }
 
+    @Test
+    public void test05() {
+        System.out.println(JSON.toJSONString(null, SerializerFeature.WriteMapNullValue));
+    }
 
 }

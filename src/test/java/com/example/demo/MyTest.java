@@ -1,6 +1,8 @@
 package com.example.demo;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.example.demo.entity.*;
 import com.example.demo.util.BaseResultModel;
 import com.example.demo.util.BeanMapperUtil;
@@ -8,9 +10,11 @@ import com.example.demo.vo.DocumentType;
 import com.example.demo.vo.ExpWarehousingDetailsOpenReqDto;
 import com.example.demo.vo.Husband;
 import com.example.demo.vo.Wife;
+import okhttp3.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.time.Duration;
@@ -28,8 +32,83 @@ public class MyTest {
 
     @Test
     public void test() {
-        Integer o = 100;
-        System.out.println(o.equals(100));
+        City c = new City();
+        c.setCityName("11");
+        System.out.println(JSON.toJSONString(c));
+        System.out.println(JSON.toJSONString(c, SerializerFeature.WriteMapNullValue));
+
+    }
+
+    public static String get(String url, Map<String, String> headerMap) {
+        if (url == null) {
+            return null;
+        }
+
+        Request request;
+        if (headerMap == null) {
+            request = new Request.Builder().url(url).get().build();
+        } else {
+            Request.Builder builder = new Request.Builder();
+            for (String key : headerMap.keySet()) {
+                builder.addHeader(key, headerMap.get(key));
+            }
+            request = builder.url(url).get().build();
+        }
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Call call = okHttpClient.newCall(request);
+        try {
+            Response response = call.execute();
+            return response.body().string();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String post(String url, Map<String, String> headerMap, Object reqParam) {
+        if (url == null) {
+            return null;
+        }
+
+        MediaType json = MediaType.parse("application/json; charset=utf-8");
+        RequestBody body = RequestBody.create(json, JSON.toJSONString(reqParam));
+        Request request;
+        if (headerMap == null) {
+            request = new Request.Builder().url(url).post(body).build();
+        } else {
+            Request.Builder builder = new Request.Builder();
+            for (String key : headerMap.keySet()) {
+                builder.addHeader(key, headerMap.get(key));
+            }
+            request = builder.url(url).post(body).build();
+        }
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Call call = okHttpClient.newCall(request);
+        try {
+            Response response = call.execute();
+            return response.body().string();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    @Test
+    public void test_14() throws IOException {
+        City city = new City();
+        city.setCityName("testInsert");
+        String url = "http://localhost:8080/city/findById?id=1";
+        //String url = "http://localhost:8080/city/insert";
+        Map<String, String> map = new HashMap<>();
+        map.put("aaa", "aaa");
+        map.put("bbb", "bbb");
+        String str = get(url, map);
+        System.out.println(str);
+        City result = JSON.parseObject(str, City.class);
+        System.out.println(result);
     }
 
 

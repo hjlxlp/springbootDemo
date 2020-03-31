@@ -145,11 +145,15 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class,propagation = Propagation.REQUIRES_NEW)
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
     public void testInsert() {
         City c = new City();
         c.setCityName("c1");
         cityMapper.insertCity(c);
     }
 
+    @Override
+    public void insert(City c) {
+        cityMapper.insertCity(c);
+    }
 }

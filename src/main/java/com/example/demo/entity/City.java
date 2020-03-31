@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 城市实体类
@@ -40,5 +41,10 @@ public class City implements Serializable{
      * 描述
      */
     private String description;
+
+    /**
+     * 创建时间
+     */
+    private Date createTime;
 
 }

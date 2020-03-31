@@ -39,4 +39,6 @@ public interface CityService {
 
     void testInsert();
 
+    void insert(City c);
+
 }

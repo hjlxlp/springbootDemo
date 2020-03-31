@@ -38,15 +38,15 @@ public class StuServiceImpl implements StuService {
             c.setCityName("c2");
             cityMapper.insertCity(c);
             //System.out.println(new ArrayList<>().get(1));
-            //throw new BizException(0, "0");
-            resultModel.setError(20,"20");
-            resultModel.setError(30,"30");
-            return resultModel;
+            throw new BizException(0, "0");
+            //resultModel.setError(20,"20");
+            //resultModel.setError(30,"30");
+            //return resultModel;
         } catch (Exception e) {
             e.printStackTrace();
             resultModel.setError(10, "10");
-        } finally {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+        } finally {
             cityService.testInsert();
             return resultModel;
         }
