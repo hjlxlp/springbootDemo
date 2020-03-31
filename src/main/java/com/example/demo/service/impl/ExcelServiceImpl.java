@@ -25,7 +25,7 @@ public class ExcelServiceImpl implements ExcelService {
         // 生成一个样式
         XSSFCellStyle style = wb.createCellStyle();
         //样式字体居中
-        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+        //style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 
         //声明第一个sheet名称
         XSSFSheet sheet1 = wb.createSheet("图片");

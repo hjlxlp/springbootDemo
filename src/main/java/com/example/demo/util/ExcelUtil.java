@@ -127,10 +127,10 @@ public class ExcelUtil {
      * @param wb
      */
     public static void setRegionBorder(int border, CellRangeAddress region, XSSFSheet sheet, XSSFWorkbook wb) {
-        RegionUtil.setBorderBottom(border, region, sheet, wb);
+        /*RegionUtil.setBorderBottom(border, region, sheet, wb);
         RegionUtil.setBorderLeft(border, region, sheet, wb);
         RegionUtil.setBorderRight(border, region, sheet, wb);
-        RegionUtil.setBorderTop(border, region, sheet, wb);
+        RegionUtil.setBorderTop(border, region, sheet, wb);*/
     }
 
     /**
@@ -142,11 +142,11 @@ public class ExcelUtil {
      */
     public static XSSFCellStyle getStyle(XSSFWorkbook wb, String type) {
         XSSFCellStyle cellStyle = wb.createCellStyle();
-        cellStyle.setAlignment(XSSFCellStyle.ALIGN_CENTER);
+        /*cellStyle.setAlignment(XSSFCellStyle.ALIGN_CENTER);
         cellStyle.setBorderBottom(CellStyle.BORDER_THIN);
         cellStyle.setBorderLeft(CellStyle.BORDER_THIN);
         cellStyle.setBorderTop(CellStyle.BORDER_THIN);
-        cellStyle.setBorderRight(CellStyle.BORDER_THIN);
+        cellStyle.setBorderRight(CellStyle.BORDER_THIN);*/
         XSSFDataFormat format = wb.createDataFormat();
         //文本
         if (STYLE_TYPE_1.equals(type)) {

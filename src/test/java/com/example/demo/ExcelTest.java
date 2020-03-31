@@ -35,7 +35,7 @@ public class ExcelTest {
             XSSFDrawing drawing = sheet1.createDrawingPatriarch();
             //drawing主要用于设置图片的属性
             XSSFClientAnchor anchor = new XSSFClientAnchor(0, 0, 255, 255, (short) 1, 1, (short) 5, 8);
-            anchor.setAnchorType(3);
+            //anchor.setAnchorType(3);
             //插入图片  
             drawing.createPicture(anchor, wb.addPicture(byteArrayOut.toByteArray(), XSSFWorkbook.PICTURE_TYPE_JPEG));
             fileOut = new FileOutputStream("C:/测试.xlsx");
