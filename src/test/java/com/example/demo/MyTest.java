@@ -31,7 +31,29 @@ import java.util.stream.Collectors;
 public class MyTest {
 
     @Test
+    public void test_m() {
+        Integer b = 4;
+        Integer k = 5;
+        Integer m;
+        Integer e;
+        for (int i = 0; i < 19; i++) {
+            m = b + i > 12 ? b + i - 12 : b + i;
+            if (Arrays.asList(2, 5, 8, 11).contains(m)) {
+                e = 7;
+            } else {
+                e = 16;
+            }
+            System.out.println(m + ": " + k + "+" + e + "=" + (k = k + e));
+        }
+    }
+
+    @Test
     public void test() {
+
+    }
+
+    @Test
+    public void test_15() {
         City c = new City();
         c.setCityName("11");
         System.out.println(JSON.toJSONString(c));

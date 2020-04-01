@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.other;
 
 
 import redis.clients.jedis.Jedis;

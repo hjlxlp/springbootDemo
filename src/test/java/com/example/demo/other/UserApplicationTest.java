@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.other;
 
 import com.example.demo.controller.UserController;
 import org.junit.Before;
