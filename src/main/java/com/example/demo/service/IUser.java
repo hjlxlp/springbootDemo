@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.ExcelTest;
+import com.example.demo.entity.ExcelTestVo;
 import com.example.demo.entity.ExcelTest2;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface IUser {
 
-    public boolean saveData(List<ExcelTest> users);
+    public boolean saveData(List<ExcelTestVo> users);
 
     public boolean saveData2(List<ExcelTest2> users);
 }

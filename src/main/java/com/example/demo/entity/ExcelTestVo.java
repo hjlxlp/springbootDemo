@@ -11,7 +11,7 @@ import java.util.Date;
  * @date 2020/3/31 10:41
  **/
 @Data
-public class ExcelTest {
+public class ExcelTestVo {
 
     @ExcelProperty(value = "id", index = 0)
     private Integer id;

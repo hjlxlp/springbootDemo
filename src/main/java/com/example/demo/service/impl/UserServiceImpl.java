@@ -1,7 +1,7 @@
 package com.example.demo.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.example.demo.entity.ExcelTest;
+import com.example.demo.entity.ExcelTestVo;
 import com.example.demo.entity.ExcelTest2;
 import com.example.demo.service.IUser;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ import java.util.List;
 @Slf4j
 public class UserServiceImpl implements IUser {
     @Override
-    public boolean saveData(List<ExcelTest> users) {
+    public boolean saveData(List<ExcelTestVo> users) {
         log.info("UserService {}条数据，开始存储数据库！", users.size());
         log.info(JSON.toJSONString(users));
         log.info("UserService 存储数据库成功！");

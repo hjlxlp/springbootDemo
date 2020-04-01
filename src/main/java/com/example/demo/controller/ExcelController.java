@@ -4,7 +4,7 @@ import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelReader;
 import com.alibaba.excel.event.AnalysisEventListener;
 import com.alibaba.excel.read.metadata.ReadSheet;
-import com.example.demo.entity.ExcelTest;
+import com.example.demo.entity.ExcelTestVo;
 import com.example.demo.entity.ExcelTest2;
 import com.example.demo.entity.ExportInputVo;
 import com.example.demo.service.ExcelService;
@@ -50,7 +50,7 @@ public class ExcelController {
         try {
             //AnalysisEventListener<ExcelTest> listener = ExcelUtils.getListener();
             in = serviceFile.getInputStream();
-            excelReader = EasyExcel.read(in, ExcelTest.class,
+            excelReader = EasyExcel.read(in, ExcelTestVo.class,
                     new DemoDataListener()).build();
             ReadSheet readSheet = EasyExcel.readSheet(0).build();
             excelReader.read(readSheet);
@@ -72,7 +72,7 @@ public class ExcelController {
         try {
             AnalysisEventListener<ExcelTest2> listener = ExcelUtils.getListener(this.batchInsert());
             in = serviceFile.getInputStream();
-            excelReader = EasyExcel.read(in, ExcelTest.class, listener).build();
+            excelReader = EasyExcel.read(in, ExcelTestVo.class, listener).build();
             ReadSheet readSheet = EasyExcel.readSheet(0).build();
             excelReader.read(readSheet);
         } catch (IOException ex) {

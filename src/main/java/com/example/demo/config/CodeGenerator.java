@@ -23,12 +23,13 @@ public class CodeGenerator {
 
         //项目路径 （注意后面拼接 module 名称）
         String projectPath = System.getProperty("user.dir");
-        String entityPackage = "com.example.demo.entity";
-        String mapperPackage = "com.example.demo.mapper";
-        String xmlPath = System.getProperty("user.dir") + "/src/main/resources/mapper";
-        String servicePackage = "com.example.demo.service";
-        String serviceImplPackage = "com.example.demo.service.impl";
-        String controllerPackage = "com.example.demo.controller";
+        String entityPackage = "entity";
+        String mapperPackage = "mapper";
+        //String xmlPath = System.getProperty("user.dir") + "/src/main/resources/mapper";
+        String xmlPath = "mapper";
+        String servicePackage = "service";
+        String serviceImplPackage = "service.impl";
+        String controllerPackage = "controller";
         String[] targetTables = {"excel_test"};
 
         AutoGenerator mpg = new AutoGenerator();
@@ -55,13 +56,14 @@ public class CodeGenerator {
 
         //包配置
         PackageConfig pc = new PackageConfig();
-        pc.setParent("com");
-        pc.setModuleName("springboodDemo");
+        pc.setParent("com.example.demo");
+        //pc.setModuleName("com.example.demo");
         pc.setEntity(entityPackage);
         pc.setMapper(mapperPackage);
         pc.setService(servicePackage);
         pc.setServiceImpl(serviceImplPackage);
         pc.setController(controllerPackage);
+        pc.setXml(xmlPath);
         mpg.setPackageInfo(pc);
 
         // 策略配置
