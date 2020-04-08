@@ -1,7 +1,10 @@
 package com.example.demo.entity;
 
 import com.alibaba.excel.annotation.ExcelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -11,6 +14,8 @@ import java.util.Date;
  * @date 2020/3/31 10:41
  **/
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ExcelTestVo {
 
     @ExcelProperty(value = "id", index = 0)
@@ -23,6 +28,6 @@ public class ExcelTestVo {
     private BigDecimal length;
 
     @ExcelProperty(value = "createTime", index = 3)
-    private String createTime;
+    private Date createTime;
 
 }

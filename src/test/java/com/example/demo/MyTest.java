@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.alibaba.excel.EasyExcel;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
@@ -33,7 +34,7 @@ public class MyTest {
     @Test
     public void test_m() {
         Integer b = 4;
-        Integer k = 5;
+        Integer k = 10;
         Integer m;
         Integer e;
         for (int i = 0; i < 19; i++) {
@@ -50,6 +51,17 @@ public class MyTest {
     @Test
     public void test() {
 
+    }
+
+    @Test
+    public void test_16() {
+        ExcelTestVo vo1 = new ExcelTestVo(1, "vo1", new BigDecimal(1), new Date());
+        ExcelTestVo vo2 = new ExcelTestVo(2, "vo3", new BigDecimal(4), new Date());
+        ExcelTestVo vo3 = new ExcelTestVo(3, "vo2", new BigDecimal(5), new Date());
+        List<ExcelTestVo> list = Arrays.asList(vo1, vo2, vo3);
+
+        String fileName = "D://test.xlsx";
+        EasyExcel.write(fileName, ExcelTestVo.class).sheet("模板").doWrite(list);
     }
 
     @Test
@@ -265,6 +277,10 @@ public class MyTest {
                 "}\n" +
                 "]";
         List<ExpWarehousingDetailsOpenReqDto> reqDtoList = JSONObject.parseArray(str, ExpWarehousingDetailsOpenReqDto.class);
+        reqDtoList = new ArrayList<>();
+        ExpWarehousingDetailsOpenReqDto exp = new ExpWarehousingDetailsOpenReqDto();
+        reqDtoList.add(exp);
+        reqDtoList.add(exp);
         System.out.println(reqDtoList);
         List<Object> list = new ArrayList<>();
         reqDtoList.forEach(a -> {
