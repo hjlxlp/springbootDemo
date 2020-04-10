@@ -9,13 +9,13 @@ import lombok.Data;
 @Data
 public class TestVo {
 
-    @ChineseName(value = "订单id")
+    @ChineseFieldName(value = "订单id")
     private Integer orderId;
 
-    @ChineseName(value = "订单编号")
+    @ChineseFieldName(value = "订单编号")
     private String orderCode;
 
-    @ChineseName(value = "订单名称")
+    @ChineseFieldName(value = "订单名称")
     private String orderName;
 
     private String orderType;

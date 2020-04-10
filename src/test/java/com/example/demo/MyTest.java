@@ -300,11 +300,11 @@ public class MyTest {
                 Field[] fields = obj.getClass().getDeclaredFields();
                 for (Field field : fields) {
                     field.setAccessible(true);
-                    ChineseName chineseName = field.getAnnotation(ChineseName.class);
-                    if (chineseName != null) {
+                    ChineseFieldName ChineseFieldName = field.getAnnotation(ChineseFieldName.class);
+                    if (ChineseFieldName != null) {
                         Object value = field.get(obj);
                         if (value == null || value == "") {
-                            message.append("第" + (i + 1) + "行的" + chineseName.value() + "不能为空。");
+                            message.append("第" + (i + 1) + "行的" + ChineseFieldName.value() + "不能为空。");
                         }
                     }
                 }
