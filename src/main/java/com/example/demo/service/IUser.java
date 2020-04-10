@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.ExcelTestVo;
-import com.example.demo.entity.ExcelTest2;
+import com.example.demo.vo.ExcelTestVo;
+import com.example.demo.vo.ExcelTest2;
 
 import java.util.List;
 

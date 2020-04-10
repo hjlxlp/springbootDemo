@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.ExportInputVo;
+
+import com.example.demo.vo.ExportInputVo;
 
 /**
  * @author hjl

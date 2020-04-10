@@ -1,8 +1,8 @@
 package com.example.demo.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.example.demo.entity.ExcelTestVo;
-import com.example.demo.entity.ExcelTest2;
+import com.example.demo.vo.ExcelTestVo;
+import com.example.demo.vo.ExcelTest2;
 import com.example.demo.service.IUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

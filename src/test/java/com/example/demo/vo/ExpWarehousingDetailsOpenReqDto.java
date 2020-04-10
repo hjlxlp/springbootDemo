@@ -1,6 +1,5 @@
 package com.example.demo.vo;
 
-import com.example.demo.entity.ChineseName;
 import lombok.Data;
 
 import java.math.BigDecimal;

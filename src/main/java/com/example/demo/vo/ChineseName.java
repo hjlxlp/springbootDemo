@@ -1,4 +1,4 @@
-package com.example.demo.entity;
+package com.example.demo.vo;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
