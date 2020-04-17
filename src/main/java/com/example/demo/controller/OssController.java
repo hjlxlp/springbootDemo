@@ -5,11 +5,9 @@ import com.example.demo.service.OssService;
 import com.example.demo.util.OSSUploadUtil;
 import com.example.demo.vo.oss.OssCallbackResult;
 import com.example.demo.vo.oss.OssPolicyResult;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -42,12 +40,12 @@ public class OssController {
     }
 
     @PostMapping("/uploadFile")
-    public String uploadFile(@RequestParam(value = "file") MultipartFile file) throws IOException {
+    public String uploadFile(MultipartFile file) throws IOException {
         if (file == null || file.isEmpty() || file.getSize() == 0) {
             return "null";
         }
         if (file.getSize() > 10 * 1024 * 1024) {
-            return "too big ";
+            return "too big";
         }
         String fileType = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
         //OSS单文件上传,返回上传成功后的oss存储服务器中的url
@@ -56,6 +54,5 @@ public class OssController {
         String url = OSSUploadUtil.uploadFile(f, fileType);
         return url;
     }
-
 
 }

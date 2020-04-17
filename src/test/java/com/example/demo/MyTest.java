@@ -31,11 +31,11 @@ public class MyTest {
 
     @Test
     public void test_m() {
-        Integer b = 4;
-        Integer k = 10;
+        Integer b = 5;
+        Integer k = 28;
         Integer m;
         Integer e;
-        for (int i = 0; i < 19; i++) {
+        for (int i = 0; i < 20; i++) {
             m = b + i > 12 ? b + i - 12 : b + i;
             if (Arrays.asList(2, 5, 8, 11).contains(m)) {
                 e = 7;
