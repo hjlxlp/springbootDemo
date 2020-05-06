@@ -73,8 +73,8 @@ public class DemoTest {
     public void test_05() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String endpoint = "http://oss-cn-hangzhou.aliyuncs.com";
-        String accessKeyId = "LTAI4FitXyUVnFytd2hHUBL2";
-        String accessKeySecret = "qlSDdSqFMteGVEehCDE13oCiXXsrOk";
+        String accessKeyId = "*";
+        String accessKeySecret = "*";
         String fileName = "C:/Users/22474/Desktop/test2.jpg";
         String bucketName = "hjl-oss-test";
         // 获取文件的后缀名

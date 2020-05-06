@@ -4,11 +4,11 @@ import com.alibaba.excel.EasyExcel;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.example.demo.entity.*;
+import com.example.demo.entity.City;
+import com.example.demo.entity.User;
 import com.example.demo.util.BaseResultModel;
 import com.example.demo.util.BeanMapperUtil;
 import com.example.demo.vo.*;
-import com.example.demo.vo.DocumentType;
 import okhttp3.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.junit.Test;
@@ -16,6 +16,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -28,6 +29,52 @@ import java.util.stream.Collectors;
  * @date 2019/3/14 14:51
  */
 public class MyTest {
+
+    @Test
+    public void test() {
+
+    }
+
+    @Test
+    public void test_fd() {
+        /*List<Integer> sizeList = Arrays.asList(100, 120);
+        List<Integer> priceList = Arrays.asList(11000, 14000);
+        List<Integer> yearList = Arrays.asList(20, 30);
+        List<Integer> payList = Arrays.asList(500000, 800000);*/
+        List<Integer> sizeList = Arrays.asList(110);
+        List<Integer> priceList = Arrays.asList(14000);
+        List<Integer> yearList = Arrays.asList(20, 30);
+        List<Integer> payList = Arrays.asList(600000,800000);
+        List<FdVo> fdList = new ArrayList<>();
+        for (Integer size : sizeList) {
+            for (Integer price : priceList) {
+                for (Integer year : yearList) {
+                    for (Integer pay : payList) {
+                        fdList.add(new FdVo(size, price, year, pay));
+                    }
+                }
+            }
+        }
+        DecimalFormat df = new DecimalFormat("#");
+        double lilv = 0.05635 / 12;
+        for (FdVo vo : fdList) {
+            double zongjia = vo.getSize() * vo.getPrice();
+            double daikuan = zongjia - vo.getPay();
+            double pow = Math.pow(1 + lilv, vo.getYear() * 12);
+            double yuegong = daikuan * lilv * pow / (pow - 1);
+            double lixi = yuegong * vo.getYear() * 12 - daikuan;
+            System.out.println(df.format(vo.getSize()) + "平米，"
+                    + "单价" + vo.getPrice() / 10000 + "万，"
+                    + "总价" + df.format(zongjia / 10000) + "万，"
+                    + "首付" + df.format(vo.getPay() / 10000) + "万，"
+                    + "年限" + df.format(vo.getYear()) + "年，"
+                    + "贷款" + df.format(daikuan / 10000) + "万，"
+                    + "利息" + df.format(lixi / 10000) + "万，"
+                    + "月供" + df.format(yuegong) + "元，"
+                    + "总花" + df.format((zongjia + lixi) / 10000) + "万。");
+        }
+
+    }
 
     @Test
     public void test_m() {
@@ -44,11 +91,6 @@ public class MyTest {
             }
             System.out.println(m + ": " + k + "+" + e + "=" + (k = k + e));
         }
-    }
-
-    @Test
-    public void test() {
-
     }
 
     @Test
