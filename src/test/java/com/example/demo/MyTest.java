@@ -32,19 +32,19 @@ public class MyTest {
 
     @Test
     public void test() {
-
+        Double d = new Double(1);
+        for (int i = 0; i < 10; i++) {
+            d = d * 1.05;
+        }
+        System.out.println(d);
     }
 
     @Test
     public void test_fd() {
-        /*List<Integer> sizeList = Arrays.asList(100, 120);
-        List<Integer> priceList = Arrays.asList(11000, 14000);
-        List<Integer> yearList = Arrays.asList(20, 30);
-        List<Integer> payList = Arrays.asList(500000, 800000);*/
-        List<Integer> sizeList = Arrays.asList(110);
+        List<Integer> sizeList = Arrays.asList(120);
         List<Integer> priceList = Arrays.asList(14000);
-        List<Integer> yearList = Arrays.asList(20, 30);
-        List<Integer> payList = Arrays.asList(600000,800000);
+        List<Integer> yearList = Arrays.asList(30);
+        List<Integer> payList = Arrays.asList(800000, 1000000);
         List<FdVo> fdList = new ArrayList<>();
         for (Integer size : sizeList) {
             for (Integer price : priceList) {
@@ -78,8 +78,9 @@ public class MyTest {
 
     @Test
     public void test_m() {
-        Integer b = 5;
-        Integer k = 28;
+        //7,16
+        Integer b = 6;
+        Integer k = 40;
         Integer m;
         Integer e;
         for (int i = 0; i < 20; i++) {

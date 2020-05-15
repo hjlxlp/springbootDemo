@@ -10,7 +10,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+//import javax.validation.Valid;
 import java.math.BigDecimal;
 
 
@@ -24,6 +24,11 @@ public class CityController {
     @Autowired
     private CityTestService cityTestService;
 
+    @PostMapping("testDevtools")
+    public String testDevtools() {
+        return "2000";
+    }
+
     @PostMapping("testTotal")
     public City testTotal(@RequestParam("total") BigDecimal total) {
         City city = new City();
@@ -32,7 +37,7 @@ public class CityController {
     }
 
     @PostMapping("testValidation")
-    public City testValidation(@Valid @RequestBody TestValidation testValidation) {
+    public City testValidation(@RequestBody TestValidation testValidation) {
         City city = new City();
         city.setCityName("测试");
         return city;
