@@ -80,7 +80,7 @@ public class MyTest {
     public void test_m() {
         //7,16
         Integer b = 6;
-        Integer k = 40;
+        Integer k = 38;
         Integer m;
         Integer e;
         for (int i = 0; i < 20; i++) {
