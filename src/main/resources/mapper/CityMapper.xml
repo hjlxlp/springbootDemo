@@ -43,4 +43,13 @@
         delete from city where id = #{id}
     </delete>
 
+    <insert id="insert10000" parameterType="com.example.demo.entity.City">
+        INSERT INTO city (id, province_id, city_name, description, line_number, create_time)
+        VALUES
+        <foreach collection="list" item="city" separator=",">
+            (null,#{city.provinceId},#{city.cityName},#{city.description},null,#{city.createTime})
+        </foreach>
+    </insert>
+
+
 </mapper>

@@ -37,4 +37,6 @@ public interface CityMapper {
 
     Integer deleteCityById(@Param("id") Integer id);
 
+    Integer insert10000(@Param("list") List<City> list);
+
 }

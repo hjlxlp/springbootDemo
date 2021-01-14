@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 
 import com.example.demo.entity.City;
+import com.example.demo.util.BaseResultModel;
 
 import java.util.List;
 
@@ -40,5 +41,7 @@ public interface CityService {
     void testInsert();
 
     void insert(City c);
+
+    BaseResultModel<String> testError();
 
 }

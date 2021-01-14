@@ -2,16 +2,24 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.City;
 import com.example.demo.entity.TestValidation;
+import com.example.demo.mapper.CityMapper;
 import com.example.demo.service.CityService;
 import com.example.demo.service.CityTestService;
+import com.example.demo.util.BaseResultModel;
 import com.example.demo.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-//import javax.validation.Valid;
 import java.math.BigDecimal;
+import java.time.Duration;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+//import javax.validation.Valid;
 
 
 @RequestMapping("/city")
@@ -23,6 +31,32 @@ public class CityController {
     private CityService cityService;
     @Autowired
     private CityTestService cityTestService;
+    @Autowired
+    private CityMapper cityMapper;
+
+
+    @PostMapping("test10000")
+    public BaseResultModel test10000() {
+        List<City> list = new ArrayList<>();
+        Date date = new Date();
+        for (int i = 0; i < 10000; i++) {
+            City city = new City();
+            city.setCityName(i + "");
+            city.setProvinceId(new Long(i));
+            city.setDescription(i + "d");
+            city.setCreateTime(date);
+            list.add(city);
+        }
+        LocalTime begin = LocalTime.now();
+        cityMapper.insert10000(list);
+        System.out.println(Duration.between(begin, LocalTime.now()).toMillis());
+        return new BaseResultModel();
+    }
+
+    @PostMapping("testError")
+    public BaseResultModel<String> testError() {
+        return cityService.testError();
+    }
 
     @PostMapping("testDevtools")
     public String testDevtools() {

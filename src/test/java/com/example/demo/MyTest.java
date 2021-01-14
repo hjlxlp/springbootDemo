@@ -32,11 +32,7 @@ public class MyTest {
 
     @Test
     public void test() {
-        Double d = new Double(1);
-        for (int i = 0; i < 10; i++) {
-            d = d * 1.05;
-        }
-        System.out.println(d);
+
     }
 
     @Test
@@ -44,7 +40,7 @@ public class MyTest {
         List<Integer> sizeList = Arrays.asList(120);
         List<Integer> priceList = Arrays.asList(14000);
         List<Integer> yearList = Arrays.asList(30);
-        List<Integer> payList = Arrays.asList(800000, 1000000);
+        List<Integer> payList = Arrays.asList(800000);
         List<FdVo> fdList = new ArrayList<>();
         for (Integer size : sizeList) {
             for (Integer price : priceList) {
@@ -78,21 +74,71 @@ public class MyTest {
 
     @Test
     public void test_m() {
-        //7,16
-        Integer b = 6;
-        Integer k = 38;
+        //8,17
+        Integer b = 10;
+        Integer k = 85;
         Integer m;
         Integer e;
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 13; i++) {
             m = b + i > 12 ? b + i - 12 : b + i;
             if (Arrays.asList(2, 5, 8, 11).contains(m)) {
-                e = 7;
+                e = 6;
             } else {
-                e = 16;
+                e = 15;
             }
             System.out.println(m + ": " + k + "+" + e + "=" + (k = k + e));
         }
     }
+
+    @Test
+    public void test17() {
+
+        String str3 = "2020-05-27 15:35:42.185  INFO 22154 --- [0880-thread-198] c.o.s.d.i.pdf.ShowDeliveryServiceImpl    : ===订单发邮件 begin==={\"dataModel\":{\"homeUrl\":\"http://www.onelinkplus.com/\",\"orderDList\":\"<tr><td>1</td><td>甲酸<br/>分析纯_250kg/桶<br/>版本号：-</td><td>7500.00</td><td>重量组（千克）</td><td>2020-06-12</td></tr><tr><td>2</td><td>盐酸羟胺<br/>分析纯_25kg/桶<br/>版本号：-</td><td>800.00</td><td>重量组（千克）</td><td>2020-06-03</td></tr>\",\"orderCode\":\"WBJQDD200527005\",\"purchaseUserName\":\"王家辉\",\"purchaseCompanyName\":\"徐州万邦金桥制药有限公司\",\"supplierCompanyName\":\"成都市科隆化学品有限公司\",\"writer\":\"立即登录一链网<a href=\\\"http://sc-supplier.onelinkplus.com/#/orderDetail?orderId=1436\\\">查看订单</a>\"},\"templateCode\":\"order_email_supplier_delivery\",\"receiverEmail\":\"xiefeng588@163.com\"}\n" +
+                "2020-05-27 15:35:42.231  INFO 22154 --- [0880-thread-197] c.o.s.d.i.pdf.ShowDeliveryServiceImpl    : ===订单发邮件 begin==={\"dataModel\":{\"homeUrl\":\"http://www.onelinkplus.com/\",\"orderDList\":\"<tr><td>1</td><td>乙酸锌 分析纯（500ml/瓶）<br/>分析纯（500ml/瓶）<br/>版本号：-</td><td>800.00</td><td>数量组（瓶）</td><td>2020-06-09</td></tr>\",\"orderCode\":\"WBJQDD200527001\",\"purchaseUserName\":\"王家辉\",\"purchaseCompanyName\":\"徐州万邦金桥制药有限公司\",\"supplierCompanyName\":\"上海西陇化工有限公司\",\"writer\":\"立即登录一链网<a href=\\\"http://sc-supplier.onelinkplus.com/#/orderDetail?orderId=1432\\\">查看订单</a>\"},\"templateCode\":\"order_email_supplier_delivery\",\"receiverEmail\":\"375085274@qq.com\"}\n" +
+                "2020-05-27 15:35:42.865  INFO 22154 --- [0880-thread-197] c.o.s.d.i.pdf.ShowDeliveryServiceImpl    : ===订单发邮件 begin==={\"dataModel\":{\"homeUrl\":\"http://www.onelinkplus.com/\",\"orderDList\":\"<tr><td>1</td><td>四氢呋喃 180Kg/桶<br/>180Kg/桶<br/>版本号：-</td><td>14400.00</td><td>重量组（千克）</td><td>2020-06-22</td></tr>\",\"orderCode\":\"WBJQDD200527003\",\"purchaseUserName\":\"王家辉\",\"purchaseCompanyName\":\"徐州万邦金桥制药有限公司\",\"supplierCompanyName\":\"成都市科隆化学品有限公司\",\"writer\":\"立即登录一链网<a href=\\\"http://sc-supplier.onelinkplus.com/#/orderDetail?orderId=1434\\\">查看订单</a>\"},\"templateCode\":\"order_email_supplier_delivery\",\"receiverEmail\":\"xiefeng588@163.com\"}\n" +
+                "2020-05-27 15:35:43.703  INFO 22154 --- [0880-thread-197] c.o.s.d.i.pdf.ShowDeliveryServiceImpl    : ===订单发邮件 begin==={\"dataModel\":{\"homeUrl\":\"http://www.onelinkplus.com/\",\"orderDList\":\"<tr><td>1</td><td>四氢呋喃 180Kg/桶<br/>180Kg/桶<br/>版本号：-</td><td>14400.00</td><td>重量组（千克）</td><td>2020-06-05</td></tr><tr><td>2</td><td>甲基异丁基甲酮<br/>165kg/桶_108-10-1<br/>版本号：-</td><td>330.00</td><td>JK</td><td>2020-06-03</td></tr>\",\"orderCode\":\"WBJQDD200527002\",\"purchaseUserName\":\"王家辉\",\"purchaseCompanyName\":\"徐州万邦金桥制药有限公司\",\"supplierCompanyName\":\"南京化学试剂股份有限公司\",\"writer\":\"立即登录一链网<a href=\\\"http://sc-supplier.onelinkplus.com/#/orderDetail?orderId=1433\\\">查看订单</a>\"},\"templateCode\":\"order_email_supplier_delivery\",\"receiverEmail\":\"1561155157@qq.com\"}\n" +
+                "2020-05-27 15:40:31.345  INFO 22154 --- [0880-thread-197] c.o.s.d.i.pdf.ShowDeliveryServiceImpl    : ===订单发邮件 begin==={\"dataModel\":{\"homeUrl\":\"http://www.onelinkplus.com/\",\"orderDList\":\"<tr><td>1</td><td>甲酸<br/>分析纯_250kg/桶<br/>版本号：-</td><td>7500.00</td><td>重量组（千克）</td><td>2020-06-02</td></tr>\",\"orderCode\":\"WBJQDD200527004\",\"purchaseUserName\":\"王家辉\",\"purchaseCompanyName\":\"徐州万邦金桥制药有限公司\",\"supplierCompanyName\":\"南京化学试剂股份有限公司\",\"writer\":\"立即登录一链网<a href=\\\"http://sc-supplier.onelinkplus.com/#/orderDetail?orderId=1435\\\">查看订单</a>\"},\"templateCode\":\"order_email_supplier_delivery\",\"receiverEmail\":\"1561155157@qq.com\"}";
+
+        //String orderCodes = "WBJQDD200518001,WBYYDD200518001,WBYYDD200518004,WBJQDD200518004,WBJQDD200519001,FXXTDD200519001,FXXTDD200519002,FXXTDD200519003,FXXTDD200519004,FXXTDD200519005,FXXTDD200519006,WBYYDD200520007,WBYYDD200520008,WBYYDD200520009,WBYYDD200520010,FXXTDD200521009,FXXTDD200521010,WBJQDD200521001,WBYYDD200521005,WBYYDD200521007,WBYYDD200521008,WBYYDD200521009,WBYYDD200521010,WBYYDD200521011,WBYYDD200521012,WBYYDD200521014,WBYYDD200521016,FXXTDD200522001,FXXTDD200522003,FXXTDD200522006,WBYYDD200522001,FXXTDD200522007,WBYYDD200522003,WBYYDD200522004,WBYYDD200522005,WBYYDD200522006,WBYYDD200522007,WBYYDD200522008,WBYYDD200522009,WBYYDD200522010,WBYYDD200525001,WBYYDD200525005,WBYYDD200525006,WBYYDD200525008,WBYYDD200525009,WBYYDD200526001,WBYYDD200526002,WBJQDD200526001,WBYYDD200526003,WBYYDD200526004,WBYYDD200526005,WBKJDD200526001,WBKJDD200526002,WBYYDD200526006,WBJQDD200526002,WBYYDD200527001,WBYYDD200527002,WBYYDD200527003,WBYYDD200527004,WBYYDD200527005,WBYYDD200527006";
+
+        String orderCodes = "WBJQDD200527001,WBJQDD200527002,WBJQDD200527003,WBJQDD200527004,WBJQDD200527005";
+
+        String[] str = orderCodes.split(",");
+
+        Map<String, String> codeMap = new HashMap<>();
+
+        for (int i = 0; i < str.length; i++) {
+            if (str3.contains(str[i])) {
+                Integer orderCodeIndex = str3.indexOf(str[i]);
+                String s1 = str3.substring(0, orderCodeIndex);
+                Integer infoIndex = s1.lastIndexOf("INFO");
+                String date = s1.substring(infoIndex - 25, infoIndex - 6);
+                codeMap.put(str[i], date);
+            }
+        }
+
+        /*for (int i = 0; i < str.length; i++) {
+            if (str1.contains(str[i])) {
+                Integer orderCodeIndex = str1.indexOf(str[i]);
+                String s1 = str1.substring(0, orderCodeIndex);
+                Integer infoIndex = s1.lastIndexOf("INFO");
+                String date = s1.substring(infoIndex - 25, infoIndex - 6);
+                codeMap.put(str[i], date);
+            }
+            if (str2.contains(str[i])) {
+                Integer orderCodeIndex = str2.indexOf(str[i]);
+                String s2 = str2.substring(0, orderCodeIndex);
+                Integer infoIndex = s2.indexOf("INFO");
+                String date = s2.substring(infoIndex - 25, infoIndex - 6);
+                codeMap.put(str[i], date);
+            }
+        }*/
+
+        System.out.println(codeMap.size());
+        System.out.println(JSON.toJSONString(codeMap));
+
+    }
+
 
     @Test
     public void test_16() {

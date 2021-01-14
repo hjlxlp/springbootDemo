@@ -1,0 +1,529 @@
+<div style="width: 100%; display: table;">
+    <div class="select-wrap" style="width:21%;background:#ededed;float:left; height:500px;">
+        <div class="quesNumList">
+            @*题目类型*@
+            <div style="padding: 15px;">
+                @foreach (var item in ViewBag.Qtype as List<PaperScore>)
+                {
+                    <dt><a href="#type@(item.paracode)">@item.questionType</a></dt>
+                    <dd>
+                        @foreach (var per in ViewBag.Question as List<Trn_question>)
+                        {
+                            if (per.qtype.ToString() == item.paracode)
+                            {
+                                i++;
+                                <a onclick="javascript: void(0);" id="idx_@per.qid" class="" href="#@(per.qid)">@(i)</a>
+                            }
+                            else
+                            {
+                                i = 0;
+                            }
+                        }
+                    </dd>
+                }
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 50px; display: none;"><input class="btn_blue" style="padding: 10px 40px;" type="button" value="我要交卷" /></div>
+    </div>
+    <div class="tkq_txt">
+        <div id="questions" style="margin: 15px; height: 470px; overflow: auto;">
+            <table id="dlPaper" style="border-collapse: collapse;" cellspacing="0">
+                <tbody>
+                    @*题目类型*@
+                    @foreach (var item in ViewBag.Qtype as List<PaperScore>)
+                    {
+                        <tr>
+                            <td>
+                                <div class="tkq_txt_t">
+                                    <a name="#type@(item.paracode)"></a>@item.questionType
+                                </div>
+                                <table id="dlPaper_ctl00_dlQuestion" style="border-collapse: collapse;" cellspacing="0">
+                                    <tbody>
+                                        @*题目*@
+                                        @foreach (var per in ViewBag.Question as List<Trn_question>)
+                                        {
+                                            if (per.qtype.ToString() == item.paracode)
+                                            {
+                                                j++;
+                                                <tr>
+                                                    <td>
+                                                        <div class="tkq_tm_t">
+                                                            <a name="@per.qid"></a>
+                                                            <p>@(j).@Html.Raw(per.qname)</p>
+                                                        </div>
+                                                        <span class="list" id="dlPaper_ctl00_dlQuestion_ctl00_ltAnswer"></span>
+                                                        <table id="table_@item.paracode">
+                                                            <tbody>
+                                                                @if (item.paracode == "Brief")
+                                                                {
+                                                                    <tr>
+                                                                        @if (item.paracode == "Brief") /*简答题*/
+                                                                        {
+                                                                            <td>
+                                                                                <textarea rows="4" cols="60" name="Brief_@per.qid" id="Brief_@per.qid"  type="text" onkeyup="setStatus(@per.qid,this,'textbox')"></textarea>
+                                                                            </td>
+                                                                        }
+                                                                    </tr>
+                                                                }
+                                                                else
+                                                                {
+                                                                    //答案
+                                                                    foreach (var answer in ViewBag.Answer as List<Trn_question_answer>)
+                                                                    {
+                                                                        if (per.qid == answer.qid)
+                                                                        {
+                                                                            <tr>
+                                                                                @if (item.paracode == "Single") //单项选择题
+                                                                                {
+                                                                                    <td><input name="Single_@per.qid" id="Single_@answer.qaid" type="radio" value="@answer.iscorrect" onchange="setStatus(@per.qid,this.value)"/><label for="Single_@answer.qaid">@answer.qatext</label></td>
+                                                                                }
+                                                                                else if (item.paracode == "Multiple") /*多项选择题*/
+                                                                                {
+                                                                                    <td><input name="Multiple_@per.qid" id="Multiple_@answer.qaid" type="checkbox" value="@answer.iscorrect" onchange="setStatus(@per.qid,this,'checkbox')"/><label for="Multiple_@answer.qaid">@answer.qatext</label></td>
+                                                                                }
+                                                                                else if (item.paracode == "FillBlank") /*填空题*/
+                                                                                {
+                                                                                    <td><textarea rows="4" cols="60" name="FillBlank_@per.qid" id="FillBlank_@answer.qaid" type="text" onkeyup="setStatus(@per.qid,this,'textbox')"></textarea><label for="FillBlank_@answer.qaid"></label></td>
+                                                                                }
+                                                                                else if (item.paracode == "Bool") /*判断题*/
+                                                                                {
+                                                                                    <td><input name="Bool_@per.qid" id="Bool_@answer.qaid" type="radio" value="@answer.iscorrect"  onchange="setStatus(@per.qid,this,'radio')"/><label for="Bool_@answer.qaid">@answer.qatext</label></td>
+                                                                                }
+                                                                                else if (item.paracode == "Match") /*配对题*/
+                                                                                {
+                                                                                    <td>
+                                                                                        @*下拉框加载*@
+                                                                                        <select name="Match_@per.qid" id="Match_@answer.qaid">
+                                                                                            <option value="" selected=selected></option>
+                                                                                            @foreach (var answerlist in ViewBag.AnswerList as List<Trn_question_answer>)
+                                                                                            {
+                                                                                                if (answer.qid == answerlist.qid)
+                                                                                                {
+                                                                                                    <option value="@answerlist.qaid" onchange="setStatus(@per.qid,this,'selected')">@answerlist.matchseq</option>
+                                                                                                }
+                                                                                            }
+                                                                                        </select>
+                                                                                    </td>
+                                                                                    <td><label for="q_@answer.qid">@answer.qatext</label></td>
+                                                                                }
+                                                                                else if (item.paracode == "Sort") /*排序题*/
+                                                                                {
+                                                                                    <td>
+                                                                                        @*下拉框加载*@
+                                                                                        <select name="Sort_@per.qid" id="Sort_@answer.qaid">
+                                                                                            <option value="" selected=selected></option>
+                                                                                            @foreach (var answerlist in ViewBag.AnswerList as List<Trn_question_answer>)
+                                                                                            {
+                                                                                                if (answer.qid == answerlist.qid)
+                                                                                                {
+                                                                                                    <option value="@answerlist.qaid" onchange="setStatus(@per.qid,this,'selected')">@answerlist.matchseq</option>
+                                                                                                }
+                                                                                            }
+                                                                                        </select>
+                                                                                    </td>
+                                                                                    <td><label for="q_@answer.qid">@answer.qatext</label></td>
+                                                                                }
+                                                                            </tr>
+                                                                        }
+                                                                    }
+                                                                }
+
+                                                            </tbody>
+                                                        </table>
+                                                        <div style="height:15px;"></div>
+                                                    </td>
+                                                </tr>
+                                            }
+                                            else
+                                            {
+                                                j = 0;
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                                <div>
+                                    <br />
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div><span id="lblafter">@Paper.Epilogue</span></div>
+        <div id="btns" style="margin-top:20px;">
+            <button type="button" id="btnSave" style="display:none">
+                <span class="glyphicon glyphicon-save"></span>
+                <span lang="zh">save</span>
+            </button>
+            <button type="button" id="btnTheirPapers" style="display:none">
+                <span class="glyphicon glyphicon-save"></span>
+                <span lang="zh">交卷</span>
+            </button>
+            <button type="button" id="btnReturn">
+                <span class="glyphicon glyphicon-refresh"></span>
+                <span lang="zh">return</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<script language="javascript" type="text/javascript">
+    setCookie("controller", "TraingResource"); //控制器
+    setCookie("action", "TrnExamList"); //视图
+
+    var CompanyCode = getCookieVal("Companycode");//集团编码
+    var lang = getCookieVal("lang");//语言
+
+    var realstarttime = 0;
+    var total = '@Paper.timelimit';//考试限时
+    var pid = '@ViewBag.pid';//trn_paper.pid 考卷id
+    var exid = '@ViewBag.exid';//trn_exam.exid 考试主表
+    var exmid = '@ViewBag.exmid';//trn_exam_member.exmid 考试学员id
+    var empid = '@ViewBag.empid';//trn_exam_member.empid 员工id
+
+    $(function () {
+        LoadExamMember();
+        LoadExam();
+    });
+
+    function setStatus(id, obj, type) {
+        switch (type) {
+            case "radio":
+                debugger;
+                if ($(obj.name + "input[type=radio]:checked").length > 0) {
+                    setdone(id);//蓝色
+                }
+                else {
+                    setblank(id);//红色
+                }
+                break;
+            case "checkbox":
+                if ($(obj).find("input[type=checkbox]:checked").length > 0) {
+                    setdone(id);
+                }
+                else {
+                    setblank(id);
+                }
+                break;
+            case "textbox":
+                var txtnum = $(obj).find("input[type=text],textarea").length;
+                var donenum = 0;
+                $(obj).find("input[type=text],textarea").each(function (i, o) {
+                    if ($(this).val() != "") {
+                        donenum++
+                    }
+                })
+                if (donenum==txtnum) {
+                    setdone(id);
+                }
+                else if (donenum < txtnum) {
+                    sethalf(id);
+                }
+                if(donenum==0) {
+                    setblank(id);
+                }
+                break;
+            case "select":
+                var txtnum = $(obj).find("select").length;
+                var donenum = 0;
+                $(obj).find("select").each(function (i, o) {
+                    if ($(this).val() != "") {
+                        donenum++
+                    }
+                })
+                if (donenum == txtnum) {
+                    setdone(id);
+                }
+                else if (donenum < txtnum) {
+                    sethalf(id);
+                }
+                if (donenum == 0) {
+                    setblank(id);
+                }
+                break;
+        }
+    }
+
+    function setdone(id) {
+        $("#idx_" + id).removeClass("half");
+        $("#idx_" + id).removeClass("blank");
+        $("#idx_" + id).addClass("done");
+    }
+    function setblank(id) {
+        $("#idx_" + id).removeClass("half");
+        $("#idx_" + id).removeClass("done");
+        $("#idx_" + id).addClass("blank");
+    }
+    function sethalf(id) {
+        $("#idx_" + id).removeClass("done");
+        $("#idx_" + id).removeClass("blank")
+        $("#idx_" + id).addClass("half");
+    }
+
+    function LoadExamMember() {
+        var url = Api + 'Trn_Student/LoadExamMember'
+        $.ajax({
+            url: url,
+            data: {
+                companycode: CompanyCode,
+                exmid: exmid,
+                empid: empid,
+                Language: lang
+            },
+            type: "GET",
+            cache: false,
+            dataType: "Json",
+            success: function (data) {
+                if (data.Data != null) {
+                    if (data.Data.starttime != null) {
+                        realstarttime = data.Data.starttime;
+                    }
+                    //状态0或者是1 提问是否开始答题后才开始计时按钮显示
+                    if (data.Data.mstatus == 0 || data.Data.mstatus == 1) {
+                        layer.confirm(__tr("是否开始答题?"), { icon: 3, btn: [__tr("确定"), __tr("取消")], title: __tr("提示") },
+                            function (index) {
+                                calculateTime(total * 60, 0);
+                                $("#btnSave").show();
+                                $("#btnTheirPapers").show();
+                                layer.close(layer.index);
+                            },
+                            function (index) {
+                                window.location.href = document.referrer;//返回上一页并刷新
+                            }
+                        );
+                    }
+                }
+            }
+        });
+    }
+
+    function LoadExam() {
+        var url = Api + 'Trn_Student/LoadTypeList'
+        $.ajax({
+            url: url,
+            data: {
+                companycode: CompanyCode,
+                pid: pid,
+                exmid: exmid,
+                empid: empid,
+                Language: lang
+            },
+            type: "GET",
+            cache: false,
+            dataType: "Json",
+            success: function (data) {
+                var result = "";
+                var PaperScore = data.Data.PaperScoreList;
+                var ExamAnswerList = data.Data.ExamAnswerList;
+                for (var j = 0; j < ExamAnswerList.length; j++) {
+                    var e_qid = ExamAnswerList[j].Qid;
+                    var e_aid = ExamAnswerList[j].Aid;
+                    var e_atext = ExamAnswerList[j].Atext;
+                    for (var i = 0; i < PaperScore.length; i++) {
+                        //获取题目类型
+                        var objId = "table_" + PaperScore[i].paracode;
+                        //简答题
+                        if (PaperScore[i].paracode == "Brief") {
+                            var obj = $("#" + objId + " textarea");
+                            for (var x = 0; x < obj.length; x++) {
+                                var id = obj[x].id;
+                                var name = obj[x].name.replace("Brief_", "")
+                                if (e_qid == obj[x].name.replace("Brief_", "")) {
+                                    $("#" + obj[x].id + "").val(e_atext);
+                                    setdone(e_qid);//蓝色
+                                    break;
+                                }
+                            }
+                        }
+                        //判断题
+                        if (PaperScore[i].paracode == "Bool") {
+                            var obj = $("#" + objId + " input");
+                            for (var x = 0; x < obj.length; x++) {
+                                var id = obj[x].id;
+                                if (e_qid == obj[x].name.replace("Bool_", "")
+                                    && e_aid == obj[x].id.replace("Bool_", "")) {
+                                    $("#" + obj[x].id + "").attr("checked", true);
+                                    setdone(e_qid);//蓝色
+                                    break;
+                                }
+
+                            }
+                            //单项选择题
+                        } else if (PaperScore[i].paracode == "Single") {
+                            var obj = $("#" + objId + " input");
+                            for (var x = 0; x < obj.length; x++) {
+                                var id = obj[x].id;
+                                if (e_qid == obj[x].name.replace("Single_", "")
+                                    && e_aid == obj[x].id.replace("Single_", "")) {
+                                    $("#" + obj[x].id + "").attr("checked", true);
+                                    setdone(e_qid);//蓝色
+                                    break;
+                                }
+                            }
+                            //多项选择题
+                        } else if (PaperScore[i].paracode == "Multiple") {
+                            var obj = $("#" + objId + " input");
+                            for (var x = 0; x < obj.length; x++) {
+                                var id = obj[x].id;
+                                if (e_qid == obj[x].name.replace("Multiple_", "")
+                                    && e_aid == obj[x].id.replace("Multiple_", "")) {
+                                    $("#" + obj[x].id + "").attr("checked", true);
+                                    setdone(e_qid);//蓝色
+                                    break;
+                                }
+                            }
+                            //填空题
+                        } else if (PaperScore[i].paracode == "FillBlank") {
+                            var obj = $("#" + objId + " textarea");
+                            for (var x = 0; x < obj.length; x++) {
+                                var id = obj[x].id;
+                                if (e_qid == obj[x].name.replace("FillBlank_", "")
+                                    && e_aid == obj[x].id.replace("FillBlank_", "")) {
+                                    $("#" + obj[x].id + "").val(e_atext);
+                                    setdone(e_qid);//蓝色
+                                    break;
+                                }
+                            }
+                            //配对题
+                        } else if (PaperScore[i].paracode == "Match") {
+                            var obj = $("#" + objId + " select");
+                            for (var x = 0; x < obj.length; x++) {
+                                var id = obj[x].id;
+                                if (e_qid == obj[x].name.replace("Match_", "")
+                                    && e_aid == obj[x].id.replace("Match_", "")) {
+                                    $("#" + obj[x].id + "").val(e_atext);
+                                    setdone(e_qid);//蓝色
+                                    break;
+                                }
+                            }
+                            //排序题
+                        } else if (PaperScore[i].paracode == "Sort") {
+                            var obj = $("#" + objId + " select");
+                            for (var x = 0; x < obj.length; x++) {
+                                var id = obj[x].id;
+                                if (e_qid == obj[x].name.replace("Sort_", "")
+                                    && e_aid == obj[x].id.replace("Sort_", "")) {
+                                    $("#" + obj[x].id + "").val(e_atext);
+                                    setdone(e_qid);//蓝色
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+        });
+    }
+
+    //保存
+    function SaveAnswer(submit) {
+        var url = Api + 'Trn_Student/LoadTypeList'
+        $.ajax({
+            url: url,
+            data: {
+                companycode: CompanyCode,
+                pid: pid,
+                exmid: exmid,
+                empid: empid,
+                Language: lang
+            },
+            type: "GET",
+            cache: false,
+            dataType: "Json",
+            success: function (data) {
+                var result = "";
+                var PaperScore = data.Data.PaperScoreList;
+                for (var i = 0; i < PaperScore.length; i++) {
+                    //获取题目类型
+                    var objId = "table_" + PaperScore[i].paracode;
+                    //简答题
+                    if (PaperScore[i].paracode == "Brief") {
+                        var obj = $("#" + objId + " textarea");
+                        for (var x = 0; x < obj.length; x++) {
+                            result += "Brief_" + obj[x].name.replace("Brief_", "") + "_" + obj[x].value + "exam";
+                        }
+                    }
+                    //判断题
+                    if (PaperScore[i].paracode == "Bool") {
+                        var obj = $("#" + objId + " input");
+                        for (var x = 0; x < obj.length; x++) {
+                            var id = obj[x].id;
+                            if ($("#" + obj[x].id + "").is(':checked')) {
+                                result += "Bool_" + obj[x].name.replace("Bool_", "") + "_" + obj[x].id.replace("Bool_", "") + "_" + obj[x].value + "exam";
+                            }
+                        }
+                        //单项选择题
+                    } else if (PaperScore[i].paracode == "Single") {
+                        var obj = $("#" + objId + " input");
+                        for (var x = 0; x < obj.length; x++) {
+                            var id = obj[x].id;
+                            if ($("#" + obj[x].id + "").is(':checked')) {
+                                result += "Single_" + obj[x].name.replace("Single_", "") + "_" + obj[x].id.replace("Single_", "") + "_" + obj[x].value + "exam";
+                            }
+                        }
+                        //多项选择题
+                    } else if (PaperScore[i].paracode == "Multiple") {
+                        var obj = $("#" + objId + " input");
+                        for (var x = 0; x < obj.length; x++) {
+                            var id = obj[x].id;
+                            if ($("#" + obj[x].id + "").is(':checked')) {
+                                result += "Multiple_" + obj[x].name.replace("Multiple_", "") + "_" + obj[x].id.replace("Multiple_", "") + "_" + obj[x].value + "exam";
+                            }
+                        }
+                        //填空题
+                    } else if (PaperScore[i].paracode == "FillBlank") {
+                        var obj = $("#" + objId + " textarea");
+                        for (var x = 0; x < obj.length; x++) {
+                            result += "FillBlank_" + obj[x].name.replace("FillBlank_", "") + "_" + obj[x].id.replace("FillBlank_", "") + "_" + obj[x].value + "exam";
+                        }
+                        //配对题
+                    } else if (PaperScore[i].paracode == "Match") {
+                        var obj = $("#" + objId + " select");
+                        for (var x = 0; x < obj.length; x++) {
+                            result += "Match_" + obj[x].name.replace("Match_", "") + "_" + obj[x].id.replace("Match_", "") + "_" + obj[x].value + "exam";
+                        }
+                        //排序题
+                    } else if (PaperScore[i].paracode == "Sort") {
+                        var obj = $("#" + objId + " select");
+                        for (var x = 0; x < obj.length; x++) {
+                            result += "Sort_" + obj[x].name.replace("Sort_", "") + "_" + obj[x].id.replace("Sort_", "") + "_" + obj[x].value + "exam";
+                        }
+                    }
+                }
+
+                var url1 = Api + 'Trn_Student/SaveExam'
+                $.ajax({
+                    url: url1,
+                    data: {
+                        CompanyCode: CompanyCode,
+                        Pid: pid,
+                        Exmid: exmid,
+                        Empid: empid,
+                        AnswerText: result,
+                        Submit: submit,
+                    },
+                    type: "POST",
+                    cache: false,
+                    dataType: "Json",
+                    success: function (data) {
+                        top.layer.msg(__tr("BCCG"), function () {
+                            window.location.href = document.referrer;//返回上一页并刷新
+                        });
+                    }
+                });
+            }
+        });
+    }
+
+    //保存
+    $("#btnSave").click(function () {
+        SaveAnswer(false);
+    });
+    //交卷
+    $("#btnTheirPapers").click(function () {
+        SaveAnswer(true);
+    });
+
+</script>

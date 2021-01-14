@@ -3,6 +3,8 @@ package com.example.demo.service.impl;
 import com.example.demo.entity.City;
 import com.example.demo.mapper.CityMapper;
 import com.example.demo.service.CityService;
+import com.example.demo.util.BaseResultModel;
+import com.example.demo.util.BizException;
 import com.example.demo.util.SpringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -156,4 +158,32 @@ public class CityServiceImpl implements CityService {
     public void insert(City c) {
         cityMapper.insertCity(c);
     }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public BaseResultModel<String> testError() {
+        BaseResultModel<String> t = new BaseResultModel<>();
+        //t = testErrorDetails();
+        //return t;
+        try {
+            t = testErrorDetails();
+        } catch (Exception e) {
+            //e.printStackTrace();
+            //System.out.println("=============");
+            throw new BizException(1000, "下单异常：" + e.getMessage());
+        }
+        return t;
+    }
+
+    private BaseResultModel<String> testErrorDetails() {
+        BaseResultModel resultModel = new BaseResultModel();
+        //System.out.println(5 / 0);
+        resultModel.setData("test");
+        cityMapper.insertCity(new City());
+        if (1 == 1) {
+            throw new BizException(1, "xxx错误");
+        }
+        return resultModel;
+    }
+
 }

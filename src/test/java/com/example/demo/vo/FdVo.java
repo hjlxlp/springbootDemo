@@ -2,6 +2,7 @@ package com.example.demo.vo;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
@@ -9,7 +10,7 @@ import java.math.BigDecimal;
  * @date 2020/4/26 13:59
  **/
 @Data
-public class FdVo {
+public class FdVo implements Serializable {
 
     private double size;
 
