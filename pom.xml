@@ -28,16 +28,16 @@
     <dependencies>
 
         <!--消息队列相关依赖-->
-        <dependency>
+        <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
-        </dependency>
+        </dependency>-->
 
         <!-- mongodb 依赖 -->
-        <dependency>
+        <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
-        </dependency>
+        </dependency>-->
 
         <!-- Hutool Java工具包 依赖 -->
         <dependency>
@@ -54,10 +54,10 @@
         </dependency>
 
         <!-- elasticsearch 依赖 -->
-        <dependency>
+        <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
-        </dependency>
+        </dependency>-->
 
         <!-- mybatis-plus 依赖 -->
         <dependency>
@@ -190,14 +190,14 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.12</version>
+            <version>8.0.16</version>
         </dependency>
 
         <!-- Junit -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>4.13.1</version>
         </dependency>
 
         <!-- lombok 依赖 -->
