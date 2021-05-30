@@ -1,8 +1,7 @@
-package com.example.demo.other;
+package com.example.demo.test;
 
 import com.example.demo.controller.HelloController;
 import com.example.demo.property.HomeProperties;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

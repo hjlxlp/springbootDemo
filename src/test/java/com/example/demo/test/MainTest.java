@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.test;
 
 import com.alibaba.fastjson.JSON;
 import com.example.demo.util.BeanMapperUtil;

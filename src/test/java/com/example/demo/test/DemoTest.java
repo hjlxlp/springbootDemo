@@ -1,4 +1,4 @@
-package com.example.demo.other;
+package com.example.demo.test;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;

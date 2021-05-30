@@ -1,8 +1,7 @@
-package com.example.demo.other;
+package com.example.demo.test;
 
 
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
 
 /**
  * @author hjl

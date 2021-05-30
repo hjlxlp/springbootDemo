@@ -208,7 +208,7 @@ function detect(ua) {
         // <http://caniuse.com/#search=pointer%20event>.
         pointerEventsSupported: 'onpointerdown' in window
             // Firefox supports pointer but not by default, only MS browsers are reliable on pointer
-            // events currently. So we dont use that on other browsers unless tested sufficiently.
+            // events currently. So we dont use that on test browsers unless tested sufficiently.
             // Although IE 10 supports pointer event, it use old style and is different from the
             // standard. So we exclude that. (IE 10 is hardly used on touch device)
             && (browser.edge || (browser.ie && browser.version >= 11)),
@@ -1664,7 +1664,7 @@ function clientToLocal(el, e, out, calculate) {
         out.zrX = e.offsetX;
         out.zrY = e.offsetY;
     }
-    // For some other device, e.g., IOS safari.
+    // For some test device, e.g., IOS safari.
     else {
         defaultGetZrXY(el, e, out);
     }
@@ -1741,7 +1741,7 @@ function addEventListener(el, name, handler) {
         // (1) Whether and how a zrender user specifies an event listener passive. And by default,
         // passive or not.
         // (2) How to tread that some zrender event listener is passive, and some is not. If
-        // we use other way but not preventDefault of mousewheel and touchmove, browser
+        // we use test way but not preventDefault of mousewheel and touchmove, browser
         // compatibility should be handled.
 
         // var opts = (env.passiveSupported && name === 'mousewheel')
@@ -7027,7 +7027,7 @@ Style.prototype = {
     },
 
     /**
-     * Extend from other style
+     * Extend from test style
      * @param {zrender/graphic/Style} otherStyle
      * @param {boolean} overwrite true: overwrirte any way.
      *                            false: overwrite only when !target.hasOwnProperty
@@ -7138,7 +7138,7 @@ function createDom(id, painter, dpr) {
     var height = painter.getHeight();
 
     var newDomStyle = newDom.style;
-    if (newDomStyle) {  // In node or some other non-browser environment
+    if (newDomStyle) {  // In node or some test non-browser environment
         newDomStyle.position = 'absolute';
         newDomStyle.left = 0;
         newDomStyle.top = 0;
@@ -7882,7 +7882,7 @@ function parsePlainText(text, font, padding, textLineHeight, truncate) {
 }
 
 /**
- * For example: 'some text {a|some text}other text{b|some text}xxx{c|}xxx'
+ * For example: 'some text {a|some text}test text{b|some text}xxx{c|}xxx'
  * Also consider 'bbbb{a|xxx\nzzz}xxxx\naaaa'.
  *
  * @public
@@ -8296,12 +8296,12 @@ function renderPlainText(hostEl, ctx, text, style, rect, prevEl) {
         }
 
         // Prevent from using cache in `Style::bind`, because of the case:
-        // ctx property is modified by other properties than `Style::bind`
+        // ctx property is modified by test properties than `Style::bind`
         // used, and Style::bind is called next.
         ctx.__attrCachedBy = needDrawBg ? ContextCachedBy.NONE : ContextCachedBy.PLAIN_TEXT;
     }
     // Since this will be restored, prevent from using these props to check cache in the next
-    // entering of this method. But do not need to clear other cache like `Style::bind`.
+    // entering of this method. But do not need to clear test cache like `Style::bind`.
     else if (cachedByMe) {
         ctx.__attrCachedBy = ContextCachedBy.NONE;
     }
@@ -8436,7 +8436,7 @@ function renderPlainText(hostEl, ctx, text, style, rect, prevEl) {
 
 function renderRichText(hostEl, ctx, text, style, rect, prevEl) {
     // Do not do cache for rich text because of the complexity.
-    // But `RectText` this will be restored, do not need to clear other cache like `Style::bind`.
+    // But `RectText` this will be restored, do not need to clear test cache like `Style::bind`.
     if (prevEl !== WILL_BE_RESTORED) {
         ctx.__attrCachedBy = ContextCachedBy.NONE;
     }
@@ -8512,7 +8512,7 @@ function drawRichText(hostEl, ctx, contentBlock, style, rect) {
             rightIndex--;
         }
 
-        // The other tokens are placed as textAlign 'center' if there is enough space.
+        // The test tokens are placed as textAlign 'center' if there is enough space.
         lineXLeft += (contentWidth - (lineXLeft - xLeft) - (xRight - lineXRight) - usedWidth) / 2;
         while (leftIndex <= rightIndex) {
             token = tokens[leftIndex];
@@ -9875,7 +9875,7 @@ Painter.prototype = {
         }
     },
 
-    // Iterate each other layer except buildin layer
+    // Iterate each test layer except buildin layer
     eachOtherLayer: function (cb, context) {
         var zlevelList = this._zlevelList;
         var layer;
@@ -11789,7 +11789,7 @@ function parseFinder(ecModel, finder, opt) {
     each$2(finder, function (value, key) {
         var value = finder[key];
 
-        // Exclude 'dataIndex' and other illgal keys.
+        // Exclude 'dataIndex' and test illgal keys.
         if (key === 'dataIndex' || key === 'dataIndexInside') {
             result[key] = value;
             return;
@@ -13254,7 +13254,7 @@ PathProxy.prototype = {
 
     /**
      * 必须在其它绘制命令前调用
-     * Must be invoked before all other path drawing methods
+     * Must be invoked before all test path drawing methods
      * @return {module:zrender/core/PathProxy}
      */
     setLineDash: function (lineDash) {
@@ -13274,7 +13274,7 @@ PathProxy.prototype = {
 
     /**
      * 必须在其它绘制命令前调用
-     * Must be invoked before all other path drawing methods
+     * Must be invoked before all test path drawing methods
      * @return {module:zrender/core/PathProxy}
      */
     setLineDashOffset: function (offset) {
@@ -14937,7 +14937,7 @@ function createPathProxyFromString(data) {
         // var p = cmdContent.split(valueSplitReg);
         // var pLen = 0;
         // for (var i = 0; i < p.length; i++) {
-        //     // '' and other invalid str => NaN
+        //     // '' and test invalid str => NaN
         //     var val = parseFloat(p[i]);
         //     !isNaN(val) && (p[pLen++] = val);
         // }
@@ -16998,7 +16998,7 @@ function setAsHoverStyleTrigger(el, opt) {
  * @param {Object} emphasisStyle
  * @param {module:echarts/model/Model} normalModel
  * @param {module:echarts/model/Model} emphasisModel
- * @param {Object} opt Check `opt` of `setTextStyleCommon` to find other props.
+ * @param {Object} opt Check `opt` of `setTextStyleCommon` to find test props.
  * @param {string|Function} [opt.defaultText]
  * @param {module:echarts/model/Model} [opt.labelFetcher] Fetch text by
  *      `opt.labelFetcher.getFormattedLabel(opt.labelDataIndex, 'normal'/'emphasis', null, opt.labelDimIndex)`
@@ -18514,7 +18514,7 @@ var TIME_REG = /^(?:(\d{4})(?:[-\/](\d{1,2})(?:[-\/](\d{1,2})(?:[T ](\d{1,2})(?:
  *     + time zone: '2012-03-01T12:22:33Z', '2012-03-01T12:22:33+8000', '2012-03-01T12:22:33-05:00',
  *     all of which will be treated as local time if time zone is not specified
  *     (see <https://momentjs.com/>).
- *   + Or other string format, including (all of which will be treated as loacal time):
+ *   + Or test string format, including (all of which will be treated as loacal time):
  *     '2012', '2012-3-1', '2012/3/1', '2012/03/01',
  *     '2009/6/12 2:00', '2009/6/12 2:05:08', '2009/6/12 2:05:08.123'
  *   + a timestamp, which represent a time in UTC.
@@ -18526,7 +18526,7 @@ function parseDate(value) {
     }
     else if (typeof value === 'string') {
         // Different browsers parse date in different way, so we parse it manually.
-        // Some other issues:
+        // Some test issues:
         // new Date('1970-01-01') is UTC,
         // new Date('1970/01/01') and new Date('1970-1-01') is local.
         // See issue #3623
@@ -18666,7 +18666,7 @@ function nice(val, round) {
  *
  * * Redistributions in binary form must reproduce the above copyright notice,
  *   this list of conditions and the following disclaimer in the documentation
- *   and/or other materials provided with the distribution.
+ *   and/or test materials provided with the distribution.
  *
  * * The name Michael Bostock may not be used to endorse or promote products
  *   derived from this software without specific prior written permission.
@@ -20411,7 +20411,7 @@ function resetSourceDefaulter(ecModel) {
  *
  * [The rule of making default encode]:
  * Category axis (if exists) alway map to the first dimension.
- * Each other axis occupies a subsequent dimension.
+ * Each test axis occupies a subsequent dimension.
  *
  * [Why make default encode]:
  * Simplify the typing of encode in option, avoiding the case like that:
@@ -20655,7 +20655,7 @@ function makeDefaultEncode(
     ]);
 
     // Usually in this case series will use the first data
-    // dimension as the "value" dimension, or other default
+    // dimension as the "value" dimension, or test default
     // processes respectively.
     if (coordSysDefine && cSeriesMap.get(seriesType) != null) {
         var ecModel = seriesModel.ecModel;
@@ -20676,7 +20676,7 @@ function makeDefaultEncode(
                 // especially when encode x y specified.
                 // consider: when mutiple series share one dimension
                 // category axis, series name should better use
-                // the other dimsion name. On the other hand, use
+                // the test dimsion name. On the test hand, use
                 // both dimensions name.
 
                 encodeSeriesName.push(dataDim);
@@ -20739,7 +20739,7 @@ function getDatasetModel(seriesModel) {
     var option = seriesModel.option;
     // Caution: consider the scenario:
     // A dataset is declared and a series is not expected to use the dataset,
-    // and at the beginning `setOption({series: { noData })` (just prepare other
+    // and at the beginning `setOption({series: { noData })` (just prepare test
     // option but no data), then `setOption({series: {data: [...]}); In this case,
     // the user should set an empty array to avoid that dataset is used by default.
     var thisData = option.data;
@@ -21925,7 +21925,7 @@ OptionManager.prototype = {
             // this._optionBackup.baseOption, which is created at the first `setOption`
             // called, and is merged into every new option by inner method `mergeOption`
             // each time `setOption` called, can be only used in `isRecreate`, because
-            // its reliability is under suspicion. In other cases option merge is
+            // its reliability is under suspicion. In test cases option merge is
             // performed by `model.mergeOption`.
             ? optionBackup.baseOption : this._newBaseOption
         );
@@ -22131,7 +22131,7 @@ function indicesEquals(indices1, indices2) {
  * `chart.setOption(merge(opt1, opt2));` exactly,
  * this might be the only simple way to implement that feature.
  *
- * MEMO: We've considered some other approaches:
+ * MEMO: We've considered some test approaches:
  * 1. Each model handle its self restoration but not uniform treatment.
  *     (Too complex in logic and error-prone)
  * 2. Use a shadow ecModel. (Performace expensive)
@@ -22229,7 +22229,7 @@ function convertNormalEmphasis(opt, optType, useExtend) {
         var emphasisOpt = opt[optType].emphasis;
 
         if (normalOpt) {
-            // Timeline controlStyle has other properties besides normal and emphasis
+            // Timeline controlStyle has test properties besides normal and emphasis
             if (useExtend) {
                 opt[optType].normal = opt[optType].emphasis = null;
                 defaults(opt[optType], normalOpt);
@@ -25441,7 +25441,7 @@ function createSeriesStageTask(scheduler, stageHandler, stageHandlerRecord, ecMo
 
     // If a stageHandler should cover all series, `createOnAllSeries` should be declared mandatorily,
     // to avoid some typo or abuse. Otherwise if an extension do not specify a `seriesType`,
-    // it works but it may cause other irrelevant charts blocked.
+    // it works but it may cause test irrelevant charts blocked.
     if (stageHandler.createOnAllSeries) {
         ecModel.eachRawSeries(create);
     }
@@ -28292,7 +28292,7 @@ echartsProto._initEvents = function () {
         // register zr event handler, but user event handler might
         // do anything, such as call `setOption` or `dispatchAction`,
         // which probably update any of the content and probably
-        // cause problem if it is called previous other inner handlers.
+        // cause problem if it is called previous test inner handlers.
         handler.zrEventfulCallAtLast = true;
         this._zr.on(eveName, handler, this);
     }, this);
@@ -28381,7 +28381,7 @@ function updateBlend(seriesModel, chartView) {
         }
     }
     chartView.group.traverse(function (el) {
-        // FIXME marker and other components
+        // FIXME marker and test components
         if (!el.isGroup) {
             // Only set if blendMode is changed. In case element is incremental and don't wan't to rerender.
             if (el.style.blend !== blendMode) {
@@ -28444,7 +28444,7 @@ function createExtensionAPI(ecInstance) {
  *   `{xAxisIndex: 2}`, `{xAxisName: 'xx'}`, `{xAxisId: 'some'}`.
  * + The data query object, like:
  *   `{dataIndex: 123}`, `{dataType: 'link'}`, `{name: 'some'}`.
- * + The other query object (cmponent customized query), like:
+ * + The test query object (cmponent customized query), like:
  *   `{element: 'some'}` (only available in custom series).
  *
  * Caveat: If a prop in the `query` object is `null/undefined`, it is the
@@ -29466,7 +29466,7 @@ var List = function (dimensions, hostModel) {
     var invertedIndicesMap = {};
 
     for (var i = 0; i < dimensions.length; i++) {
-        // Use the original dimensions[i], where other flag props may exists.
+        // Use the original dimensions[i], where test flag props may exists.
         var dimensionInfo = dimensions[i];
 
         if (isString(dimensionInfo)) {
@@ -29948,7 +29948,7 @@ listProto._initDataFromProvider = function (start, end) {
                 // If dataItem is {name: ...}, it has highest priority.
                 // That is appropriate for many common cases.
                 if (dataItem.name != null) {
-                    // There is no other place to persistent dataItem.name,
+                    // There is no test place to persistent dataItem.name,
                     // so save it to nameList.
                     nameList[idx] = name = dataItem.name;
                 }
@@ -30381,7 +30381,7 @@ listProto.getMedian = function (dim /*, stack */) {
 
 /**
  * Only support the dimension which inverted index created.
- * Do not support other cases until required.
+ * Do not support test cases until required.
  * @param {string} concrete dim
  * @param {number|string} value
  * @return {number} rawIndex
@@ -30773,7 +30773,7 @@ listProto.selectRange = function (range) {
                     // NaN will not be filtered. Consider the case, in line chart, empty
                     // value indicates the line should be broken. But for the case like
                     // scatter plot, a data item with empty value will not be rendered,
-                    // but the axis extent may be effected if some other dim of the data
+                    // but the axis extent may be effected if some test dim of the data
                     // item has value. Fortunately it is not a significant negative effect.
                     if (
                         (val >= min && val <= max) || isNaN(val)
@@ -30910,7 +30910,7 @@ function cloneListForMapAndSample(original, excludeDimensions) {
                 list._extent[dim] = null;
             }
             else {
-                // Direct reference for other dimensions
+                // Direct reference for test dimensions
                 storage[dim] = originalStorage[dim];
             }
         }
@@ -31408,7 +31408,7 @@ listProto.CHANGABLE_METHODS = ['filterSelf', 'selectRange'];
  *      },
  *      isExtraCoord: boolean true if coord is generated
  *          (not specified in encode and not series specified)
- *      other props ...
+ *      test props ...
  * }]
  */
 function completeDimensions(sysDims, source, opt) {
@@ -31545,7 +31545,7 @@ function completeDimensions(sysDims, source, opt) {
     generateCoordCount = generateCoord ? (generateCoordCount || 1) : 0;
     var extra = generateCoord || 'value';
 
-    // Set dim `name` and other `coordDim` and other props.
+    // Set dim `name` and test `coordDim` and test props.
     for (var resultDimIdx = 0; resultDimIdx < dimCount; resultDimIdx++) {
         var resultItem = result[resultDimIdx] = result[resultDimIdx] || {};
         var coordDim = resultItem.coordDim;
@@ -31579,10 +31579,10 @@ function completeDimensions(sysDims, source, opt) {
 // optimize it to only by sysDims and dimensions and encode.
 // So only necessary dims will be initialized.
 // But
-// (1) custom series should be considered. where other dims
+// (1) custom series should be considered. where test dims
 // may be visited.
 // (2) sometimes user need to calcualte bubble size or use visualMap
-// on other dimensions besides coordSys needed.
+// on test dimensions besides coordSys needed.
 // So, dims that is not used by system, should be shared in storage?
 function getDimCount(source, sysDims, dimsDef, optDimCount) {
     // Note that the result dimCount should not small than columns count
@@ -31739,7 +31739,7 @@ function enableDataStack(seriesModel, dimensionInfoList, opt) {
     // That put stack logic in List is for using conveniently in echarts extensions, but it
     // might not be a good way.
     if (stackedDimInfo) {
-        // Use a weird name that not duplicated with other names.
+        // Use a weird name that not duplicated with test names.
         stackResultDimension = '__\0ecstackresult';
         stackedOverDimension = '__\0ecstackedover';
 
@@ -33686,7 +33686,7 @@ function getScaleExtent(scale, model) {
     // (2) Refactor the logic with `barGrid`. Is it not need to `makeBarWidthAndOffsetInfo` twice with different extent?
     //     Should not depend on series type `bar`?
     // (3) Fix that might overlap when using dataZoom.
-    // (4) Consider other chart types using `barGrid`?
+    // (4) Consider test chart types using `barGrid`?
     // See #6728, #4862, `test/bar-overflow-time-plot.html`
     var ecModel = model.ecModel;
     if (ecModel && (scaleType === 'time' /*|| scaleType === 'interval' */)) {
@@ -35462,7 +35462,7 @@ Axis.prototype = {
 
     /**
      * Only be called in category axis.
-     * Can be overrided, consider other axes like in 3D.
+     * Can be overrided, consider test axes like in 3D.
      * @return {number} Auto interval for cateogry axis tick and label
      */
     calculateCategoryInterval: function () {
@@ -37390,7 +37390,7 @@ function getIsIgnoreFunc(seriesModel, data, coordSys) {
 
 function canShowAllSymbolForCategory(categoryAxis, data) {
     // In mose cases, line is monotonous on category axis, and the label size
-    // is close with each other. So we check the symbol size and some of the
+    // is close with each test. So we check the symbol size and some of the
     // label size alone with the category axis to estimate whether all symbol
     // can be shown without overlap.
     var axisExtent = categoryAxis.getExtent();
@@ -38362,7 +38362,7 @@ Cartesian2D.prototype = {
     },
 
     /**
-     * Get other axis
+     * Get test axis
      * @param {module:echarts/coord/cartesian/Axis2D} axis
      */
     getOtherAxis: function (axis) {
@@ -38436,7 +38436,7 @@ Axis2D.prototype = {
     /**
      * Implemented in <module:echarts/coord/cartesian/Grid>.
      * @return {Array.<module:echarts/coord/cartesian/Axis2D>}
-     *         If not on zero of other axis, return null/undefined.
+     *         If not on zero of test axis, return null/undefined.
      *         If no axes, return an empty array.
      */
     getAxesOnZeroOf: null,
@@ -39039,7 +39039,7 @@ function fixAxisOnZero(axesMap, otherAxisDim, axis, onZeroRecords) {
     };
 
     // onZero can not be enabled in these two situations:
-    // 1. When any other axis is a category axis.
+    // 1. When any test axis is a category axis.
     // 2. When no axis is cross 0 point.
     var otherAxes = axesMap[otherAxisDim];
 
@@ -39059,7 +39059,7 @@ function fixAxisOnZero(axesMap, otherAxisDim, axis, onZeroRecords) {
         }
     }
     else {
-        // Find the first available other axis.
+        // Find the first available test axis.
         for (var idx in otherAxes) {
             if (otherAxes.hasOwnProperty(idx)
                 && canOnZeroToAxis(otherAxes[idx])
@@ -43331,7 +43331,7 @@ var LargeSymbolPath = extendShape({
         }
 
         this.setTransform(ctx);
-        // PENDING If style or other canvas status changed?
+        // PENDING If style or test canvas status changed?
         for (var i = 0; i < points.length;) {
             var x = points[i++];
             var y = points[i++];
@@ -43910,7 +43910,7 @@ Radar.prototype.update = function (ecModel, api) {
         }
         else if (fixedMin != null) {
             var max;
-            // User set min, expand extent on the other side
+            // User set min, expand extent on the test side
             do {
                 max = fixedMin + interval * splitNumber;
                 scale.setExtent(+fixedMin, max);
@@ -43923,7 +43923,7 @@ Radar.prototype.update = function (ecModel, api) {
         }
         else if (fixedMax != null) {
             var min;
-            // User set min, expand extent on the other side
+            // User set min, expand extent on the test side
             do {
                 min = fixedMax - interval * splitNumber;
                 scale.setExtent(min, +fixedMax);
@@ -48805,7 +48805,7 @@ function getViewRect(seriesModel, api) {
 }
 
 /**
- * All other shifts, applied to the smaller subtrees between w- and w+, are
+ * All test shifts, applied to the smaller subtrees between w- and w+, are
  * performed by this function.
  * @param  {module:echarts/data/Tree~TreeNode} node
  */
@@ -50767,7 +50767,7 @@ extendChartView({
             });
         });
 
-        // Make other animations
+        // Make test animations
         each$8(this._storage, function (store, storageName) {
             each$8(store, function (el, rawIndex) {
                 var last = renderResult.lastsForAnimation[storageName][rawIndex];
@@ -51346,7 +51346,7 @@ function renderNode(
 // hierarchy sequence, which cause that lowser background element overlap
 // upper ones. So we calculate z based on depth.
 // Moreover, we try to shrink down z interval to [0, 1] to avoid that
-// treemap with large z overlaps other components.
+// treemap with large z overlaps test components.
 function calculateZ(depth, zInLevel) {
     var zb = depth * Z_BASE + zInLevel;
     return (zb - 1) / zb;
@@ -55544,9 +55544,9 @@ function forceLayout$1(nodes, edges, opts) {
             //     var j = -1;
             //     while (++j < n.edges.length) {
             //         var e = n.edges[j];
-            //         var other = adjacentNode(n, e);
-            //         if (other.p) {
-            //             n.p = vec2.clone(other.p);
+            //         var test = adjacentNode(n, e);
+            //         if (test.p) {
+            //             n.p = vec2.clone(test.p);
             //             break;
             //         }
             //     }
@@ -57277,7 +57277,7 @@ inherits(ParallelAxis, Axis);
  *              where the input minSpan and maxSpan will not work.
  * @param {number} [minSpan] The range of dataZoom can not be smaller than that.
  *              If not set, handle0 and cross handle1. If set as a non-negative
- *              number (including `0`), handles will push each other when reaching
+ *              number (including `0`), handles will push each test when reaching
  *              the minSpan.
  * @param {number} [maxSpan] The range of dataZoom can not be larger than that.
  * @return {Array.<number>} The input handleEnds.
@@ -59050,7 +59050,7 @@ function updateCoverByMouse(controller, e, localCursorPoint, isEnd) {
     ) {
         // Help user to remove covers easily, only by a tiny drag, in 'single' mode.
         // But a single click do not clear covers, because user may have casual
-        // clicks (for example, click on other component and do not expect covers
+        // clicks (for example, click on test component and do not expect covers
         // disappear).
         // Only some cover removed, trigger action, but not every click trigger action.
         if (getPanelByPoint(controller, e, localCursorPoint) && clearCovers(controller)) {
@@ -60737,7 +60737,7 @@ function createGridClipShape$2(rect, seriesModel, cb) {
 registerAction({
     type: 'dragNode',
     event: 'dragNode',
-    // here can only use 'update' now, other value is not support in echarts.
+    // here can only use 'update' now, test value is not support in echarts.
     update: 'update'
 }, function (payload, ecModel) {
     ecModel.eachComponent({mainType: 'series', subType: 'sankey', query: payload}, function (seriesModel) {
@@ -61890,7 +61890,7 @@ var boxplotVisual = function (ecModel, api) {
         data.setVisual({
             legendSymbol: 'roundRect',
             // Use name 'color' but not 'borderColor' for legend usage and
-            // visual coding from other component like dataRange.
+            // visual coding from test component like dataRange.
             color: seriesModel.get(borderColorQuery) || defaulColor
         });
 
@@ -66957,7 +66957,7 @@ var axisTrigger = function (payload, ecModel, api) {
         // and dataIndex. And also used in the tooltipView trigger.
         point = findPointFromSeries({
             seriesIndex: finder.seriesIndex,
-            // Do not use dataIndexInside from other ec instance.
+            // Do not use dataIndexInside from test ec instance.
             // FIXME: auto detect it?
             dataIndex: finder.dataIndex
         }, ecModel).point;
@@ -70490,10 +70490,10 @@ var sunburstLayout = function (seriesType, ecModel, api, payload) {
                     ? unitRadian : (value * unitRadian);
                 if (angle < minAngle) {
                     angle = minAngle;
-                    
+
                 }
                 else {
-                    
+
                 }
 
                 endAngle = startAngle + dir * angle;
@@ -72447,9 +72447,9 @@ function legendSelectActionHandler(methodName, payload, ecModel) {
     // Update all legend components
     ecModel.eachComponent('legend', function (legendModel) {
         if (isToggleSelect && isSelected != null) {
-            // Force other legend has same selected status
-            // Or the first is toggled to true and other are toggled to false
-            // In the case one legend has some item unSelected in option. And if other legend
+            // Force test legend has same selected status
+            // Or the first is toggled to true and test are toggled to false
+            // In the case one legend has some item unSelected in option. And if test legend
             // doesn't has the item, they will assume it is selected.
             legendModel[isSelected ? 'select' : 'unSelect'](payload.name);
         }
@@ -74386,7 +74386,7 @@ extendComponentView({
             var self = this;
             clearTimeout(this._refreshUpdateTimeout);
             this._refreshUpdateTimeout = setTimeout(function () {
-                // Show tip next tick after other charts are rendered
+                // Show tip next tick after test charts are rendered
                 // In case highlight action has wrong result
                 // FIXME
                 self.manuallyShowTip(tooltipModel, ecModel, api, {
@@ -77973,7 +77973,7 @@ var DISPATCH_FLAG = '__ecInBrushSelectEvent';
 var PRIORITY_BRUSH = PRIORITY.VISUAL.BRUSH;
 
 /**
- * Layout for visual, the priority higher than other layout, and before brush visual.
+ * Layout for visual, the priority higher than test layout, and before brush visual.
  */
 registerLayout(PRIORITY_BRUSH, function (ecModel, api, payload) {
     ecModel.eachComponent({mainType: 'brush'}, function (brushModel) {
@@ -81025,7 +81025,7 @@ var DataZoomModel = extendComponentModel({
         this.eachTargetAxis(function (dimNames, axisIndex, dataZoomModel, ecModel) {
             var axisModel = this.dependentModels[dimNames.axis][axisIndex];
 
-            // If exists, share axisProxy with other dataZoomModels.
+            // If exists, share axisProxy with test dataZoomModels.
             var axisProxy = axisModel.__dzAxisProxy || (
                 // Use the first dataZoomModel as the main model of axisProxy.
                 axisModel.__dzAxisProxy = new AxisProxy(
@@ -81304,7 +81304,7 @@ var DataZoomModel = extendComponentModel({
     setRawRange: function (opt, ignoreUpdateRangeUsg) {
         var option = this.option;
         each$21([['start', 'startValue'], ['end', 'endValue']], function (names) {
-            // If only one of 'start' and 'startValue' is not null/undefined, the other
+            // If only one of 'start' and 'startValue' is not null/undefined, the test
             // should be cleared, which enable clear the option.
             // If both of them are not set, keep option with the original value, which
             // enable use only set start but not set end when calling `dispatchAction`.
@@ -83817,7 +83817,7 @@ var VisualMapModel = extendComponentModel({
                 var itemSize = this.itemSize;
                 var visuals = controller[state];
 
-                // Set inactive color for controller if no other color
+                // Set inactive color for controller if no test color
                 // attr (like colorAlpha) specified.
                 if (!visuals) {
                     visuals = controller[state] = {
@@ -83949,7 +83949,7 @@ var ContinuousModel = VisualMapModel.extend({
                                  // util use specifid a range.
         realtime: true,          // Whether realtime update.
         itemHeight: null,        // The length of the range control edge.
-        itemWidth: null,         // The length of the other side.
+        itemWidth: null,         // The length of the test side.
         hoverLink: true,         // Enable hover highlight.
         hoverLinkDataSize: null, // The size of hovered data.
         hoverLinkOnHandle: null  // Whether trigger hoverLink when hover handle.
@@ -83995,7 +83995,7 @@ var ContinuousModel = VisualMapModel.extend({
         var range = this.option.range;
 
         if (!range || range.auto) {
-            // `range` should always be array (so we dont use other
+            // `range` should always be array (so we dont use test
             // value like 'auto') for user-friend. (consider getOption).
             dataExtent.auto = 1;
             this.option.range = dataExtent;
@@ -88496,7 +88496,7 @@ TimelineView.extend({
 
         // Timeline may be not all in the viewRect when 'offset' is specified
         // as a number, because it is more appropriate that label aligns at
-        // 'offset' but not the other edge defined by viewRect.
+        // 'offset' but not the test edge defined by viewRect.
 
         var mainGroup = this._mainGroup;
         var labelGroup = this._labelGroup;
@@ -89719,7 +89719,7 @@ function assembleSeriesWithCategoryAxis(series) {
 }
 
 /**
- * Assemble content of other series
+ * Assemble content of test series
  * @param {Array.<module:echarts/model/Series>} series
  * @return {string}
  * @inner
@@ -91559,7 +91559,7 @@ if (!env$1.canvasSupported) {
 
         // Transform rect to view space
         var m = this.transform;
-        // Ignore transform for text in other element
+        // Ignore transform for text in test element
         if (m && !fromTextEl) {
             tmpRect$2.copy(rect);
             tmpRect$2.applyTransform(m);
@@ -91675,7 +91675,7 @@ if (!env$1.canvasSupported) {
 
         var coords = [x, y];
         var textVmlElStyle = textVmlEl.style;
-        // Ignore transform for text in other element
+        // Ignore transform for text in test element
         if (m && fromTextEl) {
             applyTransform(coords, coords, m);
 
@@ -93019,7 +93019,7 @@ GradientManager.prototype.add = function (gradient) {
     // Set dom id with gradient id, since each gradient instance
     // will have no more than one dom element.
     // id may exists before for those dirty elements, in which case
-    // id should remain the same, and other attributes should be
+    // id should remain the same, and test attributes should be
     // updated.
     gradient.id = gradient.id || this.nextId++;
     dom.setAttribute('id', 'zr' + this._zrId
@@ -93270,7 +93270,7 @@ ClippathManager.prototype.updateDom = function (
         clipPathEl.innerHTML = '';
         /**
          * Use `cloneNode()` here to appendChild to multiple parents,
-         * which may happend when Text and other shapes are using the same
+         * which may happend when Text and test shapes are using the same
          * clipPath. Since Text will create an extra clipPath DOM due to
          * different transform rules.
          */
@@ -93279,7 +93279,7 @@ ClippathManager.prototype.updateDom = function (
         parentEl.setAttribute('clip-path', 'url(#' + id + ')');
 
         if (clipPaths.length > 1) {
-            // Make the other clipPaths recursively
+            // Make the test clipPaths recursively
             this.updateDom(clipPathEl, clipPaths.slice(1), isText);
         }
     }
@@ -93390,7 +93390,7 @@ ShadowManager.prototype.add = function (displayable) {
     // Set dom id with shadow id, since each shadow instance
     // will have no more than one dom element.
     // id may exists before for those dirty elements, in which case
-    // id should remain the same, and other attributes should be
+    // id should remain the same, and test attributes should be
     // updated.
     style._shadowDomId = style._shadowDomId || this.nextId++;
     dom.setAttribute('id', 'zr' + this._zrId
