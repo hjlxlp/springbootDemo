@@ -18,6 +18,8 @@ public interface CityMapper {
      */
     City findById(@Param("id") Integer id);
 
+    List<City> findCity(@Param("city") City city);
+
     /**
      * 查询所有城市
      *

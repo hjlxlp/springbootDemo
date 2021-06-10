@@ -19,6 +19,19 @@
         where id = #{id}
     </select>
 
+    <select id="findCity" resultMap="BaseResultMap" parameterType="com.example.demo.entity.City">
+        select
+        <include refid="Base_Column_List"/>
+        from city
+        where 1=1
+        <if test="city.nameList != null and city.nameList.size > 0">
+            and city_name in
+            <foreach collection="city.nameList" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
     <select id="findAllCity" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>

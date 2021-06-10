@@ -83,6 +83,11 @@ public class CityController {
         return cityService.findCityById(id);
     }
 
+    @PostMapping("findCity")
+    public List<City> findCity(@RequestBody City city) {
+        return cityService.findCity(city);
+    }
+
     @GetMapping("findByIdTest")
     public City findByIdTest(@RequestParam(value = "id", required = true) Integer id) {
         return cityTestService.findCityByIdTest(id);

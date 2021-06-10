@@ -16,6 +16,7 @@ import java.lang.reflect.Method;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -71,6 +72,16 @@ public class CityServiceImpl implements CityService {
     @Override
     public City findCityById(Integer id) {
         return cityMapper.findById(id);
+    }
+
+    @Override
+    public List<City> findCity(City city) {
+        List<String> list = new ArrayList<>();
+        list.add("a");
+        list.add("1");
+        list.add("b");
+        city.setNameList(list);
+        return cityMapper.findCity(city);
     }
 
     /**

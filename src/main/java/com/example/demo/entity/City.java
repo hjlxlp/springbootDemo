@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.example.demo.util.JsonSerializerUtils;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 城市实体类
@@ -46,5 +48,8 @@ public class City implements Serializable{
      * 创建时间
      */
     private Date createTime;
+
+    @TableField(exist = false)
+    private List<String> nameList;
 
 }

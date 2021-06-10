@@ -25,6 +25,8 @@ public interface CityService {
      */
     City findCityById(Integer id);
 
+    List<City> findCity(City city);
+
     /**
      * 查询所有城市
      *
