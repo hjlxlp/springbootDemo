@@ -42,8 +42,18 @@ public interface CityService {
 
     void testInsert();
 
+    BaseResultModel<String> testError();
+
+    /**
+     * 新增一个城市
+     * @param c
+     */
     void insert(City c);
 
-    BaseResultModel<String> testError();
+    /**
+     * 分页查询城市
+     * @return
+     */
+    List<City> findByidFenYe(int a,int b);
 
 }

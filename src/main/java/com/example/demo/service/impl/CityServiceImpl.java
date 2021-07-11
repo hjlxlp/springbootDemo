@@ -166,11 +166,6 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public void insert(City c) {
-        cityMapper.insertCity(c);
-    }
-
-    @Override
     @Transactional(rollbackFor = Exception.class)
     public BaseResultModel<String> testError() {
         BaseResultModel<String> t = new BaseResultModel<>();
@@ -197,4 +192,21 @@ public class CityServiceImpl implements CityService {
         return resultModel;
     }
 
+    /**
+     * 新增一个城市
+     * @param c
+     */
+    @Override
+    public void insert(City c) {
+        cityMapper.insertCity(c);
+    }
+
+    /**
+     * 分页查询城市
+     * @return
+     */
+    @Override
+    public List<City> findByidFenYe(int a, int b) {
+        return cityMapper.findByidFenYe(a,b);
+    }
 }

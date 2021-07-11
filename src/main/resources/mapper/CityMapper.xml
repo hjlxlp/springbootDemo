@@ -48,10 +48,6 @@
         </if>
     </select>
 
-    <insert id="insertCity" parameterType="com.example.demo.entity.City">
-        insert city set province_id = #{provinceId},city_name = #{cityName},description = #{description},create_time = #{createTime}
-    </insert>
-
     <delete id="deleteCityById">
         delete from city where id = #{id}
     </delete>
@@ -64,5 +60,13 @@
         </foreach>
     </insert>
 
+    <insert id="insertCity" parameterType="com.example.demo.entity.City">
+        insert into city(province_id,city_name)
+        values(#{city.provinceId},#{city.cityName})
+    </insert>
+
+    <select id="findByidFenYe" resultMap="BaseResultMap">
+        select province_id, city_name from city limit #{qian},#{ho}
+    </select>
 
 </mapper>

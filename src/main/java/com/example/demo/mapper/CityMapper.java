@@ -35,10 +35,20 @@ public interface CityMapper {
      */
     List<City> findByGroup(@Param("vo") City city);
 
-    Integer insertCity(City city);
-
     Integer deleteCityById(@Param("id") Integer id);
 
     Integer insert10000(@Param("list") List<City> list);
 
+    /**
+     * 新增一个城市
+     * @param city
+     * @return
+     */
+    Integer insertCity(@Param("city") City city);
+
+    /**
+     * 分页查询城市
+     * @return
+     */
+    List<City> findByidFenYe(@Param("qian") int a, @Param("ho") int b);
 }

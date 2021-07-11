@@ -93,6 +93,7 @@ public class CityController {
         return cityTestService.findCityByIdTest(id);
     }
 
+
     @GetMapping("transactional")
     public void transactional() {
         cityService.transactional();
@@ -106,12 +107,6 @@ public class CityController {
     @GetMapping("printStackTrace")
     public void printStackTrace() {
         cityService.printStackTrace();
-    }
-
-
-    @PostMapping("insert")
-    public void insert(@RequestBody City city) {
-        cityService.insert(city);
     }
 
 }
