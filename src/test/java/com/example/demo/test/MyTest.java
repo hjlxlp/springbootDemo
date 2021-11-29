@@ -34,6 +34,56 @@ public class MyTest {
 	}
 
 	@Test
+	public void testP() {
+		for (int j = 1; j <= 7; j++) {
+			System.out.print("第" + j + "天提现活动：");
+			Integer money = 800;
+			Integer num = new Random().nextInt(100);
+			List<String> peopleList = new ArrayList<>();
+			for (int i = 0; i < 10000; i++) {
+				peopleList.add("黄美女" + i + "号选手");
+			}
+			System.out.print("有10000个黄某参与活动：");
+			Integer a = 0;
+			Integer b = 0;
+			Integer c = 0;
+			String xye = "";
+			for (int i = 0; i < 10000; i++) {
+				String p = peopleList.get(i);
+				Integer n = new Random().nextInt(100);
+				String str = "";
+				if (n == num) {
+					str += p + "抽中了";
+					if (i > (n * 100)) {
+						if (money == 0) {
+							str += "但是奖金池已经为0，返回用户：抽到福了，再接再厉";
+							a++;
+						} else {
+							money = 0;
+							xye = p;
+							str += "成为幸运儿，提现800成功。";
+							System.out.print(str);
+						}
+					} else {
+						str += "但是还没达到参与人数最低5000人条件：返回用户：抽到福了，再接再厉";
+						c++;
+					}
+				} else {
+					str += p + "没抽中，返回用户：抽到福了，再接再厉";
+					b++;
+				}
+				//System.out.println(str);
+			}
+			//System.out.println("幸运儿：" + xye);
+			System.out.println();
+			System.out.print(a + "个大傻子抽到了，但是奖金池已经被领完。");
+			System.out.print(b + "个二傻子抽都没抽到。");
+			System.out.print(c + "个三傻子抽的时候，奖金池激活最低人数不够。");
+			System.out.println();
+		}
+	}
+
+	@Test
 	public void testRemove() throws Exception {
 		removeFile(new File("D:\\photo\\test"));
 	}
@@ -73,19 +123,18 @@ public class MyTest {
 
 	@Test
 	public void testRename() {
-		File file = new File("D:\\photo\\test");
+		File file = new File("D:\\photo\\blhx");
 		List<File> files = Arrays.stream(file.listFiles()).sorted(Comparator.comparing(a -> a.length())).collect(Collectors.toList());
 		//文件所在文件夹路径+新文件名
 		File newDir = null;
 		for (int i = 0; i < files.size(); i++) {
 			File old = files.get(i);
-			System.out.println(old.length());
 			if (old.getName().endsWith(".png")) {
 				//文件所在文件夹路径+新文件名
-				newDir = new File(old.getParentFile() + "/" + (i + 1) + ".png");
+				newDir = new File(old.getParentFile() + "/" + (i * 10) + ".png");
 				old.renameTo(newDir);//重命名
 			} else if (old.getName().endsWith(".jpg")) {
-				newDir = new File(old.getParentFile() + "/" + (i + 1) + ".jpg");
+				newDir = new File(old.getParentFile() + "/" + (i * 10) + ".jpg");
 				old.renameTo(newDir);
 			}
 		}
@@ -93,10 +142,10 @@ public class MyTest {
 
 	@Test
 	public void test_fd() {
-		List<Integer> sizeList = Arrays.asList(120);
-		List<Integer> priceList = Arrays.asList(14000);
+		List<Integer> sizeList = Arrays.asList(126);
+		List<Integer> priceList = Arrays.asList(14235);
 		List<Integer> yearList = Arrays.asList(30);
-		List<Integer> payList = Arrays.asList(800000);
+		List<Integer> payList = Arrays.asList(600000, 800000, 1000000);
 		List<FdVo> fdList = new ArrayList<>();
 		for (Integer size : sizeList) {
 			for (Integer price : priceList) {
