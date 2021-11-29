@@ -11,6 +11,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 /**
  * @author huangjiale
@@ -24,7 +25,8 @@ public class Java8Test {
         //test03();
         //test04();
         //test05();
-        test06();
+        //test06();
+        test07();
     }
 
     /**
@@ -150,7 +152,6 @@ public class Java8Test {
      * 新的日期API代码演示
      */
     private static void test05() {
-
         // Instant
         Instant instant = Instant.now();
         System.out.println(instant);
@@ -209,9 +210,34 @@ public class Java8Test {
     }
 
     /**
-     *
+     * 流的获取代码演示
      */
     private static void test06() {
+        // Collection提供的两个方法，stream()与parallelStream()
+        List<String> list = new ArrayList<>();
+        Stream<String> stream = list.stream();
+        Stream<String> parallelStream = list.parallelStream();
+
+        // 通过Arrays的stream()获取一个数组流
+        Integer[] nums = new Integer[10];
+        Stream<Integer> stream1 = Arrays.stream(nums);
+
+        // 通过Stream类中静态方法of()
+        Stream<Integer> stream2 = Stream.of(1,2,3,4,5,6);
+
+        // 创建无限流
+        Stream<Integer> stream3 = Stream.iterate(0, (x) -> x + 2).limit(10);
+        stream3.forEach(System.out::println);
+
+        // 生成
+        Stream<Double> stream4 = Stream.generate(Math::random).limit(2);
+        stream4.forEach(System.out::println);
+    }
+
+    /**
+     * 流的获取代码演示
+     */
+    private static void test07() {
 
     }
 
