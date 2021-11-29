@@ -103,10 +103,6 @@ public class MyTest {
 	public void testRemove() throws Exception {
 		removeFile(new File("D:\\photo\\test"));
 	}
-    @Test
-    public void testRemove() throws Exception {
-        removeFile(new File("D:\\BaiduNetdiskDownload\\碧蓝航线\\立绘 皮肤"));
-    }
 
     public static String getStringRandom(int length) {
         String val = "";
