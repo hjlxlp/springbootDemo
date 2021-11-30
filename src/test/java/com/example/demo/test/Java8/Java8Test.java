@@ -340,7 +340,6 @@ public class Java8Test {
 	private static void test07() {
 		List<Cow> cowList = getCowList();
 		LocalDateTime localDateTime = LocalDateTime.now();
-
 		Map<Integer, List<Cow>> resultMap1 = new HashMap<>();
 		List<Cow> cowList1 = new ArrayList<>();
 		for (Cow a : cowList) {
@@ -374,7 +373,6 @@ public class Java8Test {
 			cList.add(cow);
 			resultMap1.put(cow.getAge(), cList);
 		}
-
 		Integer money1 = 0;
 		for (Map.Entry<Integer, List<Cow>> entry : resultMap1.entrySet()) {
 			for (Cow cow : entry.getValue()) {
@@ -382,9 +380,7 @@ public class Java8Test {
 			}
 		}
 		System.out.println(money1);
-
 		System.out.println("耗时：" + Duration.between(localDateTime, LocalDateTime.now()).toMillis());
-
 	}
 
 	/**
@@ -393,7 +389,6 @@ public class Java8Test {
 	private static void test08() {
 		List<Cow> cowList = getCowList();
 		LocalDateTime localDateTime = LocalDateTime.now();
-
 		Map<Integer, List<Cow>> resultMap = cowList.stream()
 				.filter(a -> a.getAge() < 10 && !"日本".equals(a.getOrigin()))
 				.map(a -> {
@@ -404,13 +399,10 @@ public class Java8Test {
 				.collect(Collectors.collectingAndThen(Collectors.toCollection(() ->
 						new TreeSet<>(Comparator.comparing(a -> a.getOrigin() + ":" + a.getSex()))), ArrayList::new))
 				.stream().sorted(Comparator.comparing(Cow::getWeight).reversed())
-				.skip(0).limit(10)
-				.collect(Collectors.groupingBy(a -> a.getAge()));
-
+				.skip(0).limit(10).collect(Collectors.groupingBy(a -> a.getAge()));
 		Integer money = resultMap.values().stream().flatMap(a -> a.stream()).collect(Collectors.toList())
 				.stream().map(a -> a.getWeight() * a.getPrice()).reduce(0, Integer::sum);
 		System.out.println(money);
-
 		System.out.println("耗时：" + Duration.between(localDateTime, LocalDateTime.now()).toMillis());
 	}
 
