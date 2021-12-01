@@ -29,6 +29,7 @@ public class Java8Test {
 		//test01();
 		//test02();
 		//test03();
+		//test031();
 		//test04();
 		//test05();
 		//test06();
@@ -114,6 +115,103 @@ public class Java8Test {
 		// 输出结果
 		System.out.println(myFunc.getMoney(10000));
 	}
+
+	/**
+	 * 函数式接口代码演示
+	 */
+	//1.写了一个方法，参数是函数式接口，你可以传递Runnable的实现，也可以使用Lambda或方法引用
+	public static void execute(Runnable runnable) {
+		try {
+			runnable.run();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	static class UserService {
+		public void wrapPrintln() {
+			System.out.println("包装后的println");
+		}
+
+		public void anotherMethod() {
+			System.out.println("另一个方法，不影响execute使用wrapPrintln");
+		}
+	}
+
+	private static void test031() {
+		// 传入匿名对象
+		execute(new Runnable() {
+			@Override
+			public void run() {
+				System.out.println("匿名对象");
+			}
+		});
+
+		// 使用Lambda，()表示Runnable#run()的参数，println()是Runnable#run()的方法体
+		execute(() -> System.out.println("使用lambda"));
+
+		// 因为wrapPrintln和上面的println做的是同样的事，可以替换
+		UserService userService = new UserService();
+		execute(() -> userService.wrapPrintln());
+
+		// 你会发现上面的写法仍是对的，因为“仅有一个抽象方法”是对Runnable的约束，不要搞混
+	}
+
+	static class service {
+		static void sendBook() {
+		}
+
+		static void sendChapter() {
+		}
+
+		static void startTranslation() {
+		}
+	}
+
+	public void sendBook1() {
+		try {
+			service.sendBook();
+		} catch (Throwable t) {
+			throw t;
+		}
+	}
+
+	public void sendChapter1() {
+		try {
+			service.sendChapter();
+		} catch (Throwable t) {
+			throw t;
+		}
+	}
+
+	public void startTranslation1() {
+		try {
+			service.startTranslation();
+		} catch (Throwable t) {
+			throw t;
+		}
+	}
+
+	private void executeTest(Runnable runnable) {
+		try {
+			runnable.run();
+		} catch (Throwable t) {
+			throw t;
+		}
+	}
+
+	public void sendBook() {
+		executeTest(() -> service.sendBook());
+	}
+
+	public void sendChapter() {
+		executeTest(() -> service.sendChapter());
+	}
+
+	public void startTranslation() {
+		executeTest(() -> service.startTranslation());
+	}
+
 
 	/**
 	 * Optional代码演示
@@ -400,6 +498,7 @@ public class Java8Test {
 						new TreeSet<>(Comparator.comparing(a -> a.getOrigin() + ":" + a.getSex()))), ArrayList::new))
 				.stream().sorted(Comparator.comparing(Cow::getWeight).reversed())
 				.skip(0).limit(10).collect(Collectors.groupingBy(a -> a.getAge()));
+
 		Integer money = resultMap.values().stream().flatMap(a -> a.stream()).collect(Collectors.toList())
 				.stream().map(a -> a.getWeight() * a.getPrice()).reduce(0, Integer::sum);
 		System.out.println(money);
