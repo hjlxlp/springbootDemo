@@ -26,15 +26,18 @@ import java.util.stream.Stream;
 public class Java8Test {
 
 	public static void main(String[] args) {
+
 		//test01();
 		//test02();
 		//test03();
-		//test031();
+		/*test031();
+		eatHotpot1();
+		eatHotpot();*/
 		//test04();
 		//test05();
 		//test06();
-		test07();
-		test08();
+		//test07();
+		//test08();
 	}
 
 	/**
@@ -129,12 +132,12 @@ public class Java8Test {
 	}
 
 	static class UserService {
-		public void wrapPrintln() {
-			System.out.println("包装后的println");
+		public void hello() {
+			System.out.println("hello world");
 		}
 
 		public void anotherMethod() {
-			System.out.println("另一个方法，不影响execute使用wrapPrintln");
+			System.out.println("另一个方法，不影响execute使用hello");
 		}
 	}
 
@@ -152,64 +155,69 @@ public class Java8Test {
 
 		// 因为wrapPrintln和上面的println做的是同样的事，可以替换
 		UserService userService = new UserService();
-		execute(() -> userService.wrapPrintln());
+		execute(() -> userService.hello());
 
-		// 你会发现上面的写法仍是对的，因为“仅有一个抽象方法”是对Runnable的约束，不要搞混
+		// 你会发现上面的写法仍是对的，因为“仅有一个抽象方法”是对Runnable的约束
 	}
 
 	static class service {
-		static void sendBook() {
+		static void eatHotpot() {
+			System.out.println("吃火锅");
 		}
-
-		static void sendChapter() {
+		static void eatBarbecue() {
+			System.out.println("吃烧烤");
 		}
-
-		static void startTranslation() {
+		static void eatBuffet() {
+			System.out.println("吃自助餐");
 		}
 	}
 
-	public void sendBook1() {
+	public static void eatHotpot1() {
 		try {
-			service.sendBook();
+			System.out.println("拿餐具");
+			service.eatHotpot();
+			System.out.println("买单");
 		} catch (Throwable t) {
 			throw t;
 		}
 	}
 
-	public void sendChapter1() {
+	public static void eatBarbecue1() {
 		try {
-			service.sendChapter();
+			service.eatBarbecue();
 		} catch (Throwable t) {
 			throw t;
 		}
 	}
 
-	public void startTranslation1() {
+	public static void eatBuffet1() {
 		try {
-			service.startTranslation();
+			service.eatBuffet();
 		} catch (Throwable t) {
 			throw t;
 		}
 	}
 
-	private void executeTest(Runnable runnable) {
+	private static void executeTest(Runnable runnable) {
 		try {
+			System.out.println("拿餐具");
 			runnable.run();
+			System.out.println("买单");
 		} catch (Throwable t) {
 			throw t;
 		}
 	}
 
-	public void sendBook() {
-		executeTest(() -> service.sendBook());
+	public static void eatHotpot() {
+		executeTest(() -> service.eatHotpot());
 	}
 
-	public void sendChapter() {
-		executeTest(() -> service.sendChapter());
+	public static void eatBarbecue() {
+		executeTest(() -> service.eatBarbecue());
 	}
 
-	public void startTranslation() {
-		executeTest(() -> service.startTranslation());
+	public static void eatBuffet() {
+		executeTest(() -> service.eatBuffet());
 	}
 
 
