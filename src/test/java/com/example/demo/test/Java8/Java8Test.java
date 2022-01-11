@@ -26,7 +26,6 @@ import java.util.stream.Stream;
 public class Java8Test {
 
 	public static void main(String[] args) {
-
 		//test01();
 		//test02();
 		//test03();
@@ -36,8 +35,8 @@ public class Java8Test {
 		//test04();
 		//test05();
 		//test06();
-		//test07();
-		//test08();
+		test07();
+		test08();
 	}
 
 	/**
