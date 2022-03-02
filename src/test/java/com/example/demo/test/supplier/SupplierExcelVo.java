@@ -19,12 +19,12 @@ public class SupplierExcelVo {
 	private String brandName;
 
 	@ExcelProperty(value = "供应商名称", index = 1)
+	private String sName;
+
+	@ExcelProperty(value = "收款公司（供应商）", index = 2)
 	private String supplierName;
 
-	/*@ExcelProperty(value = "收款公司（供应商）", index = 2)
-	private String skgs;*/
-
-	@ExcelProperty(value = "进货宝服务费比例（平台分账比例）", index = 2)
+	@ExcelProperty(value = "进货宝服务费比例（平台分账比例）", index = 3)
 	private Integer splitRatio;
 
 }

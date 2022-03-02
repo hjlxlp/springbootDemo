@@ -21,7 +21,7 @@ public class SupplierTest {
 	@Test
 	public void test() {
 
-		String fileName1 = "D:/supplier.xlsx";
+		String fileName1 = "D:/supplierpro.xlsx";
 		List<SupplierExcelVo> supplierList = new ArrayList<>();
 		AnalysisEventListener listener1 = new AnalysisEventListener<SupplierExcelVo>() {
 			@Override
@@ -36,7 +36,7 @@ public class SupplierTest {
 		EasyExcel.read(fileName1, SupplierExcelVo.class, listener1).sheet().doRead();
 
 
-		String fileName2 = "D:/sku2.xlsx";
+		String fileName2 = "D:/skupro4.xlsx";
 		List<SkuExcelVo> skuList = new ArrayList<>();
 		AnalysisEventListener listener2 = new AnalysisEventListener<SkuExcelVo>() {
 			@Override
@@ -50,7 +50,7 @@ public class SupplierTest {
 		};
 		EasyExcel.read(fileName2, SkuExcelVo.class, listener2).sheet().doRead();
 
-		String fileName3 = "D:/brand2.xlsx";
+		String fileName3 = "D:/brandpro.xlsx";
 		List<BrandExcelVo> brandList = new ArrayList<>();
 		AnalysisEventListener listener3 = new AnalysisEventListener<BrandExcelVo>() {
 			@Override
@@ -87,14 +87,19 @@ public class SupplierTest {
 				continue;
 			}
 			brandIdList.add(brand.getBrandId());
-			if (brand.getParentId() != 0) {
+			// 查询二级brandId
+			List<BrandExcelVo> brandTwoList = brandList.stream().filter(a -> a.getParentId().equals(brand.getBrandId())).collect(Collectors.toList());
+			if (CollectionUtils.isNotEmpty(brandTwoList)) {
+				brandIdList.addAll(brandTwoList.stream().map(a -> a.getBrandId()).collect(Collectors.toList()));
+			}
+			/*if (brand.getParentId().intValue() != 0) {
 				BrandExcelVo brandOne = brandList.stream().filter(a -> a.getBrandId().equals(brand.getParentId())).findFirst().orElse(null);
 				if (brandOne == null) {
 					System.out.println("===brandOne为空===" + JSON.toJSONString(supplierVo));
 					continue;
 				}
 				brandIdList.add(brandOne.getBrandId());
-			}
+			}*/
 
 			// 查询所有sku
 			List<SkuExcelVo> skuVoList = skuList.stream().filter(a -> brandIdList.contains(a.getBrandId())).collect(Collectors.toList());
@@ -126,7 +131,7 @@ public class SupplierTest {
 			supplierStr.append("insert into supplier set id = ").append(entity.getId())
 					.append(", supplier_name = '").append(entity.getSupplierName()).append("';\n");
 		}
-		System.out.println(supplierStr.toString());
+		//System.out.println(supplierStr.toString());
 
 		StringBuffer splitStr = new StringBuffer();
 		for (SupplierSplitEntity entity : entityList) {
