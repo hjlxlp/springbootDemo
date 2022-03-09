@@ -57,11 +57,14 @@ public class BillOfSalesEntity {
 	@ApiModelProperty(value = "大写的总数")
 	private String bigTotalAmount;
 
-	@ApiModelProperty(value = "备注")
-	private String remarks;
+	@ApiModelProperty(value = "备注1")
+	private String remarks1;
+
+	@ApiModelProperty(value = "备注2")
+	private String remarks2;
 
 	@ApiModelProperty(value = "业务员")
-	private String salesNan;
+	private String managerName;
 
 	@ApiModelProperty(value = "联系电话")
 	private String mobile;

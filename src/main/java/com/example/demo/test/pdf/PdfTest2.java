@@ -1,6 +1,5 @@
 package com.example.demo.test.pdf;
 
-import com.alibaba.fastjson.JSON;
 import com.example.demo.entity.BillOfSalesEntity;
 import com.example.demo.entity.BillOfSalesProductEntity;
 import com.example.demo.util.PdfUtils;
@@ -10,6 +9,8 @@ import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPRow;
 import com.lowagie.text.pdf.PdfPTable;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +32,7 @@ public class PdfTest2 {
 	}
 
 	public static void createPdf(BillOfSalesEntity entity) {
+		LocalDateTime begin = LocalDateTime.now();
 		try {
 			// 宋体，正常字体
 			BaseFont bfChinese = BaseFont.createFont(PdfUtils.FontName, PdfUtils.FontEncoding, BaseFont.NOT_EMBEDDED);
@@ -125,13 +127,13 @@ public class PdfTest2 {
 
 			// 第八行
 			PdfPCell[] cells8 = new PdfPCell[10];
-			cells8[0] = PdfUtils.createCellLeft("备注：" + (entity.getRemarks() == null ? "" : entity.getRemarks()), font, height, 5);
-			cells8[5] = PdfUtils.createCellLeft("无质量问题不退货", font, height, 5);
+			cells8[0] = PdfUtils.createCellLeft("备注：" + (entity.getRemarks1() == null ? "" : entity.getRemarks1()), font, height, 5);
+			cells8[5] = PdfUtils.createCellLeft(entity.getRemarks2(), font, height, 5);
 			listRow.add(new PdfPRow(cells8));
 
 			// 第九行
 			PdfPCell[] cells9 = new PdfPCell[10];
-			cells9[0] = PdfUtils.createCellLeft("业务员：" + (entity.getSalesNan() == null ? "" : entity.getSalesNan()), font, height, 2);
+			cells9[0] = PdfUtils.createCellLeft("业务员：" + (entity.getManagerName() == null ? "" : entity.getManagerName()), font, height, 2);
 			cells9[2] = PdfUtils.createCellLeft("电话：" + (entity.getMobile() == null ? "" : entity.getMobile()), font, height, 2);
 			cells9[4] = PdfUtils.createCellLeft("", font, height, 6);
 			listRow.add(new PdfPRow(cells9));
@@ -140,6 +142,7 @@ public class PdfTest2 {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println(Duration.between(begin, LocalDateTime.now()).toMillis());
 	}
 
 }
