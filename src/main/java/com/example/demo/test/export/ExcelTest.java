@@ -25,6 +25,7 @@ public class ExcelTest {
 		BillOfSalesEntity entity = new BillOfSalesEntity();
 		List<BillOfSalesProductEntity> productEntityList = new ArrayList<>();
 		BillOfSalesProductEntity product = new BillOfSalesProductEntity();
+		product.setProductName("纽曼思藻油DHA软胶囊（成人型）国产中国");
 		productEntityList.add(product);
 		entity.setProductList(productEntityList);
 		createExcel(entity);
@@ -34,14 +35,14 @@ public class ExcelTest {
 		LocalDateTime begin = LocalDateTime.now();
 		try {
 			WriteCellStyle writeCellStyle = new WriteCellStyle();
-			File newFile = new File("demo.xlsx");
+			File newFile = new File("D://demo.xlsx");
 			EasyExcel.write(newFile)
 					//.head(head2())
 					.registerWriteHandler(new MyMergeStrategy())
 					//.registerWriteHandler(new MyStrategy())
 					.sheet()
 					.doWrite(dataList3(entity));
-			newFile.delete();
+			//newFile.delete();
 
 		} catch (Exception e) {
 			e.printStackTrace();

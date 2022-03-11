@@ -15,9 +15,6 @@ import java.util.Map;
  */
 public class MyMergeStrategy extends AbstractMergeStrategy {
 
-
-	private List<CellRangeAddress> cellList2;
-
 	/**
 	 * 合并单元格坐标集合
 	 */
@@ -33,6 +30,10 @@ public class MyMergeStrategy extends AbstractMergeStrategy {
 	 */
 	private static CellStyle styleCenter;
 
+	/**
+	 * 字体，9号，等线
+	 */
+	private static Font font9;
 
 	public MyMergeStrategy() {
 		/**
@@ -88,6 +89,7 @@ public class MyMergeStrategy extends AbstractMergeStrategy {
 		cellList2.add(new CellRangeAddress(8, 8, 4, 9));*/
 	}
 
+
 	/**
 	 * merge
 	 *
@@ -98,6 +100,7 @@ public class MyMergeStrategy extends AbstractMergeStrategy {
 	 */
 	@Override
 	protected void merge(Sheet sheet, Cell cell, Head head, Integer relativeRowIndex) {
+
 		/**
 		 *  ****加个判断:if (cell.getRowIndex() == 1 && cell.getColumnIndex() == 0) {}****
 		 * 保证每个cell被合并一次，如果不加上面的判断，因为是一个cell一个cell操作的，
@@ -112,16 +115,34 @@ public class MyMergeStrategy extends AbstractMergeStrategy {
 		if (cellAddresses != null) {
 			sheet.addMergedRegionUnsafe(cellAddresses);
 		}
+		sheet.setColumnWidth(0, 11 * 256);
 
-		if (styleCenter == null) {
-			styleCenter = sheet.getWorkbook().createCellStyle();
-			styleCenter.setAlignment(HorizontalAlignment.CENTER);
-			styleCenter.setVerticalAlignment(VerticalAlignment.CENTER);
-		}
+		// 字体
+		Font font = sheet.getWorkbook().createFont();
+		font.setFontName("等线");
+		font.setFontHeightInPoints((short) 9);
+
+		// 水平居中样式
+		CellStyle styleCenter = sheet.getWorkbook().createCellStyle();
+		// 垂直居中
+		styleCenter.setVerticalAlignment(VerticalAlignment.CENTER);
+
 		if (cellStyleList.contains(cell.getRowIndex())) {
-			cell.setCellStyle(styleCenter);
+			// 水平居中
+			styleCenter.setAlignment(HorizontalAlignment.CENTER);
+			font.setBold(true);
+		} else {
+			// 水平居左
+			styleCenter.setAlignment(HorizontalAlignment.LEFT);
+			font.setBold(false);
 		}
 
+		// 换行
+		styleCenter.setWrapText(true);
+
+
+		styleCenter.setFont(font);
+		cell.setCellStyle(styleCenter);
 
 		//sheet.addMergedRegionUnsafe(new CellRangeAddress(0, 0, 0, 9));
 		//System.out.println(cell.getRowIndex() + ":" + cell.getColumnIndex());
@@ -133,6 +154,43 @@ public class MyMergeStrategy extends AbstractMergeStrategy {
             }
         }*/
 	}
+
+
+	/*public static void main(String[] args) {
+		WriteCellDemoData writeCellDemoData = new WriteCellDemoData();
+
+		// 设置单个单元格的样式 当然样式 很多的话 也可以用注解等方式。
+		WriteCellData<String> writeCellStyle = new WriteCellData<>("单元格样式");
+		writeCellStyle.setType(CellDataTypeEnum.STRING);
+		writeCellDemoData.setWriteCellStyle(writeCellStyle);
+		WriteCellStyle writeCellStyleData = new WriteCellStyle();
+		writeCellStyle.setWriteCellStyle(writeCellStyleData);
+		// 这里需要指定 FillPatternType 为FillPatternType.SOLID_FOREGROUND 不然无法显示背景颜色.
+		writeCellStyleData.setFillPatternType(FillPatternType.SOLID_FOREGROUND);
+		// 背景绿色
+		writeCellStyleData.setFillForegroundColor(IndexedColors.GREEN.getIndex());
+
+		// 设置单个单元格多种样式
+		WriteCellData<String> richTest = new WriteCellData<>();
+		richTest.setType(CellDataTypeEnum.RICH_TEXT_STRING);
+		writeCellDemoData.setRichText(richTest);
+		RichTextStringData richTextStringData = new RichTextStringData();
+		richTest.setRichTextStringDataValue(richTextStringData);
+		richTextStringData.setTextString("红色绿色默认");
+		// 前2个字红色
+		WriteFont writeFont = new WriteFont();
+		writeFont.setColor(IndexedColors.RED.getIndex());
+		richTextStringData.applyFont(0, 2, writeFont);
+		// 接下来2个字绿色
+		writeFont = new WriteFont();
+		writeFont.setColor(IndexedColors.GREEN.getIndex());
+		richTextStringData.applyFont(2, 4, writeFont);
+
+		List<WriteCellDemoData> data = new ArrayList<>();
+		data.add(writeCellDemoData);
+		EasyExcel.write("D:/test2.xlsx", WriteCellDemoData.class).inMemory(true).sheet("模板").doWrite(data);
+	}*/
+
 }
 
 

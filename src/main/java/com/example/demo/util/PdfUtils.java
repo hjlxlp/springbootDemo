@@ -4,6 +4,7 @@ import com.lowagie.text.*;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -57,6 +58,7 @@ public class PdfUtils {
 		cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 		// 固定高度
 		cell.setFixedHeight(height);
+
 		// 合并单元格，10格
 		if (colspan > 1) {
 			cell.setColspan(colspan);

@@ -8,11 +8,20 @@ import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPRow;
 import com.lowagie.text.pdf.PdfPTable;
+import com.spire.pdf.PdfDocument;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 /**
@@ -25,8 +34,10 @@ public class PdfTest2 {
 
 	public static void main(String[] args) {
 		BillOfSalesEntity entity = new BillOfSalesEntity();
+		entity.setBillOfSalesName("纽曼思藻油DdsaHA软胶囊（成人型）国产中国");
 		List<BillOfSalesProductEntity> productEntityList = new ArrayList<>();
 		BillOfSalesProductEntity product = new BillOfSalesProductEntity();
+		product.setProductName("纽曼思藻asd油DHA软dsad胶囊（成人型）国产中国的撒dsad谎的三大看");
 		productEntityList.add(product);
 		entity.setProductList(productEntityList);
 		createPdf(entity);
@@ -35,8 +46,8 @@ public class PdfTest2 {
 	public static void createPdf(BillOfSalesEntity entity) {
 		LocalDateTime begin = LocalDateTime.now();
 
-		File file = new File("D:/demo.pdf");
-
+		File file = new File("demo.pdf");
+		File imgFile = new File("demo.png");
 		try {
 			// 宋体，正常字体
 			BaseFont bfChinese = BaseFont.createFont(PdfUtils.FontName, PdfUtils.FontEncoding, BaseFont.NOT_EMBEDDED);
@@ -92,16 +103,16 @@ public class PdfTest2 {
 			// 第五行，list
 			for (BillOfSalesProductEntity productEntity : entity.getProductList()) {
 				PdfPCell[] cells5 = new PdfPCell[10];
-				cells5[0] = PdfUtils.createCell(productEntity.getProductName(), font, height, 1);
-				cells5[1] = PdfUtils.createCell(productEntity.getBarCode(), font, height, 1);
-				cells5[2] = PdfUtils.createCell(productEntity.getSpecs(), font, height, 1);
-				cells5[3] = PdfUtils.createCell(productEntity.getApprovalNo(), font, height, 1);
-				cells5[4] = PdfUtils.createCell(productEntity.getBatchNo(), font, height, 1);
-				cells5[5] = PdfUtils.createCell(productEntity.getTermOfValidity(), font, height, 1);
-				cells5[6] = PdfUtils.createCell(productEntity.getUnit(), font, height, 1);
-				cells5[7] = PdfUtils.createCell(productEntity.getNumber(), font, height, 1);
-				cells5[8] = PdfUtils.createCell(productEntity.getUnitPrice(), font, height, 1);
-				cells5[9] = PdfUtils.createCell(productEntity.getAmount(), font, height, 1);
+				cells5[0] = PdfUtils.createCell(productEntity.getProductName(), font, getHeight(productEntity.getProductName(), height), 1);
+				cells5[1] = PdfUtils.createCell(productEntity.getBarCode(), font, getHeight(productEntity.getProductName(), height), 1);
+				cells5[2] = PdfUtils.createCell(productEntity.getSpecs(), font, getHeight(productEntity.getProductName(), height), 1);
+				cells5[3] = PdfUtils.createCell(productEntity.getApprovalNo(), font, getHeight(productEntity.getProductName(), height), 1);
+				cells5[4] = PdfUtils.createCell(productEntity.getBatchNo(), font, getHeight(productEntity.getProductName(), height), 1);
+				cells5[5] = PdfUtils.createCell(productEntity.getTermOfValidity(), font, getHeight(productEntity.getProductName(), height), 1);
+				cells5[6] = PdfUtils.createCell(productEntity.getUnit(), font, getHeight(productEntity.getProductName(), height), 1);
+				cells5[7] = PdfUtils.createCell(productEntity.getNumber(), font, getHeight(productEntity.getProductName(), height), 1);
+				cells5[8] = PdfUtils.createCell(productEntity.getUnitPrice(), font, getHeight(productEntity.getProductName(), height), 1);
+				cells5[9] = PdfUtils.createCell(productEntity.getAmount(), font, getHeight(productEntity.getProductName(), height), 1);
 				listRow.add(new PdfPRow(cells5));
 			}
 
@@ -143,12 +154,45 @@ public class PdfTest2 {
 			listRow.add(new PdfPRow(cells9));
 
 			PdfUtils.createDocument(table, file);
+
+			PdfDocument pdf = new PdfDocument("demo.pdf");
+			BufferedImage image = pdf.saveAsImage(0);
+			File file2 = new File("demo.png");
+			ImageIO.write(image, "PNG", file2);
+
+			// 编码为 Base64 字符串
+			/*byte[] bytes = FileUtils.readFileToByteArray(file2);
+			String base64 = new String(Base64.getEncoder().encode(bytes), StandardCharsets.UTF_8);
+			System.out.println(base64);*/
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			//file.delete();
+			//imgFile.delete();
 		}
 		System.out.println(Duration.between(begin, LocalDateTime.now()).toMillis());
+	}
+
+	private static float getHeight(String text, float height) {
+		if (StringUtils.isBlank(text)) {
+			return height;
+		}
+		System.out.println(text.length());
+		System.out.println((text.length() / 8));
+		System.out.println((text.length() / 8) * 10 + height);
+		return (text.length() / 8) * 10 + height;
+	}
+
+	public static void main1(String[] args) throws IOException {
+		PdfDocument pdf = new PdfDocument("D://test.pdf");
+		BufferedImage image;
+		for (int i = 0; i < pdf.getPages().getCount(); i++) {
+			image = pdf.saveAsImage(i);
+			File file = new File(String.format("ToImage-img-%d.png", i));
+			ImageIO.write(image, "PNG", file);
+		}
+		pdf.close();
 	}
 
 }
