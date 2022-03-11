@@ -13,10 +13,10 @@ public class TableExcelVo {
 	@ExcelProperty(value = "列名", index = 0)
 	private String name;
 
-	@ExcelProperty(value = "类型", index = 1)
+	@ExcelProperty(value = "类型（bigint，int，varchar(xxx)，tinyint，datetime）", index = 1)
 	private String type;
 
-	@ExcelProperty(value = "是否可为null", index = 2)
+	@ExcelProperty(value = "是否可为null，是-否", index = 2)
 	private String isNull;
 
 	@ExcelProperty(value = "默认值", index = 3)

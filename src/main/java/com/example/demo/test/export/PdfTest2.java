@@ -1,4 +1,4 @@
-package com.example.demo.test.pdf;
+package com.example.demo.test.export;
 
 import com.example.demo.entity.BillOfSalesEntity;
 import com.example.demo.entity.BillOfSalesProductEntity;
@@ -9,6 +9,7 @@ import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPRow;
 import com.lowagie.text.pdf.PdfPTable;
 
+import java.io.File;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -33,10 +34,13 @@ public class PdfTest2 {
 
 	public static void createPdf(BillOfSalesEntity entity) {
 		LocalDateTime begin = LocalDateTime.now();
+
+		File file = new File("D:/demo.pdf");
+
 		try {
 			// 宋体，正常字体
 			BaseFont bfChinese = BaseFont.createFont(PdfUtils.FontName, PdfUtils.FontEncoding, BaseFont.NOT_EMBEDDED);
-			Font font = new Font(bfChinese, 10, Font.BOLD);
+			Font font = new Font(bfChinese, 10, Font.NORMAL);
 
 			// 创建一个pdf的表格
 			PdfPTable table = new PdfPTable(10);
@@ -138,9 +142,11 @@ public class PdfTest2 {
 			cells9[4] = PdfUtils.createCellLeft("", font, height, 6);
 			listRow.add(new PdfPRow(cells9));
 
-			PdfUtils.createDocument(table);
+			PdfUtils.createDocument(table, file);
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			//file.delete();
 		}
 		System.out.println(Duration.between(begin, LocalDateTime.now()).toMillis());
 	}

@@ -5,6 +5,7 @@ import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 
+import java.io.File;
 import java.io.FileOutputStream;
 
 /**
@@ -23,11 +24,11 @@ public class PdfUtils {
 	 * @param pdfPTable
 	 * @return
 	 */
-	public static Document createDocument(PdfPTable pdfPTable) {
+	public static Document createDocument(PdfPTable pdfPTable, File file) {
 		// A4翻转
 		Document document = new Document(PageSize.A4.rotate());
 		try {
-			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(Dest));
+			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(file));
 			document.open();
 			//把表格添加到文档中
 			document.add(pdfPTable);

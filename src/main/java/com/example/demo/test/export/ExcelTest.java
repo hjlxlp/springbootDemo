@@ -1,4 +1,4 @@
-package com.example.demo.test.pdf;
+package com.example.demo.test.export;
 
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.util.ListUtils;
@@ -6,6 +6,7 @@ import com.alibaba.excel.write.metadata.style.WriteCellStyle;
 import com.example.demo.entity.BillOfSalesEntity;
 import com.example.demo.entity.BillOfSalesProductEntity;
 
+import java.io.File;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -33,13 +34,15 @@ public class ExcelTest {
 		LocalDateTime begin = LocalDateTime.now();
 		try {
 			WriteCellStyle writeCellStyle = new WriteCellStyle();
-
-			EasyExcel.write(Dest)
+			File newFile = new File("demo.xlsx");
+			EasyExcel.write(newFile)
 					//.head(head2())
 					.registerWriteHandler(new MyMergeStrategy())
 					//.registerWriteHandler(new MyStrategy())
 					.sheet()
 					.doWrite(dataList3(entity));
+			newFile.delete();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
