@@ -13,6 +13,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -158,6 +159,10 @@ public class PdfTest2 {
 			PdfDocument pdf = new PdfDocument("demo.pdf");
 			BufferedImage image = pdf.saveAsImage(0);
 			File file2 = new File("demo.png");
+			// 中文编码
+			java.awt.Font font1 = new java.awt.Font("宋体", Font.NORMAL, 10);
+			Graphics graphics = image.getGraphics();
+			graphics.setFont(font1);
 			ImageIO.write(image, "PNG", file2);
 
 			// 编码为 Base64 字符串
@@ -178,9 +183,9 @@ public class PdfTest2 {
 		if (StringUtils.isBlank(text)) {
 			return height;
 		}
-		System.out.println(text.length());
+		/*System.out.println(text.length());
 		System.out.println((text.length() / 8));
-		System.out.println((text.length() / 8) * 10 + height);
+		System.out.println((text.length() / 8) * 10 + height);*/
 		return (text.length() / 8) * 10 + height;
 	}
 
