@@ -8,9 +8,15 @@ import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPRow;
 import com.lowagie.text.pdf.PdfPTable;
+import com.spire.pdf.PdfConformanceLevel;
 import com.spire.pdf.PdfDocument;
+import com.spire.pdf.PdfPageBase;
+import com.spire.pdf.graphics.*;
+import com.spire.pdf.graphics.fonts.PdfUsedFont;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.rendering.PDFRenderer;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -48,7 +54,9 @@ public class PdfTest2 {
 		LocalDateTime begin = LocalDateTime.now();
 
 		File file = new File("demo.pdf");
-		File imgFile = new File("demo.png");
+		File imgFile = new File("demo.jpg");
+		File imgFile2 = new File("demo2.png");
+		PDDocument pdDocument = null;
 		try {
 			// 宋体，正常字体
 			BaseFont bfChinese = BaseFont.createFont(PdfUtils.FontName, PdfUtils.FontEncoding, BaseFont.NOT_EMBEDDED);
@@ -156,28 +164,87 @@ public class PdfTest2 {
 
 			PdfUtils.createDocument(table, file);
 
-			PdfDocument pdf = new PdfDocument("demo.pdf");
+			/*PdfDocument pdf = new PdfDocument("demo.pdf");
 			BufferedImage image = pdf.saveAsImage(0);
 			File file2 = new File("demo.png");
 			// 中文编码
 			java.awt.Font font1 = new java.awt.Font("宋体", Font.NORMAL, 10);
 			Graphics graphics = image.getGraphics();
 			graphics.setFont(font1);
-			ImageIO.write(image, "PNG", file2);
+			ImageIO.write(image, "PNG", file2);*/
+
+			pdDocument = PDDocument.load(file);
+			PDFRenderer renderer = new PDFRenderer(pdDocument);
+			BufferedImage image = renderer.renderImageWithDPI(0, 200);
+
+			java.awt.Font font1 = new java.awt.Font("宋体", Font.NORMAL, 10);
+			Graphics graphics = image.createGraphics();
+			graphics.setFont(font1);
+
+			ImageIO.write(image, "jpeg", imgFile);
+
+			//System.out.println(System.getProperty("sun.jnu.encoding"));
+
+			/*System.out.println(font1);
+			System.out.println(image.getGraphics().getFont());
+			System.out.println(graphics.getFont());*/
 
 			// 编码为 Base64 字符串
-			/*byte[] bytes = FileUtils.readFileToByteArray(file2);
+			/*byte[] bytes = FileUtils.readFileToByteArray(imgFile);
 			String base64 = new String(Base64.getEncoder().encode(bytes), StandardCharsets.UTF_8);
-			System.out.println(base64);*/
+			System.out.println(base64);
+			bytes = Base64.getDecoder().decode(base64);
+			FileUtils.writeByteArrayToFile(imgFile2, bytes);*/
+
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
+			if (pdDocument != null) {
+				try {
+					pdDocument.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 			//file.delete();
 			//imgFile.delete();
+			/*if (file.exists()) {
+				file.delete();
+			}
+			if (imgFile.exists()) {
+				imgFile.delete();
+			}*/
 		}
 		System.out.println(Duration.between(begin, LocalDateTime.now()).toMillis());
 	}
+
+	private Font chineseFont(int size) throws Exception {
+		// 设置中文
+		//BaseFont b = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED); //默认的字体调用
+		//获取系统字体的路径
+		String prefixFont = "";
+		//获取系统类型
+		String os = System.getProperties().getProperty("os.name");
+		if (os.startsWith("win") || os.startsWith("Win")) {
+			// win下获取字体的路径
+			prefixFont = "C:\\Windows\\Fonts" + File.separator + "STSONG.TTF";
+		} else {
+			// linux下获取字体的路径,注意该目录下如果没有需额外安装，如我用的是STSONG字体
+			prefixFont = "/usr/share/fonts" + File.separator + "STSONG.TTF";
+			BaseFont b = null;
+			try {
+				b = BaseFont.createFont(prefixFont, BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
+			} catch (Exception e) {
+				//如果发生异常执行默认的字体
+				b = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
+			}
+
+			return new Font(b, size, Font.NORMAL);
+		}
+		return null;
+	}
+
 
 	private static float getHeight(String text, float height) {
 		if (StringUtils.isBlank(text)) {
