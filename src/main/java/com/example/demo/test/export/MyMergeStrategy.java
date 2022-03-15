@@ -36,6 +36,10 @@ public class MyMergeStrategy extends AbstractMergeStrategy {
 	private static Font font9;
 
 	public MyMergeStrategy() {
+
+	}
+
+	public MyMergeStrategy(Integer size) {
 		/**
 		 * 合并单元格坐标集合
 		 */
@@ -52,19 +56,23 @@ public class MyMergeStrategy extends AbstractMergeStrategy {
 		// 第五行
 		// 第六行
 		// 第七行
-		cellRangeMap.put("6:1", new CellRangeAddress(6, 6, 1, 5));
+		cellRangeMap.put(5 + size + ":1", new CellRangeAddress(5 + size, 5 + size, 1, 5));
 		// 第八行
-		cellRangeMap.put("7:0", new CellRangeAddress(7, 7, 0, 4));
-		cellRangeMap.put("7:5", new CellRangeAddress(7, 7, 5, 9));
+		cellRangeMap.put(6 + size + ":0", new CellRangeAddress(6 + size, 6 + size, 0, 4));
+		cellRangeMap.put(6 + size + ":5", new CellRangeAddress(6 + size, 6 + size, 5, 9));
 		// 第九行
-		cellRangeMap.put("8:0", new CellRangeAddress(8, 8, 0, 1));
-		cellRangeMap.put("8:2", new CellRangeAddress(8, 8, 2, 3));
-		cellRangeMap.put("8:4", new CellRangeAddress(8, 8, 4, 9));
+		cellRangeMap.put(7 + size + ":0", new CellRangeAddress(7 + size, 7 + size, 0, 1));
+		cellRangeMap.put(7 + size + ":2", new CellRangeAddress(7 + size, 7 + size, 2, 3));
+		cellRangeMap.put(7 + size + ":4", new CellRangeAddress(7 + size, 7 + size, 4, 9));
 
 		cellStyleList = new ArrayList<>();
 		cellStyleList.add(0);
-		cellStyleList.add(3);
-		cellStyleList.add(4);
+		for (int i = 0; i <= size; i++) {
+			cellStyleList.add(3 + i);
+		}
+
+
+		//cellStyleList.add(4);
 
 		/*cellList2 = new ArrayList<>();
 		// 第一行
@@ -126,6 +134,10 @@ public class MyMergeStrategy extends AbstractMergeStrategy {
 		CellStyle styleCenter = sheet.getWorkbook().createCellStyle();
 		// 垂直居中
 		styleCenter.setVerticalAlignment(VerticalAlignment.CENTER);
+		styleCenter.setBorderBottom(BorderStyle.THIN);
+		styleCenter.setBorderLeft(BorderStyle.THIN);
+		styleCenter.setBorderTop(BorderStyle.THIN);
+		styleCenter.setBorderRight(BorderStyle.THIN);
 
 		if (cellStyleList.contains(cell.getRowIndex())) {
 			// 水平居中

@@ -27,6 +27,9 @@ public class ExcelTest {
 		BillOfSalesProductEntity product = new BillOfSalesProductEntity();
 		product.setProductName("纽曼思藻油DHA软胶囊（成人型）国产中国");
 		productEntityList.add(product);
+		BillOfSalesProductEntity product2 = new BillOfSalesProductEntity();
+		product2.setProductName("纽曼思藻油DHA软胶囊（成人型）国产中国");
+		productEntityList.add(product2);
 		entity.setProductList(productEntityList);
 		createExcel(entity);
 	}
@@ -38,7 +41,7 @@ public class ExcelTest {
 			File newFile = new File("D://demo.xlsx");
 			EasyExcel.write(newFile)
 					//.head(head2())
-					.registerWriteHandler(new MyMergeStrategy())
+					.registerWriteHandler(new MyMergeStrategy(entity.getProductList().size()))
 					//.registerWriteHandler(new MyStrategy())
 					.sheet()
 					.doWrite(dataList3(entity));
