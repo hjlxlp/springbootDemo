@@ -46,7 +46,7 @@ public class ExcelTest2 {
 					.append("product_id = ").append(entity.getSpuId())
 					.append(", group_name = '").append("area" + entity.getBrandSort()).append("'")
 					.append(", show_order = ").append(entity.getSpuSort() * 10)
-					.append(", holiday_type = ").append("'2022_03_15_holiday'")
+					.append(", holiday_type = ").append("'2022_03_18_holiday'")
 					.append(";\n");
 		}
 
