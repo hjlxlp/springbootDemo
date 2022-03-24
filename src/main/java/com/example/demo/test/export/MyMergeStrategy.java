@@ -2,6 +2,7 @@ package com.example.demo.test.export;
 
 import com.alibaba.excel.metadata.Head;
 import com.alibaba.excel.write.merge.AbstractMergeStrategy;
+import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 
@@ -97,6 +98,39 @@ public class MyMergeStrategy extends AbstractMergeStrategy {
 		cellList2.add(new CellRangeAddress(8, 8, 4, 9));*/
 	}
 
+	/**
+	 * 设置值和样式，富文本 复合样式（一个单元格多个字体）
+	 * @param cell 当前单元格
+	 * @param wholeStr 整个字符串
+	 * @param strArray 字符串分割的数组
+	 * @param strFontList 字符串分割后一一对应的字体
+	 */
+	public static void setRichTextCellValue(Cell cell, String wholeStr, String[] strArray, List<Font> strFontList){
+		HSSFRichTextString hssfRichTextString = new HSSFRichTextString(wholeStr);
+		int strLength = 0;
+		for(int i = 0; i < strArray.length; i++){
+			hssfRichTextString.applyFont(strLength, strLength + strArray[i].length(), strFontList.get(i));
+			strLength = strArray[i].length();
+		}
+		cell.setCellValue(hssfRichTextString);
+	}
+
+	public static void main(String[] args) {
+
+
+
+
+		String v = "1、xxx;0,2、xxx;1,3、xxx;2";
+		String[] values = v.split(",");
+		for (int k = 0; k < values.length; k++) {
+			// text
+			String value = values[k].substring(0, values[k].length()-1);
+			// 是否跨省市
+			String type = values[k].substring(values[k].length()-1);
+			System.out.println(value);
+			System.out.println(type);
+		}
+	}
 
 	/**
 	 * merge
@@ -154,7 +188,17 @@ public class MyMergeStrategy extends AbstractMergeStrategy {
 
 
 		styleCenter.setFont(font);
-		cell.setCellStyle(styleCenter);
+		//cell.setCellStyle(styleCenter);
+
+
+		List<Font> fontList = new ArrayList<>();
+		Font font1 = sheet.getWorkbook().createFont();
+		font1.setColor((short)1);
+		fontList.add(font1);
+		Font font2 = sheet.getWorkbook().createFont();
+		font1.setColor((short)2);
+		fontList.add(font2);
+		setRichTextCellValue(cell, "红色字体 黑色字体", new String[]{"红色字体", " 黑色字体"}, fontList);
 
 		//sheet.addMergedRegionUnsafe(new CellRangeAddress(0, 0, 0, 9));
 		//System.out.println(cell.getRowIndex() + ":" + cell.getColumnIndex());
