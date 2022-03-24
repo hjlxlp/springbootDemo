@@ -3,6 +3,7 @@ package com.example.demo.test.export;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.util.ListUtils;
 import com.alibaba.excel.write.metadata.style.WriteCellStyle;
+import com.alibaba.fastjson.JSON;
 import com.example.demo.entity.BillOfSalesEntity;
 import com.example.demo.entity.BillOfSalesProductEntity;
 import org.apache.poi.hssf.util.HSSFColor;
@@ -33,7 +34,7 @@ public class ExcelTest {
 	}
 
 	public static void main9(String[] args) throws IOException {
-		SXSSFWorkbook wb = new SXSSFWorkbook();
+		XSSFWorkbook wb = new XSSFWorkbook();
 		Sheet sheet = wb.createSheet();
 		Row row = sheet.createRow(0);
 
@@ -81,14 +82,15 @@ public class ExcelTest {
 				} else if ("2".equals(type)) {
 					rt.applyFont(beginIndex, beginIndex + values[k].length()-1, fontList.get(2));
 				}
-				System.out.println(beginIndex+":"+(beginIndex + values[k].length()-1));
+				//System.out.println(beginIndex+":"+(beginIndex + values[k].length()-1));
 				beginIndex += values[k].length();
 			}
 
 			//rt.applyFont(0, 5, fontList.get(2));
 			//rt.applyFont(font2);
-			System.out.println(rt.length());
-			System.out.println(rt.toString().length());
+			//System.out.println(rt.length());
+			//System.out.println(rt.toString().length());
+			System.out.println(JSON.toJSONString(rt.toString()));
 			c.setCellValue(rt);
 		} else {
 			c.setCellValue("");
@@ -211,7 +213,6 @@ public class ExcelTest {
 
 	public static void main7(String[] args) throws IOException {
 		Workbook wb = new XSSFWorkbook();
-
 		Sheet sheet = wb.createSheet();
 		int k = 1;
 		for (int i = 0; i < 40; i++) {
