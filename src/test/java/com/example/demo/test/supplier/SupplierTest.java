@@ -3,13 +3,17 @@ package com.example.demo.test.supplier;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
+import com.alibaba.excel.metadata.data.ReadCellData;
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -17,6 +21,32 @@ import java.util.stream.Collectors;
  * @date 2021/2/24 10:04
  **/
 public class SupplierTest {
+
+	@Test
+	public void test1() {
+		LocalDateTime beginTime = LocalDateTime.now();
+		String fileName = "D:/test3.xlsx";
+		List<Map<Integer, String>> tableList = new ArrayList<>();
+		AnalysisEventListener listener = new AnalysisEventListener<Map<Integer, String>>() {
+			@Override
+			public void invoke(Map<Integer, String> o, AnalysisContext analysisContext) {
+				System.out.println(analysisContext.readRowHolder());
+				tableList.add(o);
+			}
+
+			@Override
+			public void doAfterAllAnalysed(AnalysisContext analysisContext) {
+			}
+
+			@Override
+			public void invokeHeadMap(Map<Integer, String> headMap, AnalysisContext context) {
+				System.out.println(JSON.toJSONString(headMap));
+			}
+		};
+		EasyExcel.read(fileName, listener).sheet().doRead();
+
+		System.out.println(Duration.between(beginTime, LocalDateTime.now()).toMillis());
+	}
 
 	@Test
 	public void test() {
