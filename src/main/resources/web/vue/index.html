@@ -46,6 +46,15 @@
         <blog-post title="我的 Vue 旅程"></blog-post>
     </div>
 
+    <div id="v-for-object-test">
+        <div v-for="(item, index) in list">
+            <div v-if="BudgetYear['orgcode' + (index + 1)] == item.orglevel">
+                出现了
+            </div>
+            {{ index }}: {{ item }}
+        </div>
+    </div>
+
 <script src="index.js"></script>
 </body>
 </html>

@@ -49,6 +49,23 @@ var ob = new Vue({
     }
 })
 
+var ob = new Vue({
+    el: '#v-for-object-test',
+    data: {
+        BudgetYear: {
+            "orgcode1": 1,
+            "orgcode2": 2
+        },
+        list: [{
+            "name": 'hjl',
+            "orglevel": '1'
+        }, {
+            "name": 'yt',
+            "orglevel": '2'
+        }]
+    }
+})
+
 var example1 = new Vue({
     el: '#example-1',
     data: {
@@ -84,5 +101,5 @@ Vue.component('blog-post', {
     template: '<h3>{{ title }}</h3>'
 })
 
-new Vue({ el: '#components-demo' })
+new Vue({el: '#components-demo'})
 
