@@ -30,6 +30,58 @@ import java.util.stream.Collectors;
 public class MyTest {
 
 
+	@Test
+	public void test10() {
+		List<OVO> ovoList = new ArrayList<>();
+		for (int i = 0; i < 3; i++) {
+			OVO ovo = new OVO();
+			ovo.setId(i);
+			ovo.setName("ovoname"+i);
+
+			// 里面的krvoList
+			List<KRVO> krvoList = new ArrayList<>();
+			for (int j = 0; j < 3; j++) {
+				KRVO krvo = new KRVO();
+				krvo.setId(j);
+				krvo.setName("krvoname"+j);
+				krvoList.add(krvo);
+			}
+			ovo.setList(krvoList);
+
+			ovoList.add(ovo);
+		}
+
+
+		System.out.println(JSON.toJSONString(ovoList));
+
+
+		List<OVO> ovoList1 = new ArrayList<>();//sql
+		for (OVO ovo : ovoList1) {
+
+			// 里面的krvoList
+			List<KRVO> krvoList = new ArrayList<>();//sql,ovoid
+
+			ovo.setList(krvoList);
+		}
+
+
+		for (int i = 0; i < ovoList1.size(); i++) {
+			// table
+			// ovoid,ovoname
+
+			for (int j = 0; j < ovoList1.get(i).getList().size(); j++) {
+				// table
+				// krvoid,krvoname
+			}
+
+
+		}
+
+
+
+
+	}
+
 	Integer Add(Integer num) {
 		if (num == 1) {
 			return 1;

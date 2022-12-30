@@ -4,8 +4,8 @@ import org.junit.Test;
 
 import java.io.File;
 import java.nio.file.Files;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.text.SimpleDateFormat;
+import java.time.*;
 import java.util.*;
 
 /**
@@ -13,6 +13,18 @@ import java.util.*;
  * @date 2022/3/25 15:40
  */
 public class PhotoTest {
+
+    public static void main(String[] args) {
+        LocalDateTime d1 = LocalDateTime.of(2022,7,1,12,0,0);
+        LocalDateTime d2 = LocalDateTime.of(2022,7,2,11,59,59);
+        LocalDate d3 = LocalDate.of(2022,7,1);
+        LocalDate d4 = LocalDate.of(2022,7,1);
+
+        LocalDate.ofInstant(new Date().toInstant(), ZoneId.systemDefault());
+
+        System.out.println(Period.between(d3,d4).getDays());
+        System.out.println(LocalDate.ofInstant(new Date().toInstant(), ZoneId.systemDefault()));
+    }
 
     public static Integer num = 1;
 
@@ -164,5 +176,16 @@ public class PhotoTest {
         }
     }
 
+    @Test
+    public void test05() throws Exception {
+        File file = new File("D:\\Photo\\blhx");
+        File[] files = file.listFiles();
+
+        for (File file1 : files) {
+            if (Arrays.stream(files).filter(a -> a.length() == file1.length()).count() > 1) {
+                System.out.println(file1.getName());
+            }
+        }
+    }
 
 }
