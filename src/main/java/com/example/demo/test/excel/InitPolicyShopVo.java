@@ -19,4 +19,7 @@ public class InitPolicyShopVo {
     @ExcelProperty(value = "用户手机号", index = 2)
     private String mobile;
 
+    //@ExcelProperty(value = "店铺名称", index = 3)
+    //private String shopName;
+
 }
