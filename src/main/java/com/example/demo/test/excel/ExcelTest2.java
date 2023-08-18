@@ -39,23 +39,23 @@ public class ExcelTest2 {
 		EasyExcel.read(fileName, InitPolicyShopVo.class, listener).sheet().doRead();
 
 		System.out.println(JSON.toJSONString(tableList));
-		/*System.out.println(JSON.toJSONString(tableList.stream().map(a -> a.getPolicyName()).distinct().collect(Collectors.joining(","))));
+		System.out.println(JSON.toJSONString(tableList.stream().map(a -> a.getPolicyName()).distinct().collect(Collectors.joining(","))));
 		List<String> mobileList = tableList.stream().map(a -> a.getMobile().trim()).distinct().collect(Collectors.toList());
 		System.out.println(mobileList.size());
 		StringBuffer sb = new StringBuffer();
 		for (String s : mobileList) {
 			sb.append("'").append(s).append("',");
 		}
-		System.out.println(JSON.toJSONString(sb.substring(0, sb.length() - 1)));*/
+		System.out.println(JSON.toJSONString(sb.substring(0, sb.length() - 1)));
 
-		/*List<String> mobileList1 = new ArrayList<>();
+		List<String> mobileList1 = new ArrayList<>();
 		for (InitPolicyShopVo vo : tableList) {
 			if(mobileList1.contains(vo.getMobile())){
 				System.out.println(vo.getMobile());
 			}else{
 				mobileList1.add(vo.getMobile());
 			}
-		}*/
+		}
 
 		/*String str = "";
 		for (InitPolicyShopVo vo : tableList) {
