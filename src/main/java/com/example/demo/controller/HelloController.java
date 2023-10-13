@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.DocumentType;
-import com.example.demo.util.JedisClient;
+//import com.example.demo.util.JedisClient;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -21,8 +21,8 @@ public class HelloController {
 
     @Autowired
     private RedisTemplate redisTemplate;
-    @Autowired
-    private JedisClient jedisClient;
+    //@Autowired
+    //private JedisClient jedisClient;
 
     @GetMapping("index")
     public String index() {
@@ -46,7 +46,7 @@ public class HelloController {
                 + ",b=" + redisTemplate.hasKey(key);
     }
 
-    @GetMapping("/setV")
+    /*@GetMapping("/setV")
     public String setV(String key, String value) throws Exception {
         jedisClient.set(key, value);
         return "success";
@@ -65,7 +65,7 @@ public class HelloController {
         System.out.println(jedis.get(key));
         jedisClient.returnResource(jedis);
         return jedis.get(key);
-    }
+    }*/
 
     /**
      * 计数器，根据key获取序号

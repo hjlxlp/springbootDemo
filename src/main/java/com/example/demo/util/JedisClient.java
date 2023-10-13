@@ -1,3 +1,4 @@
+/*
 package com.example.demo.util;
 
 import org.slf4j.Logger;
@@ -8,10 +9,12 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 
+*/
 /**
  * @author hjl
  * @date 2019/7/11 15:29
- */
+ *//*
+
 @Component
 public class JedisClient {
 
@@ -70,3 +73,4 @@ public class JedisClient {
     }
 
 }
+*/

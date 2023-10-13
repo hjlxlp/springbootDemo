@@ -4,7 +4,6 @@ import com.lowagie.text.*;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -13,9 +12,8 @@ import java.io.FileOutputStream;
  * @author huangjiale
  * @date 2022/3/8 10:15
  **/
-public class PdfUtils {
+public class PdfUtils2 {
 
-	public static final String Dest = "D:\\demo.pdf";
 	public static final String FontName = "STSong-Light";
 	public static final String FontEncoding = "UniGB-UCS2-H";
 
@@ -42,7 +40,7 @@ public class PdfUtils {
 	}
 
 	/**
-	 * 创建cell
+	 * 创建cell，水平居中
 	 *
 	 * @param text
 	 * @param font
@@ -52,13 +50,12 @@ public class PdfUtils {
 	 */
 	public static PdfPCell createCell(String text, Font font, float height, int colspan) {
 		PdfPCell cell = new PdfPCell(new Paragraph(text, font));
-		// 水平居住
+		// 水平居中
 		cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 		// 垂直居中
 		cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 		// 固定高度
 		cell.setFixedHeight(height);
-
 		// 合并单元格，10格
 		if (colspan > 1) {
 			cell.setColspan(colspan);
@@ -82,11 +79,41 @@ public class PdfUtils {
 		// 垂直居中
 		cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 		// 固定高度
-		cell.setFixedHeight(height);
+		//cell.setFixedHeight(height);
 		// 合并单元格，10格
 		if (colspan > 1) {
 			cell.setColspan(colspan);
 		}
+		cell.setNoWrap(false);
+		return cell;
+	}
+
+	/**
+	 * 创建cell，靠左
+	 *
+	 * @param text
+	 * @param font
+	 * @param height
+	 * @param colspan
+	 * @return
+	 */
+	public static PdfPCell createCellLeft(String text, Font font, float height, int colspan, int rowspan) {
+		PdfPCell cell = new PdfPCell(new Paragraph(text, font));
+		// 水平居住
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		// 垂直居中
+		cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+		// 固定高度
+		//cell.setFixedHeight(height);
+		// 合并单元格，10格
+		if (colspan > 1) {
+			cell.setColspan(colspan);
+		}
+		// 合并单元格，10格
+		if (rowspan > 1) {
+			cell.setRowspan(rowspan);
+		}
+		cell.setNoWrap(false);
 		return cell;
 	}
 

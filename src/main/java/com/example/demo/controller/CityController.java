@@ -1,12 +1,16 @@
 package com.example.demo.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.example.demo.entity.City;
 import com.example.demo.entity.TestValidation;
 import com.example.demo.mapper.CityMapper;
 import com.example.demo.service.CityService;
 import com.example.demo.service.CityTestService;
 import com.example.demo.util.BaseResultModel;
+import com.example.demo.util.HttpUtil;
 import com.example.demo.util.StringUtil;
+import com.example.demo.vo.Code;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
@@ -15,9 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 //import javax.validation.Valid;
 
@@ -34,6 +36,20 @@ public class CityController {
     @Autowired
     private CityMapper cityMapper;
 
+
+    @PostMapping("test11")
+    public Code test11(@RequestBody Code code) {
+        return code;
+    }
+
+    @PostMapping("test22")
+    public String test22(@RequestBody Code code) {
+        Map<String,String> map = new HashMap<>();
+        map.put("code", code.getCode());
+        String s = HttpUtil.sendPost("http://127.0.0.1:8080/city/test11", JSON.toJSONString(map));
+        System.out.println(s);
+        return s;
+    }
 
     @PostMapping("test10000")
     public BaseResultModel test10000() {
