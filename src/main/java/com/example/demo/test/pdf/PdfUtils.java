@@ -134,11 +134,6 @@ public class PdfUtils {
 	public static PdfPCell newCell(String text, Font font, Integer colspan, Integer rowspan, Integer element,
 								   Integer height, Integer border, Color borderColor, Color backgroundColor) {
 		PdfPCell cell = new PdfPCell(new Paragraph(text, font));
-		// 边距
-		cell.setPaddingTop(5f);
-		cell.setPaddingBottom(5f);
-		cell.setPaddingLeft(10f);
-		cell.setPaddingRight(10f);
 		// 边框
 		if (border != null) {
 			cell.setBorder(border);
@@ -174,6 +169,13 @@ public class PdfUtils {
 		if (rowspan != null && rowspan > 1) {
 			cell.setRowspan(rowspan);
 		}
+		// 行间距
+		cell.setLeading(25, 0);
+		// 边距
+		//cell.setPaddingTop(5f);
+		cell.setPaddingBottom(15f);
+		cell.setPaddingLeft(10f);
+		cell.setPaddingRight(10f);
 		return cell;
 	}
 
