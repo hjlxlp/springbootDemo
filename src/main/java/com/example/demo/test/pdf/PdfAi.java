@@ -8,10 +8,13 @@ import com.lowagie.text.Font;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.*;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 
 import java.awt.*;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -56,9 +59,10 @@ public class PdfAi {
 	 *
 	 * @param reportId
 	 */
-	public static void queryPdfResVo(Long reportId) {
+	public static PdfResVo queryPdfResVo(String reportId) {
 		// todo
 		pdfResVo = new PdfResVo();
+		return pdfResVo;
 	}
 
 	/**
@@ -68,6 +72,9 @@ public class PdfAi {
 
 		@Override
 		public void onStartPage(PdfWriter writer, Document document) {
+			// 数据库数据
+			AiConsultFlowVO detailVo = pdfResVo.getDetailVo();
+
 			PdfPTable table = new PdfPTable(3);
 			table.setWidths(new int[]{38, 36, 36});
 			table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -87,16 +94,12 @@ public class PdfAi {
 			table.addCell(titleCell);
 			table.addCell(emptyCell);
 
-			table.addCell(new Paragraph("检测人：黄佳乐", font10));
+			/*table.addCell(new Paragraph("检测人：黄佳乐", font10));
 			table.addCell(new Paragraph("性别：男", font10));
-			table.addCell(new Paragraph("年龄：18", font10));
-
-			/*AiConsultFlowVO detailVo = new AiConsultFlowVO();
-			detailVo.setName("11");
-
+			table.addCell(new Paragraph("年龄：18", font10));*/
 			table.addCell(new Paragraph("检测人：" + detailVo.getName(), font10));
 			table.addCell(new Paragraph("性别：" + detailVo.getGenderDesc(), font10));
-			table.addCell(new Paragraph("年龄：" + detailVo.getAge(), font10));*/
+			table.addCell(new Paragraph("年龄：" + detailVo.getAge(), font10));
 
 			float yOffset = -30;
 			table.setTotalWidth(document.getPageSize().getWidth() - document.leftMargin() - document.rightMargin());
@@ -115,17 +118,17 @@ public class PdfAi {
 
 		@Override
 		public void onEndPage(PdfWriter writer, Document document) {
+			// 数据库数据
+			AiConsultFlowVO detailVo = pdfResVo.getDetailVo();
+
 			PdfPTable table = new PdfPTable(2);
 			table.setTotalWidth(document.getPageSize().getWidth() - document.leftMargin() - document.rightMargin());
 			table.setWidths(new int[]{50, 50});
 			table.getDefaultCell().setPaddingBottom(5);
 			table.getDefaultCell().setBorder(PdfPCell.TOP);
 
-			Paragraph title = new Paragraph("检测时间：2023-09-15 17:15:56", font10);
-
-			/*AiConsultFlowVO detailVo = pdfResVo.getDetailRes().getBody();
-
-			Paragraph title = new Paragraph("检测时间：" + detailVo.getCreateTime(), font10);*/
+			/*Paragraph title = new Paragraph("检测时间：2023-09-15 17:15:56", font10);*/
+			Paragraph title = new Paragraph("检测时间：" + DateUtil.formatDateTime(detailVo.getCreateTime()), font10);
 			PdfPCell titleCell = new PdfPCell(title);
 			titleCell.setPaddingTop(4);
 			titleCell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -175,6 +178,9 @@ public class PdfAi {
 	 * @param document
 	 */
 	public static void onePage(Document document) throws Exception {
+		// 数据库数据
+		AiConsultFlowVO detailVo = pdfResVo.getDetailVo();
+
 		// 标题图片
 		document.add(PdfUtils.newParagraph("\n", font16));
 		document.add(PdfUtils.newImage(testTitleUrl1, Element.ALIGN_CENTER, 400, 100));
@@ -195,7 +201,7 @@ public class PdfAi {
 		table.setWidths(new float[]{6f, 4f});
 
 
-		PdfPCell[] cells1 = new PdfPCell[2];
+		/*PdfPCell[] cells1 = new PdfPCell[2];
 		cells1[0] = PdfUtils.newCell("\t黄佳乐\n", font20, 45, PdfPCell.NO_BORDER);
 		// 二维码
 		cells1[1] = PdfUtils.newCell("", font20, 0, 5, Element.ALIGN_LEFT, PdfPCell.NO_BORDER);
@@ -211,10 +217,7 @@ public class PdfAi {
 		PdfPCell[] cells4 = new PdfPCell[2];
 		cells4[0] = PdfUtils.newCell("\t联系电话：18616919418\n", font20, 45, PdfPCell.NO_BORDER);
 		PdfPCell[] cells5 = new PdfPCell[2];
-		cells5[0] = PdfUtils.newCell("\t报告时间：2023-9-15\n", font20, 45, PdfPCell.NO_BORDER);
-
-		/*AiConsultFlowVO detailVo = pdfResVo.getDetailRes().getBody();
-
+		cells5[0] = PdfUtils.newCell("\t报告时间：2023-9-15\n", font20, 45, PdfPCell.NO_BORDER);*/
 		PdfPCell[] cells1 = new PdfPCell[2];
 		cells1[0] = PdfUtils.newCell("\t" + detailVo.getName() + "\n", font20, 45, PdfPCell.NO_BORDER);
 		// 二维码
@@ -231,7 +234,7 @@ public class PdfAi {
 		PdfPCell[] cells4 = new PdfPCell[2];
 		cells4[0] = PdfUtils.newCell("\t联系电话：" + detailVo.getUserShopDetailVO().getMobile() + "\n", font20, 45, PdfPCell.NO_BORDER);
 		PdfPCell[] cells5 = new PdfPCell[2];
-		cells5[0] = PdfUtils.newCell("\t报告时间：" + DateUtil.formatDate(detailVo.getCreateTime()) + "\n", font20, 45, PdfPCell.NO_BORDER);*/
+		cells5[0] = PdfUtils.newCell("\t报告时间：" + DateUtil.formatDate(detailVo.getCreateTime()) + "\n", font20, 45, PdfPCell.NO_BORDER);
 
 		listRow.add(new PdfPRow(cells1));
 		listRow.add(new PdfPRow(cells2));
@@ -301,6 +304,10 @@ public class PdfAi {
 	 * @throws Exception
 	 */
 	public static void threePage(Document document) throws Exception {
+		// 数据库数据
+		AiConsultFlowVO detailVo = pdfResVo.getDetailVo();
+		AiConsultFlowVO tongueVo = pdfResVo.getTongueVo();
+
 		document.newPage();
 
 		// 标题
@@ -312,11 +319,13 @@ public class PdfAi {
 		table0.setWidths(new float[]{1f});
 
 		PdfPCell[] cells01 = new PdfPCell[1];
-		cells01[0] = PdfUtils.newCellLeft("健康状态：痰湿 (痰阻心脉证)");
+		//cells01[0] = PdfUtils.newCellLeft("健康状态：痰湿 (痰阻心脉证)");
+		cells01[0] = PdfUtils.newCellLeft("健康状态：" + detailVo.getDiagnosticResults());
 		cells01[0].setBackgroundColor(backgroundColor1);
 		listRow0.add(new PdfPRow(cells01));
 		PdfPCell[] cells02 = new PdfPCell[1];
-		cells02[0] = PdfUtils.newCellLeft("综合舌象、面象分析属于亚健康状态，建议您一周后再次检测");
+		//cells02[0] = PdfUtils.newCellLeft("综合舌象、面象分析属于亚健康状态，建议您一周后再次检测");
+		cells02[0] = PdfUtils.newCellLeft(detailVo.getTongueTips());
 		listRow0.add(new PdfPRow(cells02));
 		document.add(table0);
 		document.add(PdfUtils.newParagraph("\n", font16));
@@ -326,7 +335,8 @@ public class PdfAi {
 
 		// 1.舌面图像采集结果
 		document.add(PdfUtils.newParagraph("舌面图像采集结果\n", font20Bold, Element.ALIGN_CENTER));
-		document.add(PdfUtils.newImage(testImgUrl2, Element.ALIGN_CENTER, 100, 150));
+		//document.add(PdfUtils.newImage(testImgUrl2, Element.ALIGN_CENTER, 100, 150));
+		document.add(PdfUtils.newImage(tongueVo.getTongueSurfaceImg(), Element.ALIGN_CENTER, 100, 150));
 		document.add(PdfUtils.newParagraph("舌面\n\n", font16, Element.ALIGN_CENTER));
 
 		// 2.舌象分析结果汇总
@@ -340,7 +350,7 @@ public class PdfAi {
 		cells11[0] = PdfUtils.newCell("舌象分析结果汇总", font16Bold, 2, 0, Element.ALIGN_CENTER, null, borderColor1);
 		listRow1.add(new PdfPRow(cells11));
 
-		Boolean flag = true;
+		/*Boolean flag = true;
 		for (int i = 0; i < 6; i++) {
 			PdfPCell[] cells12 = new PdfPCell[2];
 			cells12[0] = PdfUtils.newCellCenter("舌色：" + i);
@@ -353,11 +363,26 @@ public class PdfAi {
 			}
 			listRow1.add(new PdfPRow(cells12));
 			flag = !flag;
+		}*/
+		Boolean flag = true;
+		for (AiReportItemVO tongueItemVO : tongueVo.getAiTongueItemVOList()) {
+			PdfPCell[] cells12 = new PdfPCell[2];
+			cells12[0] = PdfUtils.newCellCenter(tongueItemVO.getKey());
+			if (flag) {
+				cells12[0].setBackgroundColor(backgroundColor1);
+			}
+			cells12[1] = PdfUtils.newCellLeft(tongueItemVO.getValue());
+			if (flag) {
+				cells12[1].setBackgroundColor(backgroundColor1);
+			}
+			listRow1.add(new PdfPRow(cells12));
+			flag = !flag;
 		}
 
 		document.add(table1);
 		document.add(PdfUtils.newParagraph("\n", font16));
 
+		/* 暂无
 		// 3.舌象特征变化解析
 		PdfPTable table2 = new PdfPTable(2);
 		table2.setWidthPercentage(100);
@@ -380,10 +405,10 @@ public class PdfAi {
 		listRow2.add(new PdfPRow(cells23));
 
 		document.add(table2);
-		document.add(PdfUtils.newParagraph("\n", font16));
+		document.add(PdfUtils.newParagraph("\n", font16));*/
 
 		// 4.中医解析
-		PdfPTable table3 = new PdfPTable(3);
+		/*PdfPTable table3 = new PdfPTable(3);
 		table3.setWidthPercentage(100);
 		List<PdfPRow> listRow3 = table3.getRows();
 		table3.setWidths(new float[]{1f, 2f, 6f});
@@ -425,7 +450,79 @@ public class PdfAi {
 		document.add(table3);
 		document.add(PdfUtils.newParagraph("\n", font16));
 		document.add(table3);
-		document.add(PdfUtils.newParagraph("\n", font16));
+		document.add(PdfUtils.newParagraph("\n", font16));*/
+		for (AiReportItemVO tongueVO : tongueVo.getAiTongueVOList()) {
+			PdfPTable table3 = new PdfPTable(4);
+			table3.setWidthPercentage(100);
+			List<PdfPRow> listRow3 = table3.getRows();
+			table3.setWidths(new float[]{1f, 2f, 3f, 3f});
+
+			PdfPCell[] cells31 = new PdfPCell[4];
+			cells31[0] = PdfUtils.newCell(tongueVO.getKey() + "——中医解析", font16Bold, 4, 0, Element.ALIGN_CENTER, null, borderColor1);
+			listRow3.add(new PdfPRow(cells31));
+
+			PdfPCell[] cells32 = new PdfPCell[4];
+			cells32[0] = PdfUtils.newCellCenter("人工智能分析", 0, 2);
+			cells32[1] = PdfUtils.newCellCenter(tongueVO.getKey() + "分析");
+			if (StringUtils.isNotBlank(tongueVO.getPhotoTwo())) {
+				cells32[2] = PdfUtils.newCellLeft("");
+				cells32[2].setBorderColor(borderColor1);
+				cells32[2].addElement(PdfUtils.newParagraph("\n", font10));
+				cells32[2].addElement(PdfUtils.newImage(tongueVO.getPhoto(), Element.ALIGN_CENTER, 100, 100));
+
+				cells32[3] = PdfUtils.newCellLeft("");
+				cells32[3].setBorderColor(borderColor1);
+				cells32[3].addElement(PdfUtils.newParagraph("\n", font10));
+				cells32[3].addElement(PdfUtils.newImage(tongueVO.getPhotoTwo(), Element.ALIGN_CENTER, 100, 100));
+			} else {
+				cells32[2] = PdfUtils.newCellLeft("", 2, 0);
+				cells32[2].setBorderColor(borderColor1);
+				cells32[2].addElement(PdfUtils.newParagraph("\n", font10));
+				cells32[2].addElement(PdfUtils.newImage(tongueVO.getPhoto(), Element.ALIGN_CENTER, 100, 100));
+			}
+			listRow3.add(new PdfPRow(cells32));
+
+			PdfPCell[] cells33 = new PdfPCell[4];
+			cells33[1] = PdfUtils.newCellCenter("辨识结果");
+			cells33[1].setBackgroundColor(backgroundColor1);
+			cells33[2] = PdfUtils.newCellLeft(tongueVO.getField(), 2, 0);
+			cells33[2].setBackgroundColor(backgroundColor1);
+			listRow3.add(new PdfPRow(cells33));
+
+			// 详情，举例：（【润】舌苔干湿适中，不滑不燥为润苔。</br> 【病理意义】舌苔水分正常。）
+			List<String> strList = new ArrayList<>();
+			strList.add("");
+			strList.add("");
+			if (StringUtils.isNotBlank(tongueVO.getValue())) {
+				// 去除br
+				String str = tongueVO.getValue().replaceAll("</br>", "\n");
+				// 提取病理意义
+				String[] strs = str.split("【病理意义】");
+				if (strs.length == 1) {
+					strList.add(0, strs[0]);
+				} else if (strs.length > 1) {
+					strList.add(0, strs[0]);
+					strList.add(1, "【病理意义】" + strs[1]);
+				}
+			}
+
+			PdfPCell[] cells34 = new PdfPCell[4];
+			cells34[0] = PdfUtils.newCellCenter("中医解析", 0, 2);
+			cells34[1] = PdfUtils.newCellCenter("中医描述");
+			cells34[2] = PdfUtils.newCellLeft(strList.get(0), 2, 0);
+			listRow3.add(new PdfPRow(cells34));
+
+			PdfPCell[] cells35 = new PdfPCell[4];
+			cells35[1] = PdfUtils.newCellCenter("病理意义");
+			cells35[1].setBackgroundColor(backgroundColor1);
+			cells35[2] = PdfUtils.newCellLeft(strList.get(1), 2, 0);
+			cells35[2].setBackgroundColor(backgroundColor1);
+			listRow3.add(new PdfPRow(cells35));
+
+			document.add(table3);
+			document.add(PdfUtils.newParagraph("\n", font16));
+
+		}
 
 	}
 
@@ -910,6 +1007,9 @@ public class PdfAi {
 		Document document = new Document();
 
 		try {
+			// 查询pdf数据
+			pdfResVo = queryPdfResVo("1163516326795415552");
+
 			// 指定PDF文件的输出路径
 			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("D:\\example.pdf"));
 
