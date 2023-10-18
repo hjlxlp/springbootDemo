@@ -11,6 +11,12 @@ import java.util.List;
  */
 @Data
 public class AiTreatPlanJsonVo {
+
+    /**
+     * 饮食习惯
+     */
+    private List<AiDietRehabilitationVo.EatingHabitsItem> eatingHabits;
+
     /**
      * 诊断结果
      */

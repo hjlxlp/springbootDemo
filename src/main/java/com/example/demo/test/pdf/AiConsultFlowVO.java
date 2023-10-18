@@ -518,6 +518,7 @@ public class AiConsultFlowVO {
 	private List<String> tongueVeinAttrList;
 
 	private List<AiReportItemVO> aiFaceItemVOList;
+	private List<AiReportItemVO> aiFaceVOList;
 	private LinkedList<AiReportItemVO> aiTongueItemVOList;
 	private LinkedList<AiReportItemVO> aiTongueVOList;
 	private List<AiReportItemVO> aiReportItemVOList;

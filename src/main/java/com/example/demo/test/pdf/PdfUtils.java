@@ -50,6 +50,7 @@ public class PdfUtils {
 	 * @return
 	 */
 	public static Image newImage(String fileName, Integer alignment, float fitWidth, float fitHeight, float absoluteX, float absoluteY) throws IOException {
+		//Image image = Image.getInstance("http://img.aikesaisi.com/jhbamin/images/2023-10-08/8ad97167797c4f0481bdb11f647a32f7-code.jpg");
 		Image image = Image.getInstance(fileName);
 		if (alignment != null && alignment > 0) {
 			image.setAlignment(alignment);
@@ -60,6 +61,8 @@ public class PdfUtils {
 		if (absoluteX != 0 && absoluteY != 0) {
 			image.setAbsolutePosition(absoluteX, absoluteY);
 		}
+		// 设置图片分辨率，没用
+		//image.setDpi(72, 72);
 		return image;
 	}
 
