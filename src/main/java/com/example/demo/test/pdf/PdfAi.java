@@ -295,10 +295,10 @@ public class PdfAi {
 		cells4[1] = PdfUtils.newCell("\t五、调理方案\n", font30, 60, PdfPCell.NO_BORDER);
 		listRow.add(new PdfPRow(cells4));
 
+		document.add(table);
+
 		// 图片
 		document.add(PdfUtils.newImage(testImgUrl3, null, 300, 300, 200, 50));
-
-		document.add(table);
 	}
 
 	/**
@@ -677,22 +677,27 @@ public class PdfAi {
 			cells33[2].setBackgroundColor(backgroundColor1);
 			listRow3.add(new PdfPRow(cells33));
 
-			// 详情，举例：（【润】舌苔干湿适中，不滑不燥为润苔。</br> 【病理意义】舌苔水分正常。）
+			// 详情，举例："【厚苔】透过舌苔不能见到舌体。</br>【病理意义】体内有湿，或有积食。</br>【腻苔】苔质颗粒细腻致密，融合成片，紧贴于舌面，揩之不去，刮之不易脱落。</br>【病理意义】多与湿浊，痰饮，食积相关。</br>";
 			List<String> strList = new ArrayList<>();
-			strList.add("");
-			strList.add("");
+			String str1 = "";
+			String str2 = "";
 			if (StringUtils.isNotBlank(faceDetailVo.getValue())) {
 				// 去除br
-				String str = faceDetailVo.getValue().replaceAll("</br>", "\n");
-				// 提取病理意义
-				String[] strs = str.split("【病理意义】");
-				if (strs.length == 1) {
-					strList.add(0, strs[0]);
-				} else if (strs.length > 1) {
-					strList.add(0, strs[0]);
-					strList.add(1, "【病理意义】" + strs[1]);
+				String str = faceDetailVo.getValue().replaceAll("</br>", "");
+				// 分开
+				String[] strs = str.split("【");
+				for (String s : strs) {
+					if (StringUtils.isNotBlank(s)) {
+						if (s.startsWith("病理意义")) {
+							str2 = str2 + "【" + s + "\n";
+						} else {
+							str1 = str1 + "【" + s + "\n";
+						}
+					}
 				}
 			}
+			strList.add(str1.length() > 0 ? str1.substring(0, str1.length() - 1) : "");
+			strList.add(str2.length() > 0 ? str2.substring(0, str2.length() - 1) : "");
 
 			PdfPCell[] cells34 = new PdfPCell[4];
 			cells34[0] = PdfUtils.newCellCenter("中医解析", 0, 2);
@@ -804,18 +809,23 @@ public class PdfAi {
 		List<PdfPRow> listRow3 = table3.getRows();
 		table3.setWidths(new float[]{1f, 1f});
 
-		PdfPCell[] cells31 = new PdfPCell[2];
+		/*PdfPCell[] cells31 = new PdfPCell[2];
 		cells31[0] = PdfUtils.newCellCenter("");
 		cells31[0].addElement(PdfUtils.newImage(testImgUrl2, 200, 300));
 		cells31[1] = PdfUtils.newCell("\n感冒\n眩晕\n流涕\n咳痰\n中风\n", font16Bold, 0, 0, Element.ALIGN_LEFT, null, borderColor1);
-		listRow3.add(new PdfPRow(cells31));
-		/*PdfPCell[] cells31 = new PdfPCell[2];
-		cells31[0] = PdfUtils.newCellCenter("");
-		cells31[0].addElement(PdfUtils.newImage(healthVo.getHighRiskDiseaseList().get(0).getImg(), 200, 300));
-		//眩晕,健忘,精神不振,心悸,视力模糊
-		String highStr = "\n" + healthVo.getHighRiskDiseaseList().get(0).getDesc().replaceAll(",", "\n") + "\n";
-		cells31[1] = PdfUtils.newCell(highStr, font16Bold, 0, 0, Element.ALIGN_LEFT, null, borderColor1);
 		listRow3.add(new PdfPRow(cells31));*/
+		if (CollectionUtils.isNotEmpty(healthVo.getHighRiskDiseaseList())) {
+			PdfPCell[] cells31 = new PdfPCell[2];
+			cells31[0] = PdfUtils.newCellCenter("");
+			cells31[0].addElement(PdfUtils.newImage(healthVo.getHighRiskDiseaseList().get(0).getImg(), 200, 300));
+			//眩晕,健忘,精神不振,心悸,视力模糊
+			String highStr = "";
+			if (StringUtils.isNotBlank(healthVo.getHighRiskDiseaseList().get(0).getDesc())) {
+				highStr = "\n" + healthVo.getHighRiskDiseaseList().get(0).getDesc().replaceAll(",", "\n") + "\n";
+			}
+			cells31[1] = PdfUtils.newCell(highStr, font16Bold, 0, 0, Element.ALIGN_LEFT, null, borderColor1);
+			listRow3.add(new PdfPRow(cells31));
+		}
 
 		document.add(table3);
 
@@ -1339,7 +1349,7 @@ public class PdfAi {
 			// 打开文档
 			document.open();
 
-			// 第一页，标题+个人信息+二维码
+			/*// 第一页，标题+个人信息+二维码
 			onePage(document);
 			LocalDateTime end1 = LocalDateTime.now();
 			System.out.println("===end1===" + Duration.between(setPageEvent, end1).toMillis());
@@ -1362,12 +1372,12 @@ public class PdfAi {
 			// 第五页，健康分析
 			fivePage(document);
 			LocalDateTime end5 = LocalDateTime.now();
-			System.out.println("===end5===" + Duration.between(end4, end5).toMillis());
+			System.out.println("===end5===" + Duration.between(end4, end5).toMillis());*/
 
 			// 第六页，调理方案+门店信息
 			sixPage(document);
 			LocalDateTime end = LocalDateTime.now();
-			System.out.println("===end===" + Duration.between(end5, end).toMillis());
+			//System.out.println("===end===" + Duration.between(end5, end).toMillis());
 
 			System.out.println("===all===" + Duration.between(begin, end).toMillis());
 		} catch (IOException e) {

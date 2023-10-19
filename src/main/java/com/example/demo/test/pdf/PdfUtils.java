@@ -1,5 +1,6 @@
 package com.example.demo.test.pdf;
 
+import com.alibaba.fastjson.JSON;
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
 import com.lowagie.text.Image;
@@ -7,9 +8,11 @@ import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfPCell;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,34 +56,45 @@ public class PdfUtils {
 	 * @param absoluteY
 	 * @return
 	 */
-	public static Image newImage(String fileName, Integer alignment, float fitWidth, float fitHeight, float absoluteX, float absoluteY) throws IOException {
-		//Image image = Image.getInstance("http://img.aikesaisi.com/jhbamin/images/2023-10-08/8ad97167797c4f0481bdb11f647a32f7-code.jpg");
-		Image image = null;
-		if (imageMap.containsKey(fileName)) {
-			image = imageMap.get(fileName);
-		} else {
-			image = Image.getInstance(fileName);
-			imageMap.put(fileName, image);
+	public static Element newImage(String fileName, Integer alignment, float fitWidth, float fitHeight, float absoluteX, float absoluteY) throws IOException {
+		try {
+			if (StringUtils.isBlank(fileName)) {
+				return new Paragraph("");
+			}
+			//Image image = Image.getInstance("http://img.aikesaisi.com/jhbamin/images/2023-10-08/8ad97167797c4f0481bdb11f647a32f7-code.jpg");
+			Image image = null;
+			if (imageMap.containsKey(fileName)) {
+				image = imageMap.get(fileName);
+			} else {
+				image = Image.getInstance(fileName);
+				if (imageMap.size() >= 100) {
+					imageMap = new HashMap<>();
+				}
+				imageMap.put(fileName, image);
+			}
+			if (alignment != null && alignment > 0) {
+				image.setAlignment(alignment);
+			}
+			// 设置图片大小
+			image.scaleToFit(fitWidth, fitHeight);
+			// 设置二维码位置
+			if (absoluteX != 0 && absoluteY != 0) {
+				image.setAbsolutePosition(absoluteX, absoluteY);
+			}
+			// 设置图片分辨率，没用
+			//image.setDpi(72, 72);
+			return image;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Paragraph("");
 		}
-		if (alignment != null && alignment > 0) {
-			image.setAlignment(alignment);
-		}
-		// 设置图片大小
-		image.scaleToFit(fitWidth, fitHeight);
-		// 设置二维码位置
-		if (absoluteX != 0 && absoluteY != 0) {
-			image.setAbsolutePosition(absoluteX, absoluteY);
-		}
-		// 设置图片分辨率，没用
-		//image.setDpi(72, 72);
-		return image;
 	}
 
-	public static Image newImage(String fileName, float fitWidth, float fitHeight) throws IOException {
+	public static Element newImage(String fileName, float fitWidth, float fitHeight) throws IOException {
 		return newImage(fileName, null, fitWidth, fitHeight, 0, 0);
 	}
 
-	public static Image newImage(String fileName, Integer alignment, float fitWidth, float fitHeight) throws IOException {
+	public static Element newImage(String fileName, Integer alignment, float fitWidth, float fitHeight) throws IOException {
 		return newImage(fileName, alignment, fitWidth, fitHeight, 0, 0);
 	}
 
