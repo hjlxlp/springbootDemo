@@ -10,7 +10,9 @@ import org.apache.commons.collections4.CollectionUtils;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author huangjiale
@@ -39,6 +41,8 @@ public class PdfUtils {
 	public static Color borderColor1 = new Color(79, 128, 189);
 	public static Color backgroundColor1 = new Color(219, 229, 241);
 
+	public static Map<String, Image> imageMap = new HashMap<>();
+
 	/**
 	 * 创建image
 	 *
@@ -51,7 +55,13 @@ public class PdfUtils {
 	 */
 	public static Image newImage(String fileName, Integer alignment, float fitWidth, float fitHeight, float absoluteX, float absoluteY) throws IOException {
 		//Image image = Image.getInstance("http://img.aikesaisi.com/jhbamin/images/2023-10-08/8ad97167797c4f0481bdb11f647a32f7-code.jpg");
-		Image image = Image.getInstance(fileName);
+		Image image = null;
+		if (imageMap.containsKey(fileName)) {
+			image = imageMap.get(fileName);
+		} else {
+			image = Image.getInstance(fileName);
+			imageMap.put(fileName, image);
+		}
 		if (alignment != null && alignment > 0) {
 			image.setAlignment(alignment);
 		}
