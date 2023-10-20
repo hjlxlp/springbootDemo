@@ -952,7 +952,7 @@ public class PdfAi {
 			table1.setWidths(f);
 
 			PdfPCell[] cells11 = new PdfPCell[cellNum];
-			cells11[0] = PdfUtils.newCell(conditioningVo.getDrug_health_care().get(0).getMessage(), font16Bold, cellNum, 0, Element.ALIGN_LEFT, null, borderColor1);
+			cells11[0] = PdfUtils.newCell(conditioningVo.getDrug_health_care().get(0).getMessage(), font16Bold, cellNum, 0, Element.ALIGN_LEFT, PdfPCell.BOX, borderColor1);
 			cells11[0].setBackgroundColor(backgroundColor1);
 			listRow1.add(new PdfPRow(cells11));
 
@@ -960,7 +960,7 @@ public class PdfAi {
 				PdfPCell[] cells12 = new PdfPCell[cellNum];
 				for (int i = 0; i < conditioningVo.getDrug_health_care().get(0).getItems().size(); i++) {
 					AiTreatPlanJsonVo.HealthCareExampleItems item = conditioningVo.getDrug_health_care().get(0).getItems().get(i);
-					cells12[i] = PdfUtils.newCell("", font16Bold, 0, 0, Element.ALIGN_CENTER, PdfPCell.LEFT, borderColor1);
+					cells12[i] = PdfUtils.newCell("", font16Bold, 0, 0, Element.ALIGN_CENTER, PdfPCell.BOX, borderColor1);
 					cells12[i].addElement(PdfUtils.newImage(item.getPhoto(), Element.ALIGN_CENTER, 50, 50));
 				}
 				listRow1.add(new PdfPRow(cells12));
@@ -968,7 +968,7 @@ public class PdfAi {
 				PdfPCell[] cells13 = new PdfPCell[cellNum];
 				for (int i = 0; i < conditioningVo.getDrug_health_care().get(0).getItems().size(); i++) {
 					AiTreatPlanJsonVo.HealthCareExampleItems item = conditioningVo.getDrug_health_care().get(0).getItems().get(i);
-					cells13[i] = PdfUtils.newCell(item.getName(), font16Bold, 0, 0, Element.ALIGN_CENTER, PdfPCell.LEFT, borderColor1);
+					cells13[i] = PdfUtils.newCell(item.getName(), font16Bold, 0, 0, Element.ALIGN_CENTER, PdfPCell.BOX, borderColor1);
 				}
 				listRow1.add(new PdfPRow(cells13));
 			}
