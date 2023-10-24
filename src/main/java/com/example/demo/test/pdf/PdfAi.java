@@ -1,6 +1,7 @@
 package com.example.demo.test.pdf;
 
 import cn.hutool.core.date.DateUtil;
+import com.google.zxing.WriterException;
 import com.lowagie.text.Document;
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
@@ -11,6 +12,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.awt.*;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.Duration;
@@ -222,14 +224,33 @@ public class PdfAi {
 		cells4[0] = PdfUtils.newCell("\t联系电话：18616919418\n", font20, 45, PdfPCell.NO_BORDER);
 		PdfPCell[] cells5 = new PdfPCell[2];
 		cells5[0] = PdfUtils.newCell("\t报告时间：2023-9-15\n", font20, 45, PdfPCell.NO_BORDER);*/
-		PdfPCell[] cells1 = new PdfPCell[2];
-		cells1[0] = PdfUtils.newCell("\t" + detailVo.getName() + "\n", font20, 45, PdfPCell.NO_BORDER);
-		// 二维码
-		cells1[1] = PdfUtils.newCell("", font20, 0, 5, Element.ALIGN_LEFT, PdfPCell.NO_BORDER);
-		cells1[1].addElement(PdfUtils.newImage(testImgUrl1, 120, 120));
-		// 二维码底下文案
-		cells1[1].addElement(PdfUtils.newParagraph(Arrays.asList("\t\t扫描二维码\n", "使用手机查看电子版\n"),
-				new Font(bfChinese, 14, Font.BOLD, new Color(23, 53, 93)), Element.ALIGN_LEFT));
+		File qrFile = null;
+		try {
+			String skipUrl = "https://jhbfat1.aikesaisi.com/healthReportHome?openid=oEpd36yrXbR9ZDQmxnbtLQebzkxE&reportId=1165979421337849856";
+			int size = 300;
+			String fileType = "png";
+			qrFile = new File("qrcode.png");
+			// 调用生成二维码
+			PdfUtils.createQRCode(skipUrl, size, fileType, qrFile);
+
+			// 填入pdf
+			PdfPCell[] cells1 = new PdfPCell[2];
+			cells1[0] = PdfUtils.newCell("\t" + detailVo.getName() + "\n", font20, 45, PdfPCell.NO_BORDER);
+			// 二维码
+			cells1[1] = PdfUtils.newCell("", font20, 0, 5, Element.ALIGN_LEFT, PdfPCell.NO_BORDER);
+			cells1[1].addElement(PdfUtils.newImage("qrcode.png", 120, 120));
+			// 二维码底下文案
+			cells1[1].addElement(PdfUtils.newParagraph(Arrays.asList("\t\t扫描二维码\n", "使用手机查看电子版\n"),
+					new Font(bfChinese, 14, Font.BOLD, new Color(23, 53, 93)), Element.ALIGN_LEFT));
+			listRow.add(new PdfPRow(cells1));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (qrFile != null) {
+				qrFile.delete();
+			}
+		}
 
 		PdfPCell[] cells2 = new PdfPCell[2];
 		cells2[0] = PdfUtils.newCell("\t年龄：" + detailVo.getAge() + "\n", font20, 45, PdfPCell.NO_BORDER);
@@ -240,7 +261,6 @@ public class PdfAi {
 		PdfPCell[] cells5 = new PdfPCell[2];
 		cells5[0] = PdfUtils.newCell("\t报告时间：" + DateUtil.formatDate(detailVo.getCreateTime()) + "\n", font20, 45, PdfPCell.NO_BORDER);
 
-		listRow.add(new PdfPRow(cells1));
 		listRow.add(new PdfPRow(cells2));
 		listRow.add(new PdfPRow(cells3));
 		listRow.add(new PdfPRow(cells4));
@@ -1349,12 +1369,12 @@ public class PdfAi {
 			// 打开文档
 			document.open();
 
-			/*// 第一页，标题+个人信息+二维码
+			// 第一页，标题+个人信息+二维码
 			onePage(document);
 			LocalDateTime end1 = LocalDateTime.now();
 			System.out.println("===end1===" + Duration.between(setPageEvent, end1).toMillis());
 
-			// 第二页，目录+图片
+			/*// 第二页，目录+图片
 			twoPage(document);
 			LocalDateTime end2 = LocalDateTime.now();
 			System.out.println("===end2===" + Duration.between(end1, end2).toMillis());
@@ -1372,14 +1392,14 @@ public class PdfAi {
 			// 第五页，健康分析
 			fivePage(document);
 			LocalDateTime end5 = LocalDateTime.now();
-			System.out.println("===end5===" + Duration.between(end4, end5).toMillis());*/
+			System.out.println("===end5===" + Duration.between(end4, end5).toMillis());
 
 			// 第六页，调理方案+门店信息
 			sixPage(document);
 			LocalDateTime end = LocalDateTime.now();
-			//System.out.println("===end===" + Duration.between(end5, end).toMillis());
+			System.out.println("===end===" + Duration.between(end5, end).toMillis());
 
-			System.out.println("===all===" + Duration.between(begin, end).toMillis());
+			System.out.println("===all===" + Duration.between(begin, end).toMillis());*/
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
