@@ -17,7 +17,6 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +37,7 @@ public class PdfUtils {
 	static {
 		try {
 			bfChinese = BaseFont.createFont(PdfUtils.FontName, PdfUtils.FontEncoding, BaseFont.NOT_EMBEDDED);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -60,49 +59,35 @@ public class PdfUtils {
 	 * @param fileType 二维码图片格式
 	 * @param qrFile   生成图片保存地址
 	 */
-	public static void createQRCode(String url, int size, String fileType, File qrFile)
-			throws WriterException, IOException {
-		HashMap<EncodeHintType, Object> hintMap = new HashMap<>();
-		hintMap.put(EncodeHintType.CHARACTER_SET, "UTF-8");
+	public static void createQRCode(String url, int size, String fileType, File qrFile) {
+		try {
+			HashMap<EncodeHintType, Object> hintMap = new HashMap<>();
+			hintMap.put(EncodeHintType.CHARACTER_SET, "UTF-8");
 
-		QRCodeWriter qrCodeWriter = new QRCodeWriter();
-		BitMatrix bitMatrix = qrCodeWriter.encode(url, BarcodeFormat.QR_CODE, size, size, hintMap);
+			QRCodeWriter qrCodeWriter = new QRCodeWriter();
+			BitMatrix bitMatrix = qrCodeWriter.encode(url, BarcodeFormat.QR_CODE, size, size, hintMap);
 
-		int matrixWidth = bitMatrix.getWidth();
-		BufferedImage image = new BufferedImage(matrixWidth, matrixWidth, BufferedImage.TYPE_INT_RGB);
-		image.createGraphics();
+			int matrixWidth = bitMatrix.getWidth();
+			BufferedImage image = new BufferedImage(matrixWidth, matrixWidth, BufferedImage.TYPE_INT_RGB);
+			image.createGraphics();
 
-		Graphics2D graphics = (Graphics2D) image.getGraphics();
-		graphics.setColor(Color.WHITE);
-		graphics.fillRect(0, 0, matrixWidth, matrixWidth);
-		graphics.setColor(Color.BLACK);
+			Graphics2D graphics = (Graphics2D) image.getGraphics();
+			graphics.setColor(Color.WHITE);
+			graphics.fillRect(0, 0, matrixWidth, matrixWidth);
+			graphics.setColor(Color.BLACK);
 
-		for (int i = 0; i < matrixWidth; i++) {
-			for (int j = 0; j < matrixWidth; j++) {
-				if (bitMatrix.get(i, j)) {
-					graphics.fillRect(i, j, 1, 1);
+			for (int i = 0; i < matrixWidth; i++) {
+				for (int j = 0; j < matrixWidth; j++) {
+					if (bitMatrix.get(i, j)) {
+						graphics.fillRect(i, j, 1, 1);
+					}
 				}
 			}
+			ImageIO.write(image, fileType, qrFile);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		ImageIO.write(image, fileType, qrFile);
 	}
-	/*public static void main(String[] args) {
-
-		String url = "https://blog.csdn.net/weixin_43970743?type=blog";
-		int size = 300;
-		String fileType = "png";
-		File qrFile = new File("D:\\csdnQrcode.png");
-
-		try {
-			//调用生成二维码
-			createQRCode(url, size, fileType, qrFile);
-			System.out.println("QR code generated successfully!");
-		} catch (WriterException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}*/
 
 	/**
 	 * 读取二维码网址
@@ -117,8 +102,6 @@ public class PdfUtils {
 			Result result = new MultiFormatReader().decode(bitmap);
 			url = result.getText();
 			System.out.println("二维码中的网址为：" + url);
-		} catch (IOException | ReaderException e) {
-			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -149,7 +132,7 @@ public class PdfUtils {
 	 * @param absoluteY
 	 * @return
 	 */
-	public static Element newImage(String fileName, Integer alignment, float fitWidth, float fitHeight, float absoluteX, float absoluteY) throws IOException {
+	public static Element newImage(String fileName, Integer alignment, float fitWidth, float fitHeight, float absoluteX, float absoluteY) {
 		try {
 			if (StringUtils.isBlank(fileName)) {
 				return new Paragraph("");
@@ -183,11 +166,11 @@ public class PdfUtils {
 		}
 	}
 
-	public static Element newImage(String fileName, float fitWidth, float fitHeight) throws IOException {
+	public static Element newImage(String fileName, float fitWidth, float fitHeight) {
 		return newImage(fileName, null, fitWidth, fitHeight, 0, 0);
 	}
 
-	public static Element newImage(String fileName, Integer alignment, float fitWidth, float fitHeight) throws IOException {
+	public static Element newImage(String fileName, Integer alignment, float fitWidth, float fitHeight) {
 		return newImage(fileName, alignment, fitWidth, fitHeight, 0, 0);
 	}
 

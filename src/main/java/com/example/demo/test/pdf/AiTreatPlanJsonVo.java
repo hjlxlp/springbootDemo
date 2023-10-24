@@ -127,6 +127,11 @@ public class AiTreatPlanJsonVo {
     private List<HealthCareExample> occur_reason;
 
     /**
+     * 发生原因
+     */
+    private AiTongueResultVO.IllProbabilities illProbabilities;
+
+    /**
      * 药物保健
      */
     private List<HealthCareExample> drug_health_care;
