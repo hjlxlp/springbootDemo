@@ -48,7 +48,7 @@ public class PdfAi {
 
 	static {
 		try {
-			bfChinese = BaseFont.createFont(PdfUtils.FontName, PdfUtils.FontEncoding, BaseFont.NOT_EMBEDDED);
+			bfChinese = BaseFont.createFont(PdfUtils.FontName, PdfUtils.FontEncoding, BaseFont.EMBEDDED);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -166,7 +166,7 @@ public class PdfAi {
 			canvas.setColorFill(lightGray);
 
 			// 水印文本和位置
-			String watermarkText = "\t安徽中医药大学云诊科技 提供技术支持\t\t\t安徽中医药大学云诊科技 提供技术支持";
+			String watermarkText = " 安徽中医药大学云诊科技 提供技术支持   安徽中医药大学云诊科技 提供技术支持";
 			// 添加水印到不同的位置, 595.0,842.0
 			canvas.showTextAligned(Element.ALIGN_LEFT, watermarkText, 200, 0, 45);
 			//canvas.showTextAligned(Element.ALIGN_LEFT, watermarkText, 400, 0, 45);
@@ -194,7 +194,7 @@ public class PdfAi {
 		document.add(PdfUtils.newImage(testTitleUrl1, Element.ALIGN_CENTER, 400, 100));
 
 		// 标题
-		document.add(PdfUtils.newParagraph("\n中医舌诊健康状态辨识报告\n\n\n",
+		document.add(PdfUtils.newParagraph("\n健康状态报告\n\n\n",
 				new Font(bfChinese, 36, Font.BOLD, new Color(23, 53, 93)), Element.ALIGN_CENTER));
 
 		// 个人信息
@@ -209,22 +209,22 @@ public class PdfAi {
 		table.setWidths(new float[]{6f, 4f});
 
 		/*PdfPCell[] cells1 = new PdfPCell[2];
-		cells1[0] = PdfUtils.newCell("\t黄佳乐\n", font20, 45, PdfPCell.NO_BORDER);
+		cells1[0] = PdfUtils.newCell(" 黄佳乐\n", font20, 45, PdfPCell.NO_BORDER);
 		// 二维码
 		cells1[1] = PdfUtils.newCell("", font20, 0, 5, Element.ALIGN_LEFT, PdfPCell.NO_BORDER);
 		cells1[1].addElement(PdfUtils.newImage(testImgUrl1, 120, 120));
 		// 二维码底下文案
-		cells1[1].addElement(PdfUtils.newParagraph(Arrays.asList("\t\t扫描二维码\n", "使用手机查看电子版\n"),
+		cells1[1].addElement(PdfUtils.newParagraph(Arrays.asList("  扫描二维码\n", "使用手机查看电子版\n"),
 				new Font(bfChinese, 14, Font.BOLD, new Color(23, 53, 93)), Element.ALIGN_LEFT));
 
 		PdfPCell[] cells2 = new PdfPCell[2];
-		cells2[0] = PdfUtils.newCell("\t年龄：18\n", font20, 45, PdfPCell.NO_BORDER);
+		cells2[0] = PdfUtils.newCell(" 年龄：18\n", font20, 45, PdfPCell.NO_BORDER);
 		PdfPCell[] cells3 = new PdfPCell[2];
-		cells3[0] = PdfUtils.newCell("\t性别：男\n", font20, 45, PdfPCell.NO_BORDER);
+		cells3[0] = PdfUtils.newCell(" 性别：男\n", font20, 45, PdfPCell.NO_BORDER);
 		PdfPCell[] cells4 = new PdfPCell[2];
-		cells4[0] = PdfUtils.newCell("\t联系电话：18616919418\n", font20, 45, PdfPCell.NO_BORDER);
+		cells4[0] = PdfUtils.newCell(" 联系电话：18616919418\n", font20, 45, PdfPCell.NO_BORDER);
 		PdfPCell[] cells5 = new PdfPCell[2];
-		cells5[0] = PdfUtils.newCell("\t报告时间：2023-9-15\n", font20, 45, PdfPCell.NO_BORDER);*/
+		cells5[0] = PdfUtils.newCell(" 报告时间：2023-9-15\n", font20, 45, PdfPCell.NO_BORDER);*/
 		// 生成二维码图片
 		File qrFile = null;
 		try {
@@ -238,13 +238,13 @@ public class PdfAi {
 
 			// 填入pdf
 			PdfPCell[] cells1 = new PdfPCell[2];
-			cells1[0] = PdfUtils.newCell("\t" + detailVo.getName() + "\n", font20, 45, PdfPCell.NO_BORDER);
+			cells1[0] = PdfUtils.newCell(" " + detailVo.getName() + "\n", font20, 45, PdfPCell.NO_BORDER);
 			// 二维码
-			cells1[1] = PdfUtils.newCell("", font20, 0, 5, Element.ALIGN_LEFT, PdfPCell.NO_BORDER);
-			cells1[1].addElement(PdfUtils.newImage("qrcode.png", 120, 120));
+			cells1[1] = PdfUtils.newCell("", font20, 0, 5, Element.ALIGN_CENTER, PdfPCell.NO_BORDER);
+			cells1[1].addElement(PdfUtils.newImage("qrcode.png", Element.ALIGN_CENTER, 120, 120, 100, 100));
 			// 二维码底下文案
-			cells1[1].addElement(PdfUtils.newParagraph(Arrays.asList("\t\t扫描二维码\n", "使用手机查看电子版\n"),
-					new Font(bfChinese, 14, Font.BOLD, new Color(23, 53, 93)), Element.ALIGN_LEFT));
+			cells1[1].addElement(PdfUtils.newParagraph(Arrays.asList("扫描二维码\n", "使用手机查看电子版\n"),
+					new Font(bfChinese, 14, Font.BOLD, new Color(23, 53, 93)), Element.ALIGN_CENTER));
 			listRow.add(new PdfPRow(cells1));
 
 		} catch (Exception e) {
@@ -256,17 +256,17 @@ public class PdfAi {
 		}
 
 		PdfPCell[] cells2 = new PdfPCell[2];
-		cells2[0] = PdfUtils.newCell("\t年龄：" + detailVo.getAge() + "\n", font20, 45, PdfPCell.NO_BORDER);
+		cells2[0] = PdfUtils.newCell(" 年龄：" + detailVo.getAge() + "\n", font20, 45, PdfPCell.NO_BORDER);
 		PdfPCell[] cells3 = new PdfPCell[2];
-		cells3[0] = PdfUtils.newCell("\t性别：" + detailVo.getGenderDesc() + "\n", font20, 45, PdfPCell.NO_BORDER);
+		cells3[0] = PdfUtils.newCell(" 性别：" + detailVo.getGenderDesc() + "\n", font20, 45, PdfPCell.NO_BORDER);
 		PdfPCell[] cells4 = new PdfPCell[2];
-		cells4[0] = PdfUtils.newCell("\t联系电话：" + detailVo.getUserShopDetailVO().getMobile() + "\n", font20, 45, PdfPCell.NO_BORDER);
+		cells4[0] = PdfUtils.newCell(" 联系电话：" + detailVo.getUserShopDetailVO().getMobile() + "\n", font20, 45, PdfPCell.NO_BORDER);
 		PdfPCell[] cells5 = new PdfPCell[2];
 		String createTime = "";
 		if (detailVo.getCreateTime() != null) {
 			createTime = DateUtil.formatDateTime(detailVo.getCreateTime());
 		}
-		cells5[0] = PdfUtils.newCell("\t报告时间：" + createTime + "\n", font20, 45, PdfPCell.NO_BORDER);
+		cells5[0] = PdfUtils.newCell(" 报告时间：" + createTime + "\n", font20, 45, PdfPCell.NO_BORDER);
 
 		listRow.add(new PdfPRow(cells2));
 		listRow.add(new PdfPRow(cells3));
@@ -299,27 +299,27 @@ public class PdfAi {
 		table.setWidths(new float[]{3f, 7f});
 
 		PdfPCell[] cells0 = new PdfPCell[2];
-		cells0[0] = PdfUtils.newCell("\t目\n\n\n\t录", new Font(bfChinese, 60, Font.BOLD),
+		cells0[0] = PdfUtils.newCell(" 目\n\n\n 录", new Font(bfChinese, 60, Font.BOLD),
 				0, 5, Element.ALIGN_LEFT, null, PdfPCell.RIGHT);
 		// 设置边框宽度为3
 		cells0[0].setBorderWidth(3f);
-		cells0[1] = PdfUtils.newCell("\t一、健康状态\n", font30, 60, PdfPCell.NO_BORDER);
+		cells0[1] = PdfUtils.newCell(" 一、健康状态\n", font30, 60, PdfPCell.NO_BORDER);
 		listRow.add(new PdfPRow(cells0));
 
 		PdfPCell[] cells1 = new PdfPCell[2];
-		cells1[1] = PdfUtils.newCell("\t二、舌象辨识\n", font30, 60, PdfPCell.NO_BORDER);
+		cells1[1] = PdfUtils.newCell(" 二、舌象辨识\n", font30, 60, PdfPCell.NO_BORDER);
 		listRow.add(new PdfPRow(cells1));
 
 		PdfPCell[] cells2 = new PdfPCell[2];
-		cells2[1] = PdfUtils.newCell("\t三、舌象辨识\n", font30, 60, PdfPCell.NO_BORDER);
+		cells2[1] = PdfUtils.newCell(" 三、舌象辨识\n", font30, 60, PdfPCell.NO_BORDER);
 		listRow.add(new PdfPRow(cells2));
 
 		PdfPCell[] cells3 = new PdfPCell[2];
-		cells3[1] = PdfUtils.newCell("\t四、健康分析\n", font30, 60, PdfPCell.NO_BORDER);
+		cells3[1] = PdfUtils.newCell(" 四、健康分析\n", font30, 60, PdfPCell.NO_BORDER);
 		listRow.add(new PdfPRow(cells3));
 
 		PdfPCell[] cells4 = new PdfPCell[2];
-		cells4[1] = PdfUtils.newCell("\t五、调理方案\n", font30, 60, PdfPCell.NO_BORDER);
+		cells4[1] = PdfUtils.newCell(" 五、调理方案\n", font30, 60, PdfPCell.NO_BORDER);
 		listRow.add(new PdfPRow(cells4));
 
 		document.add(table);
@@ -890,9 +890,9 @@ public class PdfAi {
 			table4.setWidths(new float[]{1f});
 
 			PdfPCell[] cells41 = new PdfPCell[1];
-			//cells41[0] = PdfUtils.newCellLeft("当前节气：白露 \t\t\t 患病风险：中");
+			//cells41[0] = PdfUtils.newCellLeft("当前节气：白露     患病风险：中");
 			cells41[0] = PdfUtils.newCellLeft("当前节气：" + healthVo.getIllProbabilities().getName()
-					+ " \t\t\t 患病风险：" + healthVo.getIllProbabilities().getLevel());
+					+ "     患病风险：" + healthVo.getIllProbabilities().getLevel());
 			listRow4.add(new PdfPRow(cells41));
 
 			PdfPCell[] cells42 = new PdfPCell[1];
@@ -1523,9 +1523,9 @@ public class PdfAi {
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
-				if (file != null) {
+				/*if (file != null) {
 					file.delete();
-				}
+				}*/
 			}
 
 			System.out.println("===vo===end==={}" + JSON.toJSONString(vo));

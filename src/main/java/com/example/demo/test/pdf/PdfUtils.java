@@ -28,8 +28,10 @@ import java.util.Map;
  **/
 public class PdfUtils {
 
-	public static final String FontName = "STSong-Light";
-	public static final String FontEncoding = "UniGB-UCS2-H";
+	public static final String FontName1 = "STSong-Light";
+	public static final String FontEncoding1 = "UniGB-UCS2-H";
+	public static final String FontName = "/font/MiSans-Normal.ttf";
+	public static final String FontEncoding = BaseFont.IDENTITY_H;
 
 	// 宋体，正常字体
 	public static BaseFont bfChinese;
