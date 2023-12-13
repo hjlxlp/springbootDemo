@@ -38,7 +38,8 @@ public class PdfAi {
 
 	private static final String UPLOAD_URL = "http://img.aikesaisi.com/";
 
-	public static final String testTitleUrl1 = "http://img.aikesaisi.com/jhbamin/images/2023-10-16/a7ab5aa59ef642e8aeca5f015ae6c3d0-title.png";
+	public static final String testTitleUrl1 = "https://img.aikesaisi.com/ai/user/2023-11-08/341c7a37f59d417291ae7a28f35bc570-logo.png";
+	//public static final String testTitleUrl1 = "http://img.aikesaisi.com/jhbamin/images/2023-10-16/a7ab5aa59ef642e8aeca5f015ae6c3d0-title.png";
 	public static final String testImgUrl1 = "http://img.aikesaisi.com/jhbamin/images/2023-10-08/8ad97167797c4f0481bdb11f647a32f7-code.jpg";
 	public static final String testImgUrl2 = "http://img.aikesaisi.com/jhbamin/images/2023-10-08/e895fbdc05c347fbad116e438058abe4-shetou.jpg";
 	public static final String testImgUrl3 = "http://img.aikesaisi.com/jhbamin/images/2023-10-10/61b473f845c748beac6914cd1c3bc712-bj.jpg";
@@ -166,7 +167,7 @@ public class PdfAi {
 			canvas.setColorFill(lightGray);
 
 			// 水印文本和位置
-			String watermarkText = " 安徽中医药大学云诊科技 提供技术支持   安徽中医药大学云诊科技 提供技术支持";
+			String watermarkText = "   安徽中医药大学云诊科技 提供技术支持   安徽中医药大学云诊科技 提供技术支持";
 			// 添加水印到不同的位置, 595.0,842.0
 			canvas.showTextAligned(Element.ALIGN_LEFT, watermarkText, 200, 0, 45);
 			//canvas.showTextAligned(Element.ALIGN_LEFT, watermarkText, 400, 0, 45);
@@ -191,7 +192,7 @@ public class PdfAi {
 
 		// 标题图片
 		document.add(PdfUtils.newParagraph("\n", font16));
-		document.add(PdfUtils.newImage(testTitleUrl1, Element.ALIGN_CENTER, 400, 100));
+		document.add(PdfUtils.newImage(testTitleUrl1, Element.ALIGN_CENTER, 450, 150));
 
 		// 标题
 		document.add(PdfUtils.newParagraph("\n健康状态报告\n\n\n",
