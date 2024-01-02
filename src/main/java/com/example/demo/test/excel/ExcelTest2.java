@@ -24,6 +24,87 @@ import java.util.stream.Collectors;
 public class ExcelTest2 {
 
 	public static void main(String[] args) {
+		String fileName = "D:/testinit2.xlsx";
+		List<TestInit2Vo> tableList = new ArrayList<>();
+		AnalysisEventListener listener = new AnalysisEventListener<TestInit2Vo>() {
+			@Override
+			public void invoke(TestInit2Vo o, AnalysisContext analysisContext) {
+				tableList.add(o);
+			}
+
+			@Override
+			public void doAfterAllAnalysed(AnalysisContext analysisContext) {
+			}
+		};
+		EasyExcel.read(fileName, TestInit2Vo.class, listener).sheet().doRead();
+
+		//System.out.println(JSON.toJSONString(tableList));
+		//System.out.println(tableList.stream().map(a->a.getAmount().toString()).distinct().collect(Collectors.joining(",")));
+
+		/*StringBuffer sb = new StringBuffer();
+		sb.append("select * from nurse_policy_sku_shop where id in (");
+		List<String> list = tableList.stream().map(a->a.getPolicy_id().toString()).collect(Collectors.toList());
+		System.out.println("==="+list.size()+"===");
+		list = list.stream().distinct().collect(Collectors.toList());
+		System.out.println("==="+list.size()+"===");
+		sb.append(list.stream().collect(Collectors.joining(",")));
+		sb.append(")");
+		System.out.println(sb.toString());*/
+
+		StringBuffer sb = new StringBuffer();
+		for (TestInit2Vo vo : tableList) {
+			/*
+			update nurse_policy_sku_shop
+			set surplus_num = surplus_num + 4, grant_num = grant_num - 4
+			where id = 9809;
+			update nurse_policy_sku
+			set surplus_num = surplus_num + 4, grant_num = grant_num - 4
+			where id = 84;
+			update nurse_policy_shop
+			set surplus_num = surplus_num + 4, grant_num = grant_num - 4
+			where id = 7955;
+			update nurse_policy
+			set surplus_num = surplus_num + 4, grant_num = grant_num - 4
+			where id = 24;
+			 */
+			Integer num = vo.getNum() * vo.getAmount() / 1000;
+			sb.append("update nurse_policy_sku_shop \n")
+					.append("set surplus_num = surplus_num + ")
+					.append(num)
+					.append(", grant_num = grant_num - ")
+					.append(num)
+					.append(" \nwhere id = ")
+					.append(vo.getPolicy_sku_shop_id())
+					.append(";\n");
+			sb.append("update nurse_policy_sku \n")
+					.append("set surplus_num = surplus_num + ")
+					.append(num)
+					.append(", grant_num = grant_num - ")
+					.append(num)
+					.append(" \nwhere id = ")
+					.append(vo.getPolicy_sku_id())
+					.append(";\n");
+			sb.append("update nurse_policy_shop \n")
+					.append("set surplus_num = surplus_num + ")
+					.append(num)
+					.append(", grant_num = grant_num - ")
+					.append(num)
+					.append(" \nwhere id = ")
+					.append(vo.getPolicy_shop_id())
+					.append(";\n");
+			sb.append("update nurse_policy \n")
+					.append("set surplus_num = surplus_num + ")
+					.append(num)
+					.append(", grant_num = grant_num - ")
+					.append(num)
+					.append(" \nwhere id = ")
+					.append(vo.getPolicy_id())
+					.append(";\n\n");
+		}
+		System.out.println(sb.toString());
+	}
+
+	public static void main2(String[] args) {
 		String fileName = "D:/testinit.xlsx";
 		List<InitPolicyShopVo> tableList = new ArrayList<>();
 		AnalysisEventListener listener = new AnalysisEventListener<InitPolicyShopVo>() {
