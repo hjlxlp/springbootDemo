@@ -27,7 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @date 2022/3/8 10:15
  * 简单封装了下一些openpdf的方法，方便使用，无其他用处
  **/
-public class PdfUtils {
+public class PdfUtils2 {
 
 	public static final String FontName1 = "STSong-Light";
 	public static final String FontEncoding1 = "UniGB-UCS2-H";
@@ -40,7 +40,7 @@ public class PdfUtils {
 
 	static {
 		try {
-			bfChinese = BaseFont.createFont(PdfUtils.FontName, PdfUtils.FontEncoding, BaseFont.EMBEDDED);
+			bfChinese = BaseFont.createFont(PdfUtils2.FontName, PdfUtils2.FontEncoding, BaseFont.EMBEDDED);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -62,7 +62,7 @@ public class PdfUtils {
 	 * @param field
 	 * @return
 	 */
-	public static String getField(String field){
+	public static String getField(String field) {
 		String strField = "";
 		if (StringUtils.isNotBlank(field)) {
 			if (field.indexOf("\">") > 0 && field.indexOf("</") > 0
@@ -207,7 +207,8 @@ public class PdfUtils {
 	 * @param indentationLeft
 	 * @param spacingBefore
 	 */
-	public static Paragraph newParagraph(String text, List<String> textList, Font font, Integer alignment, float indentationLeft, float spacingBefore) {
+	public static Paragraph newParagraph(String text, List<String> textList, Font font, Integer alignment,
+										 float indentationLeft, float spacingBefore, float fixedLeading) {
 		Paragraph paragraph = new Paragraph(text, font);
 		if (CollectionUtils.isNotEmpty(textList)) {
 			for (String str : textList) {
@@ -225,28 +226,44 @@ public class PdfUtils {
 		if (spacingBefore != 0) {
 			paragraph.setSpacingBefore(spacingBefore);
 		}
+		if (fixedLeading != 0) {
+			paragraph.setLeading(fixedLeading);
+		}
 		return paragraph;
 	}
 
 	public static Paragraph newParagraph(String text, List<String> textList, Font font) {
-		return newParagraph(text, textList, font, null, 0, 0);
+		return newParagraph(text, textList, font, null, 0, 0, 0);
 	}
 
 	public static Paragraph newParagraph(String text, Font font) {
-		return newParagraph(text, null, font, null, 0, 0);
+		return newParagraph(text, null, font, null, 0, 0, 0);
 	}
 
 	public static Paragraph newParagraph(List<String> textList, Font font) {
-		return newParagraph(null, textList, font, null, 0, 0);
+		return newParagraph(null, textList, font, null, 0, 0, 0);
 	}
 
 	public static Paragraph newParagraph(String text, Font font, Integer alignment) {
-		return newParagraph(text, null, font, alignment, 0, 0);
+		return newParagraph(text, null, font, alignment, 0, 0, 0);
 	}
 
 	public static Paragraph newParagraph(List<String> textList, Font font, Integer alignment) {
-		return newParagraph(null, textList, font, alignment, 0, 0);
+		return newParagraph(null, textList, font, alignment, 0, 0, 0);
 	}
+
+	public static Paragraph newParagraph(String text, Font font, Float fixedLeading) {
+		return newParagraph(text, null, font, null, 0, 0, fixedLeading);
+	}
+
+	public static Paragraph newParagraph18(String text, Font font) {
+		return newParagraph(text, null, font, null, 0, 0, 18);
+	}
+	public static Paragraph newParagraph20(String text, Font font) {
+		return newParagraph(text, null, font, null, 0, 0, 20);
+	}
+
+
 
 	/**
 	 * 创建cell
@@ -259,7 +276,8 @@ public class PdfUtils {
 	 * @return
 	 */
 	public static PdfPCell newCell(String text, Font font, Integer colspan, Integer rowspan, Integer element,
-								   Integer height, Integer border, Color borderColor, Color backgroundColor) {
+								   Integer height, Integer border, Color borderColor, Color backgroundColor,
+								   Float fixedLeading, Float multipliedLeading, Float padding) {
 		PdfPCell cell = new PdfPCell(new Paragraph(text, font));
 		// 边框
 		if (border != null) {
@@ -297,57 +315,28 @@ public class PdfUtils {
 			cell.setRowspan(rowspan);
 		}
 		// 行间距
-		cell.setLeading(25, 0);
+		if (fixedLeading != null && multipliedLeading != null) {
+			cell.setLeading(fixedLeading, multipliedLeading);
+		}
 		// 边距
-		//cell.setPaddingTop(5f);
-		cell.setPaddingBottom(15f);
-		cell.setPaddingLeft(10f);
-		cell.setPaddingRight(10f);
+		if (padding != null) {
+			cell.setPadding(padding);
+		}
 		return cell;
 	}
 
-	public static PdfPCell newCell(String text) {
-		return newCell(text, font16, null, null, null, null, null, null, null);
+	public static PdfPCell newCell(String text, Font font, Integer colspan, Integer rowspan,
+								   Integer element, Integer height, Integer border) {
+		return newCell(text, font, colspan, rowspan, element, height, border, null, null, null, null, null);
+	}
+
+	public static PdfPCell newCell(String text, Font font, Integer element, Integer border) {
+		return newCell(text, font, null, null, element, null, border, null, null, null, null, null);
 	}
 
 	public static PdfPCell newCell(String text, Font font) {
-		return newCell(text, font, null, null, null, null, null, null, null);
+		return newCell(text, font, null, null, null, null, null, null, null, null, null, null);
 	}
 
-	public static PdfPCell newCell(String text, Font font, Integer element) {
-		return newCell(text, font, null, null, element, null, null, null, null);
-	}
-
-	public static PdfPCell newCell(String text, Font font, Integer height, Integer border) {
-		return newCell(text, font, null, null, null, height, border, null, null);
-	}
-
-	public static PdfPCell newCell(String text, Font font, Integer colspan, Integer rowspan, Integer element, Integer border) {
-		return newCell(text, font, colspan, rowspan, element, null, border, null, null);
-	}
-
-	public static PdfPCell newCell(String text, Font font, Integer colspan, Integer rowspan, Integer element, Integer border, Color borderColor) {
-		return newCell(text, font, colspan, rowspan, element, null, border, borderColor, null);
-	}
-
-	public static PdfPCell newCell(String text, Font font, Integer colspan, Integer rowspan, Integer element, Integer height, Integer border) {
-		return newCell(text, font, colspan, rowspan, element, height, border, null, null);
-	}
-
-	public static PdfPCell newCellLeft(String text) {
-		return newCell(text, font16, null, null, Element.ALIGN_LEFT, null, null, borderColor1, null);
-	}
-
-	public static PdfPCell newCellLeft(String text, Integer colspan, Integer rowspan) {
-		return newCell(text, font16, colspan, rowspan, Element.ALIGN_LEFT, null, null, borderColor1, null);
-	}
-
-	public static PdfPCell newCellCenter(String text) {
-		return newCell(text, font16Bold, null, null, Element.ALIGN_CENTER, null, null, borderColor1, null);
-	}
-
-	public static PdfPCell newCellCenter(String text, Integer colspan, Integer rowspan) {
-		return newCell(text, font16Bold, colspan, rowspan, Element.ALIGN_CENTER, null, null, borderColor1, null);
-	}
 
 }
