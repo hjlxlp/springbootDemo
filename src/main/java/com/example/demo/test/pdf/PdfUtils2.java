@@ -256,6 +256,10 @@ public class PdfUtils2 {
 		return newParagraph(text, null, font, null, 0, 0, fixedLeading);
 	}
 
+	public static Paragraph newParagraph(String text, Font font, Integer alignment, Float fixedLeading) {
+		return newParagraph(text, null, font, alignment, 0, 0, fixedLeading);
+	}
+
 	public static Paragraph newParagraph18(String text, Font font) {
 		return newParagraph(text, null, font, null, 0, 0, 18);
 	}

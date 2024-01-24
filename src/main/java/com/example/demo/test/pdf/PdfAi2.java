@@ -61,6 +61,7 @@ public class PdfAi2 {
 	public static Font font24Bold = new Font(bfChinese, 24, Font.BOLD);
 	public static Font font30Bold = new Font(bfChinese, 30, Font.BOLD);
 
+	public static Font font8Black = new Font(bfChinese, 9, Font.NORMAL, new Color(104, 119, 116));
 	public static Font font10White = new Font(bfChinese, 10, Font.NORMAL, new Color(255, 255, 255));
 	public static Font font10Red = new Font(bfChinese, 10, Font.NORMAL, new Color(252, 134, 117));
 	public static Font font10Blue = new Font(bfChinese, 10, Font.NORMAL, new Color(2, 162, 157));
@@ -70,6 +71,7 @@ public class PdfAi2 {
 
 	public static Color borderColor1 = new Color(79, 128, 189);
 	public static Color backgroundColor1 = new Color(219, 229, 241);
+	public static Color backgroundColor2 = new Color(245, 255, 255);
 
 	public static PdfResVo pdfResVo = new PdfResVo();
 
@@ -200,15 +202,6 @@ public class PdfAi2 {
 
 		document.add(table0);
 
-		/*document.add(PdfUtils2.newImage(iconUrl, Element.ALIGN_CENTER, 20, 20));
-		Paragraph paragraph1 = new Paragraph();
-		paragraph1.add(PdfUtils2.newImage(iconUrl, Element.ALIGN_CENTER, 120, 120));
-		paragraph1.add(new Chunk("性格安静性格安静性格安静性格安静性格安静", font10));
-		document.add(paragraph);*/
-		/*document.add(PdfUtils2.newParagraph18("面色微黄面色微黄面色微黄面色微黄面色微黄", font10));
-		document.add(PdfUtils2.newParagraph18("气短胸闷气短胸闷气短胸闷气短胸闷气短胸闷", font10));
-		document.add(PdfUtils2.newParagraph18("性格安静性格安静性格安静性格安静性格安静", font10));*/
-
 		document.add(PdfUtils2.newParagraph20("2、发生原因", font12Bold));
 		document.add(PdfUtils2.newParagraph18("多因素体气虚多因素体气虚多因素体气虚多因素体气虚多因素体气虚", font10));
 
@@ -228,7 +221,6 @@ public class PdfAi2 {
 		listRow1.add(new PdfPRow(cells1));
 
 		document.add(table1);
-
 	}
 
 	/**
@@ -237,6 +229,7 @@ public class PdfAi2 {
 	 * @param document
 	 */
 	private static void threePage(Document document) {
+		document.add(PdfUtils2.newParagraph("\n", font10));
 		document.add(PdfUtils2.newParagraph20("二、舌象辨识：", font14Bold));
 
 		document.add(PdfUtils2.newParagraph20("1、舌象分析结果汇总", font12Bold));
@@ -270,8 +263,10 @@ public class PdfAi2 {
 		PdfPCell[] cells1 = new PdfPCell[6];
 		cells1[0] = PdfUtils2.newCell("异常项", font12BoldBlue, 0, 0, Element.ALIGN_CENTER, 20, PdfPCell.NO_BORDER);
 		cells1[0].setBorder(PdfPCell.BOX);
+		cells1[0].setBackgroundColor(backgroundColor2);
 		cells1[1] = PdfUtils2.newCell("人工智能分析", font12BoldBlue, 5, 0, Element.ALIGN_CENTER, 20, PdfPCell.NO_BORDER);
 		cells1[1].setBorder(PdfPCell.BOX);
+		cells1[1].setBackgroundColor(backgroundColor2);
 		listRow1.add(new PdfPRow(cells1));
 
 		PdfPCell[] cells2 = new PdfPCell[6];
@@ -318,11 +313,12 @@ public class PdfAi2 {
 		cells2[4].setBorder(PdfPCell.BOTTOM | PdfPCell.TOP);
 
 		Paragraph paragraphCell55 = new Paragraph();
-		paragraphCell55.add(new Chunk("\n【淡红色】正常人舌色正常人舌色正常人舌色。", font10));
+		paragraphCell55.add(new Chunk("\n【淡红色】正常人舌色正常人舌色正常人舌色正常人舌色。", font10));
 		paragraphCell55.add(new Chunk(" \n ", font5));
-		paragraphCell55.add(new Chunk("\n【健康分析】正常人舌色正常人舌色正常人舌色。", font10));
+		paragraphCell55.add(new Chunk("\n【健康分析】正常人舌色正常人舌色正常人舌色正常人舌色。", font10));
 		paragraphCell55.add(new Chunk(" \n ", font5));
 		cells2[5] = new PdfPCell(paragraphCell55);
+		//cells2[5].setPaddingBottom(10);
 		cells2[5].setBorder(PdfPCell.BOTTOM | PdfPCell.TOP | PdfPCell.RIGHT);
 
 		listRow1.add(new PdfPRow(cells2));
@@ -330,9 +326,163 @@ public class PdfAi2 {
 		listRow1.add(new PdfPRow(cells2));
 
 		document.add(table1);
-
 	}
 
+	/**
+	 * 第四页，面象辨识
+	 *
+	 * @param document
+	 */
+	private static void fourPage(Document document) {
+		document.add(PdfUtils2.newParagraph("\n", font10));
+		document.add(PdfUtils2.newParagraph20("三、面象辨识：", font14Bold));
+
+		document.add(PdfUtils2.newParagraph20("1、异常面象人工智能解析", font12Bold));
+		document.add(PdfUtils2.newParagraph("\n", font10));
+
+		// 表格
+		PdfPTable table1 = new PdfPTable(6);
+		table1.setWidthPercentage(100);
+		table1.getDefaultCell().setBorder(PdfPCell.NO_BORDER);
+		List<PdfPRow> listRow1 = table1.getRows();
+		table1.setWidths(new float[]{1.2f, 1.2f, 1.2f, 1.2f, 1.2f, 4f});
+
+		PdfPCell[] cells1 = new PdfPCell[6];
+		cells1[0] = PdfUtils2.newCell("异常项", font12BoldBlue, 0, 0, Element.ALIGN_CENTER, 20, PdfPCell.NO_BORDER);
+		cells1[0].setBorder(PdfPCell.BOX);
+		cells1[0].setBackgroundColor(backgroundColor2);
+		cells1[1] = PdfUtils2.newCell("人工智能分析", font12BoldBlue, 5, 0, Element.ALIGN_CENTER, 20, PdfPCell.NO_BORDER);
+		cells1[1].setBorder(PdfPCell.BOX);
+		cells1[1].setBackgroundColor(backgroundColor2);
+		listRow1.add(new PdfPRow(cells1));
+
+		PdfPCell[] cells2 = new PdfPCell[6];
+		cells2[0] = PdfUtils2.newCell("舌色", font10, Element.ALIGN_CENTER, PdfPCell.NO_BORDER);
+		cells2[0].setBorder(PdfPCell.BOX);
+
+		cells2[1] = PdfUtils2.newCell("", font10, Element.ALIGN_CENTER, PdfPCell.BOTTOM);
+		cells2[1].addElement(PdfUtils2.newImage(testSheUrl, Element.ALIGN_CENTER, 50, 50));
+		cells2[1].setBorder(PdfPCell.BOTTOM | PdfPCell.TOP);
+
+		Paragraph paragraphCell22 = new Paragraph();
+		// 第一行
+		paragraphCell22.add(new Chunk("\n淡红舌(本次)", font10Red));
+		paragraphCell22.add(new Chunk(" \n ", font5));
+		// 第二行
+		Chunk chunk221 = new Chunk("\n舌边红", font10White);
+		chunk221.setBackground(new Color(252, 134, 117));
+		paragraphCell22.add(chunk221);
+		paragraphCell22.add(new Chunk(" \n ", font5));
+		// 第三行
+		Chunk chunk222 = new Chunk("\n舌中淡黄苔", font10White);
+		chunk222.setBackground(new Color(252, 134, 117));
+		paragraphCell22.add(chunk222);
+		paragraphCell22.add(new Chunk(" \n ", font5));
+		// 添加
+		cells2[2] = new PdfPCell(paragraphCell22);
+		cells2[2].setBorder(PdfPCell.BOTTOM | PdfPCell.TOP);
+
+		cells2[3] = PdfUtils2.newCell("", font10, Element.ALIGN_CENTER, PdfPCell.BOTTOM);
+		cells2[3].addElement(PdfUtils2.newImage(testSheUrl, Element.ALIGN_CENTER, 50, 50));
+		cells2[3].setBorder(PdfPCell.BOTTOM | PdfPCell.TOP);
+
+		Paragraph paragraphCell44 = new Paragraph();
+		// 第一行
+		paragraphCell44.add(new Chunk("\n淡白舌(上次)", font10Red));
+		paragraphCell44.add(new Chunk(" \n ", font5));
+		// 第二行
+		Chunk chunk441 = new Chunk("\n正常", font10White);
+		chunk441.setBackground(new Color(6, 192, 96));
+		paragraphCell44.add(chunk441);
+		paragraphCell44.add(new Chunk(" \n ", font5));
+		// 添加
+		cells2[4] = new PdfPCell(paragraphCell44);
+		cells2[4].setBorder(PdfPCell.BOTTOM | PdfPCell.TOP);
+
+		Paragraph paragraphCell55 = new Paragraph();
+		paragraphCell55.add(new Chunk("\n【淡红色】正常人舌色正常人舌色正常人舌色正常人舌色正常人舌色正常人舌色。", font10));
+		paragraphCell55.add(new Chunk(" \n ", font5));
+		paragraphCell55.add(new Chunk("\n【健康分析】正常人舌色正常人舌色正常人舌色正常人舌色正常人舌色正常人舌色。", font10));
+		paragraphCell55.add(new Chunk(" \n ", font5));
+		cells2[5] = new PdfPCell(paragraphCell55);
+		//cells2[5].setPaddingBottom(10);
+		cells2[5].setBorder(PdfPCell.BOTTOM | PdfPCell.TOP | PdfPCell.RIGHT);
+
+		listRow1.add(new PdfPRow(cells2));
+		listRow1.add(new PdfPRow(cells2));
+		listRow1.add(new PdfPRow(cells2));
+
+		document.add(table1);
+	}
+
+	/**
+	 * 第五页，调理方案
+	 *
+	 * @param document
+	 */
+	private static void fivePage(Document document) {
+		document.add(PdfUtils2.newParagraph("\n", font10));
+		document.add(PdfUtils2.newParagraph20("四、调理方案：", font14Bold));
+
+		document.add(PdfUtils2.newParagraph20("（一）膳食调理", font12Bold));
+		document.add(PdfUtils2.newParagraph18("1、应多吃清淡应多吃清淡应多吃清淡应多吃清淡应多吃清淡应多吃清淡", font10));
+		document.add(PdfUtils2.newParagraph18("2、应多吃清淡应多吃清淡应多吃清淡应多吃清淡应多吃清淡应多吃清淡应多吃清淡应多吃清淡应多吃清淡应多吃清淡应多吃清淡应多吃清淡", font10));
+		document.add(PdfUtils2.newParagraph18("3、应多吃清淡应多吃清淡应多吃清淡应多吃清淡应多吃清淡应多吃清淡应多吃清淡应多吃清淡应多吃清淡应多吃清淡应多吃清淡应多吃清淡应多吃清淡应多吃清淡应多吃清淡应多吃清淡应多吃清淡应多吃清淡", font10));
+
+		document.add(PdfUtils2.newParagraph20("（二）膳食调理", font12Bold));
+
+		document.add(PdfUtils2.newParagraph20("必选营养", font12BoldBlue));
+		document.add(PdfUtils2.newParagraph18("1、应多吃清淡应多吃清淡应多吃清淡应多吃清淡应多吃清淡应多吃清淡", font10));
+		document.add(PdfUtils2.newParagraph18("2、应多吃清淡应多吃清淡应多吃清淡应多吃清淡应多吃清淡应多吃清淡应多吃清淡应多吃清淡应多吃清淡应多吃清淡应多吃清淡应多吃清淡", font10));
+		document.add(PdfUtils2.newParagraph("\n", font10));
+
+		PdfPTable table1 = new PdfPTable(6);
+		table1.setWidthPercentage(100);
+		table1.getDefaultCell().setBorder(PdfPCell.NO_BORDER);
+		List<PdfPRow> listRow1 = table1.getRows();
+		table1.setWidths(new float[]{1.6f, 1.6f, 1.6f, 1.6f, 1.6f, 1.6f});
+
+		PdfPCell[] cells1 = new PdfPCell[6];
+		cells1[0] = PdfUtils2.newCell("", font12, null, PdfPCell.NO_BORDER);
+		cells1[0].addElement(PdfUtils2.newImage(testSheUrl, Element.ALIGN_CENTER, 50, 50));
+		cells1[1] = PdfUtils2.newCell("爱欣童脾皮虎", font12, Element.ALIGN_LEFT, PdfPCell.NO_BORDER);
+		cells1[2] = PdfUtils2.newCell("", font12, null, PdfPCell.NO_BORDER);
+		cells1[2].addElement(PdfUtils2.newImage(testSheUrl, Element.ALIGN_CENTER, 50, 50));
+		cells1[3] = PdfUtils2.newCell("挑剔麻咪酵母富锌多种维生素", font12, Element.ALIGN_LEFT, PdfPCell.NO_BORDER);
+		cells1[4] = PdfUtils2.newCell("", font12, null, PdfPCell.NO_BORDER);
+		cells1[4].addElement(PdfUtils2.newImage(testSheUrl, Element.ALIGN_CENTER, 50, 50));
+		cells1[5] = PdfUtils2.newCell("挑剔麻咪酵母富锌多种维生素", font12, Element.ALIGN_LEFT, PdfPCell.NO_BORDER);
+		listRow1.add(new PdfPRow(cells1));
+
+		document.add(table1);
+
+		document.add(PdfUtils2.newParagraph20("可选营养", font12BoldBlue));
+		document.add(PdfUtils2.newParagraph18("1、应多吃清淡应多吃清淡应多吃清淡应多吃清淡应多吃清淡应多吃清淡", font10));
+		document.add(PdfUtils2.newParagraph("\n", font10));
+
+		PdfPTable table2 = new PdfPTable(6);
+		table2.setWidthPercentage(100);
+		table2.getDefaultCell().setBorder(PdfPCell.NO_BORDER);
+		List<PdfPRow> listRow2 = table2.getRows();
+		table2.setWidths(new float[]{1.6f, 1.6f, 1.6f, 1.6f, 1.6f, 1.6f});
+
+		PdfPCell[] cells2 = new PdfPCell[6];
+		cells2[0] = PdfUtils2.newCell("", font12, null, PdfPCell.NO_BORDER);
+		cells2[0].addElement(PdfUtils2.newImage(testSheUrl, Element.ALIGN_CENTER, 50, 50));
+		cells2[1] = PdfUtils2.newCell("爱欣童脾皮虎", font12, Element.ALIGN_LEFT, PdfPCell.NO_BORDER);
+		cells2[2] = PdfUtils2.newCell("", font12, null, PdfPCell.NO_BORDER);
+		cells2[2].addElement(PdfUtils2.newImage(testSheUrl, Element.ALIGN_CENTER, 50, 50));
+		cells2[3] = PdfUtils2.newCell("挑剔麻咪酵母富锌多种维生素", font12, Element.ALIGN_LEFT, PdfPCell.NO_BORDER);
+		listRow2.add(new PdfPRow(cells2));
+
+		document.add(table2);
+
+		document.add(PdfUtils2.newParagraph("\n", font16));
+		document.add(PdfUtils2.newParagraph("感谢您对智能营养助手认可，建议在7天后再次进行检测，帮您建立私人的健康管理档案，随时在线查阅。",
+				font8Black, Element.ALIGN_CENTER, 18f));
+		document.add(PdfUtils2.newParagraph("智能营养助手，由安徽中医药大学董昌武教授带队研发，已助力700多万人健康生活，全国200多家医院都在使用，准确率高达95%。",
+				font8Black, Element.ALIGN_CENTER, 18f));
+	}
 
 	public static void main(String[] args) {
 		GeneratePdfVO vo = new GeneratePdfVO();
@@ -383,6 +533,16 @@ public class PdfAi2 {
 			LocalDateTime end3 = LocalDateTime.now();
 			threePage(document);
 			System.out.println("===test===end3===" + Duration.between(end2, end3).toMillis());
+
+			// 第四页，面象辨识
+			LocalDateTime end4 = LocalDateTime.now();
+			fourPage(document);
+			System.out.println("===test===end4===" + Duration.between(end3, end4).toMillis());
+
+			// 第五页，调理方案
+			LocalDateTime end5 = LocalDateTime.now();
+			fivePage(document);
+			System.out.println("===test===end5===" + Duration.between(end4, end5).toMillis());
 
 			LocalDateTime end6 = LocalDateTime.now();
 
