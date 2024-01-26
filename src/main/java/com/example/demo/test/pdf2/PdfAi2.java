@@ -181,7 +181,7 @@ public class PdfAi2 {
 		Paragraph paragraph = new Paragraph();
 		paragraph.add(new Chunk("一、健康状态：", font14Bold));
 		//paragraph.add(new Chunk("阳盛质", font14BoldBlue));
-		paragraph.add(new Chunk(detailVo.getConstitutionNames(), font14BoldBlue));
+		paragraph.add(new Chunk(PdfUtils2.cs(detailVo.getConstitutionNames()), font14BoldBlue));
 		paragraph.setLeading(20);
 		document.add(paragraph);
 
@@ -255,6 +255,8 @@ public class PdfAi2 {
 		cells1[1].addElement(PdfUtils2.newImage(testLeftUrl, Element.ALIGN_CENTER, 250, 150));
 		listRow1.add(new PdfPRow(cells1));*/
 		if (StringUtils.isNotBlank(detailVo.getHealthScoreImages()) || StringUtils.isNotBlank(detailVo.getHealthTrendImages())) {
+			document.add(PdfUtils2.newParagraph("\n", font10));
+
 			PdfPTable table1 = new PdfPTable(2);
 			table1.setWidthPercentage(100);
 			table1.getDefaultCell().setBorder(PdfPCell.NO_BORDER);
@@ -298,7 +300,7 @@ public class PdfAi2 {
 
 		Paragraph paragraph1 = new Paragraph();
 		//paragraph1.add(new Chunk("结合上次检测(2023-10-17)，", font10));
-		paragraph1.add(new Chunk(detailVo.getTongueTimeDesc(), font10));
+		paragraph1.add(new Chunk(PdfUtils2.cs(detailVo.getTongueTimeDesc()), font10));
 		paragraph1.add(new Chunk("舌象特征变化解析：", font10Red));
 		paragraph1.setLeading(18);
 		document.add(paragraph1);
@@ -311,8 +313,8 @@ public class PdfAi2 {
 		if (CollectionUtils.isNotEmpty(detailVo.getTongueFeatureAnalysisList())) {
 			for (AiReportItemVO aiReportItemVO : detailVo.getTongueFeatureAnalysisList()) {
 				Paragraph paragraph2 = new Paragraph();
-				paragraph2.add(new Chunk(aiReportItemVO.getKey() + "：", font10));
-				paragraph2.add(new Chunk(aiReportItemVO.getValue(), font10Blue));
+				paragraph2.add(new Chunk(PdfUtils2.cs(aiReportItemVO.getKey()) + "：", font10));
+				paragraph2.add(new Chunk(PdfUtils2.cs(aiReportItemVO.getValue()), font10Blue));
 				paragraph2.setLeading(18);
 				document.add(paragraph2);
 			}
@@ -404,14 +406,14 @@ public class PdfAi2 {
 			}
 
 			// 表格
-			PdfPTable table1 = new PdfPTable(6);
+			PdfPTable table1 = new PdfPTable(row);
 			table1.setWidthPercentage(100);
 			table1.getDefaultCell().setBorder(PdfPCell.NO_BORDER);
 			List<PdfPRow> listRow1 = table1.getRows();
 			if (row == 6) {
 				table1.setWidths(new float[]{1f, 1f, 1.2f, 1f, 1.2f, 4.6f});
 			} else {
-				table1.setWidths(new float[]{2f, 2f, 2.2f, 5.6f});
+				table1.setWidths(new float[]{1.5f, 1.5f, 1.7f, 5.3f});
 			}
 
 			PdfPCell[] cells1 = new PdfPCell[row];
@@ -437,12 +439,12 @@ public class PdfAi2 {
 
 					Paragraph paragraphCell22 = new Paragraph();
 					// 第一行
-					paragraphCell22.add(new Chunk("\n" + infoVo.getField() + (isFlag ? "(本次)" : ""), font10Red));
+					paragraphCell22.add(new Chunk("\n" + PdfUtils2.cs(infoVo.getField()) + (isFlag ? "(本次)" : ""), font10Red));
 					paragraphCell22.add(new Chunk(" \n ", font5));
 					// 第二行
 					if (CollectionUtils.isNotEmpty(infoVo.getTongueNatureAttrList())) {
 						for (String attr : infoVo.getTongueNatureAttrList()) {
-							Chunk chunk221 = new Chunk("\n" + attr, font10White);
+							Chunk chunk221 = new Chunk("\n" + PdfUtils2.cs(attr), font10White);
 							if (infoVo.getIsRed()) {
 								chunk221.setBackground(new Color(252, 134, 117));
 							} else {
@@ -466,12 +468,12 @@ public class PdfAi2 {
 
 					Paragraph paragraphCell44 = new Paragraph();
 					// 第一行
-					paragraphCell44.add(new Chunk("\n" + infoVo.getField() + (isFlag ? "(上次)" : ""), font10Red));
+					paragraphCell44.add(new Chunk("\n" + PdfUtils2.cs(infoVo.getField()) + (isFlag ? "(上次)" : ""), font10Red));
 					paragraphCell44.add(new Chunk(" \n ", font5));
 					// 第二行
 					if (CollectionUtils.isNotEmpty(infoVo.getTongueNatureAttrList())) {
 						for (String attr : infoVo.getTongueNatureAttrList()) {
-							Chunk chunk441 = new Chunk("\n" + attr, font10White);
+							Chunk chunk441 = new Chunk("\n" + PdfUtils2.cs(attr), font10White);
 							if (infoVo.getIsRed()) {
 								chunk441.setBackground(new Color(252, 134, 117));
 							} else {
@@ -490,7 +492,7 @@ public class PdfAi2 {
 				if (itemVO.getNewReportInfo() != null && StringUtils.isNotBlank(itemVO.getNewReportInfo().getValue())) {
 					String[] valueList = itemVO.getNewReportInfo().getValue().split("</br>");
 					for (String val : valueList) {
-						paragraphCell55.add(new Chunk("\n" + val, font10));
+						paragraphCell55.add(new Chunk("\n" + PdfUtils2.cs(val), font10));
 						paragraphCell55.add(new Chunk(" \n ", font5));
 					}
 				}
@@ -529,14 +531,14 @@ public class PdfAi2 {
 			}
 
 			// 表格
-			PdfPTable table1 = new PdfPTable(6);
+			PdfPTable table1 = new PdfPTable(row);
 			table1.setWidthPercentage(100);
 			table1.getDefaultCell().setBorder(PdfPCell.NO_BORDER);
 			List<PdfPRow> listRow1 = table1.getRows();
 			if (row == 6) {
 				table1.setWidths(new float[]{1f, 1f, 1.2f, 1f, 1.2f, 4.6f});
 			} else {
-				table1.setWidths(new float[]{2f, 2f, 2.2f, 5.6f});
+				table1.setWidths(new float[]{1.5f, 1.5f, 1.7f, 5.3f});
 			}
 
 			PdfPCell[] cells1 = new PdfPCell[row];
@@ -562,12 +564,12 @@ public class PdfAi2 {
 
 					Paragraph paragraphCell22 = new Paragraph();
 					// 第一行
-					paragraphCell22.add(new Chunk("\n" + infoVo.getField() + (isFlag ? "(本次)" : ""), font10Red));
+					paragraphCell22.add(new Chunk("\n" + PdfUtils2.cs(infoVo.getField()) + (isFlag ? "(本次)" : ""), font10Red));
 					paragraphCell22.add(new Chunk(" \n ", font5));
 					// 第二行
 					if (CollectionUtils.isNotEmpty(infoVo.getTongueNatureAttrList())) {
 						for (String attr : infoVo.getTongueNatureAttrList()) {
-							Chunk chunk221 = new Chunk("\n" + attr, font10White);
+							Chunk chunk221 = new Chunk("\n" + PdfUtils2.cs(attr), font10White);
 							if (infoVo.getIsRed()) {
 								chunk221.setBackground(new Color(252, 134, 117));
 							} else {
@@ -591,12 +593,12 @@ public class PdfAi2 {
 
 					Paragraph paragraphCell44 = new Paragraph();
 					// 第一行
-					paragraphCell44.add(new Chunk("\n" + infoVo.getField() + (isFlag ? "(上次)" : ""), font10Red));
+					paragraphCell44.add(new Chunk("\n" + PdfUtils2.cs(infoVo.getField()) + (isFlag ? "(上次)" : ""), font10Red));
 					paragraphCell44.add(new Chunk(" \n ", font5));
 					// 第二行
 					if (CollectionUtils.isNotEmpty(infoVo.getTongueNatureAttrList())) {
 						for (String attr : infoVo.getTongueNatureAttrList()) {
-							Chunk chunk441 = new Chunk("\n" + attr, font10White);
+							Chunk chunk441 = new Chunk("\n" + PdfUtils2.cs(attr), font10White);
 							if (infoVo.getIsRed()) {
 								chunk441.setBackground(new Color(252, 134, 117));
 							} else {
@@ -615,7 +617,7 @@ public class PdfAi2 {
 				if (itemVO.getNewReportInfo() != null && StringUtils.isNotBlank(itemVO.getNewReportInfo().getValue())) {
 					String[] valueList = itemVO.getNewReportInfo().getValue().split("</br>");
 					for (String val : valueList) {
-						paragraphCell55.add(new Chunk("\n" + val, font10));
+						paragraphCell55.add(new Chunk("\n" + PdfUtils2.cs(val), font10));
 						paragraphCell55.add(new Chunk(" \n ", font5));
 					}
 				}
