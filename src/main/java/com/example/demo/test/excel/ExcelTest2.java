@@ -1,18 +1,11 @@
 package com.example.demo.test.excel;
 
 import com.alibaba.excel.EasyExcel;
-import com.alibaba.excel.ExcelReader;
-import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
-import com.alibaba.excel.read.metadata.ReadSheet;
 import com.alibaba.fastjson.JSON;
-import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
+import org.apache.commons.lang3.StringUtils;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,82 +17,44 @@ import java.util.stream.Collectors;
 public class ExcelTest2 {
 
 	public static void main(String[] args) {
-		String fileName = "D:/testinit2.xlsx";
+		String fileName = "D:/test.xlsx";
 		List<TestInit2Vo> tableList = new ArrayList<>();
 		AnalysisEventListener listener = new AnalysisEventListener<TestInit2Vo>() {
 			@Override
 			public void invoke(TestInit2Vo o, AnalysisContext analysisContext) {
-				tableList.add(o);
+				if (StringUtils.isNotBlank(o.getS3()) && !o.getS3().contains("文案内容")) {
+					tableList.add(o);
+				}
 			}
 
 			@Override
 			public void doAfterAllAnalysed(AnalysisContext analysisContext) {
 			}
 		};
-		EasyExcel.read(fileName, TestInit2Vo.class, listener).sheet().doRead();
 
-		//System.out.println(JSON.toJSONString(tableList));
-		//System.out.println(tableList.stream().map(a->a.getAmount().toString()).distinct().collect(Collectors.joining(",")));
+		for (int i = 0; i < 20; i++) {
+			EasyExcel.read(fileName, TestInit2Vo.class, listener).sheet(i).doRead();
+		}
 
-		/*StringBuffer sb = new StringBuffer();
-		sb.append("select * from nurse_policy_sku_shop where id in (");
-		List<String> list = tableList.stream().map(a->a.getPolicy_id().toString()).collect(Collectors.toList());
-		System.out.println("==="+list.size()+"===");
-		list = list.stream().distinct().collect(Collectors.toList());
-		System.out.println("==="+list.size()+"===");
-		sb.append(list.stream().collect(Collectors.joining(",")));
-		sb.append(")");
-		System.out.println(sb.toString());*/
-
+		// INSERT INTO `mark_content` (`id`, `content`, `show_order`, `deleted`, `create_time`, `update_time`) VALUES (3134, '圣元。<br/> 日果。', 10, 0, '2023-07-20 14:35:27', '2023-07-20 15:27:33');
 		StringBuffer sb = new StringBuffer();
+		sb.append("insert into mark_content (content, show_order) values");
+		Integer n = 10;
 		for (TestInit2Vo vo : tableList) {
-			/*
-			update nurse_policy_sku_shop
-			set surplus_num = surplus_num + 4, grant_num = grant_num - 4
-			where id = 9809;
-			update nurse_policy_sku
-			set surplus_num = surplus_num + 4, grant_num = grant_num - 4
-			where id = 84;
-			update nurse_policy_shop
-			set surplus_num = surplus_num + 4, grant_num = grant_num - 4
-			where id = 7955;
-			update nurse_policy
-			set surplus_num = surplus_num + 4, grant_num = grant_num - 4
-			where id = 24;
-			 */
-			Integer num = vo.getNum() * vo.getAmount() / 1000;
-			sb.append("update nurse_policy_sku_shop \n")
-					.append("set surplus_num = surplus_num + ")
-					.append(num)
-					.append(", grant_num = grant_num - ")
-					.append(num)
-					.append(" \nwhere id = ")
-					.append(vo.getPolicy_sku_shop_id())
-					.append(";\n");
-			sb.append("update nurse_policy_sku \n")
-					.append("set surplus_num = surplus_num + ")
-					.append(num)
-					.append(", grant_num = grant_num - ")
-					.append(num)
-					.append(" \nwhere id = ")
-					.append(vo.getPolicy_sku_id())
-					.append(";\n");
-			sb.append("update nurse_policy_shop \n")
-					.append("set surplus_num = surplus_num + ")
-					.append(num)
-					.append(", grant_num = grant_num - ")
-					.append(num)
-					.append(" \nwhere id = ")
-					.append(vo.getPolicy_shop_id())
-					.append(";\n");
-			sb.append("update nurse_policy \n")
-					.append("set surplus_num = surplus_num + ")
-					.append(num)
-					.append(", grant_num = grant_num - ")
-					.append(num)
-					.append(" \nwhere id = ")
-					.append(vo.getPolicy_id())
-					.append(";\n\n");
+			String[] s3s = vo.getS3().trim().split("\n");
+			/*if (s2.contains("；") || s2.contains("。")) {
+				s2 = s2.replace("；", "；<br/>");
+				s2 = s2.replace("。", "。<br/>");
+			}*/
+			sb.append("\n('");
+			for (String s3 : s3s) {
+				s3 = s3.replace("'","''").trim();
+				sb.append(s3).append("<br/>");
+			}
+			sb.append("', ")
+					.append(n)
+					.append("),");
+			n += 10;
 		}
 		System.out.println(sb.toString());
 	}
@@ -131,9 +86,9 @@ public class ExcelTest2 {
 
 		List<String> mobileList1 = new ArrayList<>();
 		for (InitPolicyShopVo vo : tableList) {
-			if(mobileList1.contains(vo.getMobile())){
+			if (mobileList1.contains(vo.getMobile())) {
 				System.out.println(vo.getMobile());
-			}else{
+			} else {
 				mobileList1.add(vo.getMobile());
 			}
 		}
