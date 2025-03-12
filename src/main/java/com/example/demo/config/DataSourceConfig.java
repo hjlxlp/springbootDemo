@@ -1,5 +1,8 @@
 package com.example.demo.config;
 
+import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
+import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
+import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -16,7 +19,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import javax.sql.DataSource;
 
 @Configuration
-@MapperScan(basePackages = "com.example.demo.mapper", sqlSessionTemplateRef = "sqlSessionTemplate")
+@MapperScan(basePackages = "com.example.demo.mapper.**", sqlSessionTemplateRef = "sqlSessionTemplate")
 public class DataSourceConfig {
 
     @Bean(name = "dataSource")
@@ -31,9 +34,21 @@ public class DataSourceConfig {
     public SqlSessionFactory sqlSessionFactory(@Qualifier("dataSource") DataSource dataSource) throws Exception {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
-        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:mapper/*.xml"));
+        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:mapper/**/*.xml"));
         return bean.getObject();
     }
+
+//    @Bean(name = "sqlSessionFactory")
+//    @Primary
+//    public SqlSessionFactory sqlSessionFactory(@Qualifier("dataSource") DataSource dataSource) throws Exception {
+//        // 使用 MyBatis-Plus 提供的 MybatisSqlSessionFactoryBean
+//        MybatisSqlSessionFactoryBean bean = new MybatisSqlSessionFactoryBean();
+//        bean.setDataSource(dataSource);
+//        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:mapper/**/*.xml"));
+//        // 确保 MyBatis-Plus 的配置能生效
+//        bean.setPlugins(new Interceptor[]{new PaginationInterceptor()}); // 启用分页插件等
+//        return bean.getObject();
+//    }
 
     @Bean(name = "transactionManager")
     @Primary
