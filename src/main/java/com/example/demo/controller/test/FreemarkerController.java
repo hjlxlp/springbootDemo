@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.example.demo.controller.test;
 
 import com.example.demo.entity.City;
 import com.example.demo.service.CityService;
@@ -34,5 +34,5 @@ public class FreemarkerController {
         model.addAttribute("cityList", cityList);
         return "cityList";
     }
-    
+
 }

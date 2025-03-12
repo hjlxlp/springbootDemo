@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.example.demo.controller.test;
 
 import com.alibaba.fastjson.JSON;
 import com.example.demo.entity.City;

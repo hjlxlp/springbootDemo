@@ -3,6 +3,7 @@ package com.example.demo.test.excel;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
+import com.alibaba.fastjson.JSON;
 import com.google.common.base.CaseFormat;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class ExcelTest {
 
 	public static void main(String[] args) {
 		String tableName = "test_excel";
-		String fileName = "D:/test.xlsx";
+		String fileName = "D:/高中数据集样例.xlsx";
 		List<TableExcelVo> tableList = new ArrayList<>();
 		AnalysisEventListener listener = new AnalysisEventListener<TableExcelVo>() {
 			@Override
@@ -30,12 +31,14 @@ public class ExcelTest {
 		};
 		EasyExcel.read(fileName, TableExcelVo.class, listener).sheet().doRead();
 
-		testSql(tableList, tableName);
+		System.out.println(JSON.toJSONString(tableList));
+
+		/*testSql(tableList, tableName);
 		testEntity(tableList);
 
 
 		String str = "";
-		testService(str);
+		testService(str);*/
 
 	}
 

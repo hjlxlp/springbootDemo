@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.example.demo.controller.test;
 
 import com.example.demo.service.UmsMemberService;
 import io.swagger.annotations.ApiOperation;
