@@ -61,8 +61,8 @@
     </insert>
 
     <insert id="insertCity" parameterType="com.example.demo.entity.City">
-        insert into city(province_id,city_name)
-        values(#{city.provinceId},#{city.cityName})
+        insert into city(province_id,city_name,description)
+        values(#{city.provinceId},#{city.cityName},#{city.description})
     </insert>
 
     <select id="findByidFenYe" resultMap="BaseResultMap">

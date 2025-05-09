@@ -3,6 +3,7 @@ package com.example.demo.service.impl;
 import com.example.demo.entity.City;
 import com.example.demo.mapper.CityMapper;
 import com.example.demo.service.CityService;
+import com.example.demo.test.pdf.BaseResponse;
 import com.example.demo.util.BaseResultModel;
 import com.example.demo.util.BizException;
 import com.example.demo.util.SpringUtil;
@@ -27,6 +28,22 @@ public class CityServiceImpl implements CityService {
 
     @Autowired
     private CityMapper cityMapper;
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public BaseResponse<?> testSW() {
+        City city = new City();
+        city.setCityName("1");
+        city.setDescription("1");
+        cityMapper.insertCity(city);
+
+        City city2 = new City();
+        city2.setCityName("2");
+        city2.setDescription(null);
+        cityMapper.insertCity(city2);
+
+        return BaseResponse.success(true);
+    }
 
     @Override
     public void insertList() {

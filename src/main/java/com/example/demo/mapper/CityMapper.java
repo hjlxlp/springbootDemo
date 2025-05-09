@@ -1,6 +1,8 @@
 package com.example.demo.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.demo.entity.City;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -8,7 +10,8 @@ import java.util.List;
 /**
  * 城市 DAO 接口类
  */
-public interface CityMapper {
+@Mapper
+public interface CityMapper extends BaseMapper<City> {
 
     /**
      * 根据城市名称，查询城市信息

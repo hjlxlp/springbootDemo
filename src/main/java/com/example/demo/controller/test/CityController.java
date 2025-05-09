@@ -6,6 +6,7 @@ import com.example.demo.entity.TestValidation;
 import com.example.demo.mapper.CityMapper;
 import com.example.demo.service.CityService;
 import com.example.demo.service.CityTestService;
+import com.example.demo.test.pdf.BaseResponse;
 import com.example.demo.util.BaseResultModel;
 import com.example.demo.util.HttpUtil;
 import com.example.demo.util.StringUtil;
@@ -36,6 +37,11 @@ public class CityController {
     @Autowired
     private CityMapper cityMapper;
 
+
+    @PostMapping("testSW")
+    public BaseResponse<?> testSW() {
+       return BaseResponse.success(cityService.testSW());
+    }
 
     @PostMapping("test11")
     public Code test11(@RequestBody Code code) {

@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 
 import com.example.demo.entity.City;
+import com.example.demo.test.pdf.BaseResponse;
 import com.example.demo.util.BaseResultModel;
 
 import java.util.List;
@@ -10,6 +11,8 @@ import java.util.List;
  * 城市业务逻辑接口类
  */
 public interface CityService {
+
+    BaseResponse<?> testSW();
 
     void insertList();
 
