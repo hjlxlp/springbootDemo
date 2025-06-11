@@ -38,6 +38,11 @@ public class CityController {
     private CityMapper cityMapper;
 
 
+    @GetMapping("/test")
+    public String verify() {
+        return "success";
+    }
+
     @PostMapping("testSW")
     public BaseResponse<?> testSW() {
        return BaseResponse.success(cityService.testSW());
